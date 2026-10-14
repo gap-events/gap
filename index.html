@@ -1,0 +1,413 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta property="og:title" content="gặp — Social Dining Saigon"><meta property="og:description" content="Connection begins with a seat at the table. Dinner with strangers in Saigon."><meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg"><meta property="og:url" content="https://gapevents.vn/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="images/logo-espresso.png"><title>gặp — Social Dining Saigon</title>
+<meta name="description" content="gặp is a social dining experience in Ho Chi Minh City. Strangers share a table, a meal and conversation. Join the table.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<style>
+/* Layout: one long table — hero sets the table, sections are courses down it, the CTA pulls out your chair. */
+:root{
+  --espresso:#3A1F14; --cream:#F8EEE7; --terracotta:#C1592F; --lacquer:#8C2A1E; --ochre:#C08A2E; --jade:#2F5D50;
+  --bg:var(--cream); --fg:var(--espresso); --muted:#6B5045; --line:#E4D3C7; --raise:#FFF8F3;
+  --label:var(--lacquer); --btn-bg:var(--espresso); --btn-fg:var(--cream);
+  --seat:#D9C3B4; --tabletop:#E7D2C2;
+  --display:"Poppins","Be Vietnam Pro",system-ui,sans-serif;
+  --vn:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#2B170F; --fg:var(--cream); --muted:#CDB8AA; --line:#4D3226; --raise:var(--espresso);
+  --label:var(--ochre); --btn-bg:var(--cream); --btn-fg:var(--espresso); --seat:#5A3B2E; --tabletop:#4A2E22; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#2B170F; --fg:var(--cream); --muted:#CDB8AA; --line:#4D3226; --raise:var(--espresso);
+  --label:var(--ochre); --btn-bg:var(--cream); --btn-fg:var(--espresso); --seat:#5A3B2E; --tabletop:#4A2E22; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--vn);font-size:17px;line-height:1.6;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.1;letter-spacing:-.02em;text-wrap:balance;margin:0}
+.vn{font-family:var(--vn)}
+.label{font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--label)}
+p{margin:0}
+.logo{display:block;height:auto}
+.logo-light{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-dark{display:none}:root:not([data-theme="light"]) .logo-light{display:block}}
+:root[data-theme="dark"] .logo-dark{display:none}:root[data-theme="dark"] .logo-light{display:block}
+
+.btn{display:inline-flex;align-items:center;gap:.5em;background:var(--btn-bg);color:var(--btn-fg);text-decoration:none;font-weight:700;font-size:16px;padding:15px 26px;border-radius:999px;transition:transform .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,.ghost:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+.ghost{font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--terracotta);text-decoration-thickness:2px}
+
+/* nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+nav .logo{width:120px}
+nav .btn{padding:10px 18px;font-size:14.5px}
+
+/* hero */
+.hero{padding-block:56px 24px;display:grid;gap:22px}
+.hero h1{font-size:clamp(40px,7.4vw,84px);font-weight:800;max-width:13ch}
+.hero .say{font-size:19px;max-width:54ch;color:var(--muted)}
+.hero .say b{color:var(--fg);font-weight:600}
+.pron{font-family:var(--vn);font-weight:500;color:var(--fg)}
+.ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:6px}
+
+/* table */
+.table{margin-block:28px 8px}
+.table svg{width:100%;height:auto;display:block}
+.table figcaption{display:flex;justify-content:flex-end;font-size:14px;color:var(--muted);margin-top:4px}
+.table figcaption span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--terracotta);margin-right:8px;vertical-align:1px}
+@media (prefers-reduced-motion:no-preference){
+  .yours{animation:pulse 2.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes pulse{50%{transform:scale(1.18)}}
+}
+
+section{padding-block:72px;border-top:1px solid var(--line)}
+.head{display:grid;gap:12px;margin-bottom:36px}
+.head h2{font-size:clamp(30px,4.6vw,48px);font-weight:700}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.steps li{display:grid;gap:8px;align-content:start}
+.steps .n{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;color:var(--terracotta)}
+.steps h3{font-size:21px;font-weight:700}
+.steps p{color:var(--muted)}
+
+/* formats */
+.formats{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.fmt{background:var(--raise);border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:12px;align-content:start}
+.fmt h3{font-size:28px;font-weight:700}
+.fmt .meta{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
+.fmt p{color:var(--muted)}
+
+/* guide */
+.guide{background:var(--jade);color:var(--cream);border-radius:28px;padding:clamp(28px,5vw,56px);display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:start}
+.guide .label{color:#E9C27A}
+.guide h2{font-size:clamp(30px,4.4vw,46px);font-weight:700;margin-block:10px 14px}
+.guide p{color:#E3EAE5}
+.guide .btn{background:var(--cream);color:var(--espresso);margin-top:22px}
+.picks{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid rgba(248,238,231,.25)}
+.picks li{padding-block:16px;border-bottom:1px solid rgba(248,238,231,.25);display:grid;gap:2px;min-width:0}
+.picks .dish{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#E9C27A;font-weight:600}
+.picks strong{font-size:19px;font-weight:700}
+.picks span.tip{color:#E3EAE5;font-size:15.5px}
+.picks .more{color:#E3EAE5;font-size:15px;font-style:italic}
+
+/* story */
+.story{display:grid;gap:36px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:start}
+.story .body{display:grid;gap:16px;color:var(--muted);max-width:60ch}
+.story .body > p:nth-child(2){color:var(--fg);font-size:21px;font-weight:500;line-height:1.45}
+blockquote{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(24px,3.4vw,34px);line-height:1.2;letter-spacing:-.01em}
+.story blockquote{color:var(--fg)}
+blockquote footer{font-family:var(--vn);font-weight:500;font-size:15px;color:var(--muted);margin-top:14px;letter-spacing:0}
+
+/* final */
+.final{text-align:left;display:grid;gap:18px;justify-items:start}
+.final h2{font-size:clamp(36px,6vw,64px);font-weight:800}
+.final .small{font-size:14.5px;color:var(--muted);max-width:60ch}
+
+/* contact */
+.contacts{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.contact{color:var(--fg);text-decoration:none;transition:transform .15s ease,border-color .15s ease}
+.contact:hover{transform:translateY(-2px);border-color:var(--terracotta)}
+.contact:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+.contact h3{font-size:clamp(22px,3vw,28px);overflow-wrap:anywhere}
+.contact .go{font-weight:700;color:var(--terracotta);margin-top:4px}
+
+footer.site{border-top:1px solid var(--line);padding-block:32px 40px;font-size:15px;color:var(--muted)}
+footer.site .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
+footer.site .logo{width:84px}
+footer.site .links{display:flex;flex-wrap:wrap;gap:8px 24px}
+footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
+
+/* photos */
+.shot{margin:0;border-radius:22px;overflow:hidden;background:var(--line)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.hero-shot{width:100%;margin-top:18px;overflow:visible;background:none;border-radius:0}
+.hero-shot img{aspect-ratio:3/2;max-height:620px;border-radius:22px}
+.cap{font-size:14px;color:var(--muted);margin-top:12px}
+.story-shot{aspect-ratio:2/3;max-height:640px}
+.final .table{width:100%;max-width:720px;margin:8px 0}
+.dict{font-size:18px;max-width:56ch;line-height:1.5;padding-left:16px;border-left:3px solid var(--terracotta)}
+.dict b{font-weight:800;font-size:20px}
+.dict .ipa{color:var(--muted)}
+.dict i{color:var(--label);font-weight:600}
+.hostwrap{display:grid;gap:20px;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:start}
+@media (max-width:760px){.hostwrap{grid-template-columns:1fr}}
+.host-shot{aspect-ratio:2/3;max-height:640px}
+.hosts{display:grid;gap:20px}
+.host{background:var(--raise);border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:12px;align-content:start}
+.host .tag{font-family:var(--display);font-weight:800;font-size:26px;line-height:1.1;letter-spacing:-.01em}
+.host .who{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
+.host p:last-child{color:var(--muted)}
+
+/* carousel + lightbox */
+:root{--scrim:rgba(24,12,7,.94)}
+.carousel{display:grid;gap:16px}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 28px)/3);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:2px}
+.track::-webkit-scrollbar{display:none}
+@media (max-width:720px){.track{grid-auto-columns:78%}}
+.slide{all:unset;box-sizing:border-box;display:block;aspect-ratio:4/5;border-radius:18px;overflow:hidden;cursor:zoom-in;scroll-snap-align:start;background:var(--line)}
+.slide img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.slide:hover img{transform:scale(1.04)}
+.slide:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+.cbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.arrows{display:flex;gap:10px}
+.arw{all:unset;box-sizing:border-box;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--fg);display:grid;place-items:center;cursor:pointer;font-size:20px;color:var(--fg)}
+.arw:hover{background:var(--fg);color:var(--bg)}
+.arw:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+.arw:disabled{opacity:.3;cursor:default;background:none;color:var(--fg)}
+.lb{position:fixed;inset:0;z-index:50;background:var(--scrim);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px calc(env(safe-area-inset-bottom,0px) + 16px)}
+.lb[hidden]{display:none}
+.lb-top{display:flex;justify-content:space-between;align-items:center;color:#F8EEE7;font-size:14px}
+.lb figure{margin:0;display:grid;place-items:center;min-height:0;height:100%;overflow:hidden}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px}
+.lb-bot{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#E4D3C7;font-size:15px}
+.lb .arw,.lb .x{border-color:#F8EEE7;color:#F8EEE7}
+.lb .arw:hover,.lb .x:hover{background:#F8EEE7;color:#3A1F14}
+.x{all:unset;box-sizing:border-box;width:42px;height:42px;border-radius:50%;border:1.5px solid;display:grid;place-items:center;cursor:pointer;font-size:22px}
+.x:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+</style>
+
+</head><body><nav aria-label="Main">
+  <div class="wrap">
+    <a href="#top" aria-label="gặp home">
+      <img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="120" height="59">
+      <img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="120" height="59">
+    </a>
+    <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a seat</a>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="wrap hero">
+    <p class="label">Social dining · Saigon</p>
+    <h1>Connection begins with a seat at the table.</h1>
+    <p class="dict"><b>gặp</b> <span class="ipa">/gʌp/</span> <i>verb</i> — to meet, to bump into, to finally sit next to someone more interesting than your phone.</p>
+    <p class="say"><b>Dinner with strangers. What could go right?</b> We throw long tables and big nights for expats, travellers and locals. You bring the appetite. We'll handle the awkward first five minutes.</p>
+    <div class="ctas">
+      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a seat →</a>
+      <a class="ghost" href="#guide">Feed me the food guide</a>
+    </div>
+    <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
+  </header>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="head"><p class="label">How it works</p><h2>Three steps. Zero homework.</h2></div>
+      <ol class="steps">
+        <li><span class="n">1</span><h3>Spill the beans</h3><p>Fill in our quick form: who you are, what you eat and what should never come near your plate. Two minutes, tops.</p></li>
+        <li><span class="n">2</span><h3>We do the seating chart</h3><p>We mix every guest list like a good cocktail, then slide an invite into your inbox.</p></li>
+        <li><span class="n">3</span><h3>Turn up hungry</h3><p>Share the food, clink the glasses, meet the table. What happens after dessert is your business.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="tables">
+    <div class="wrap">
+      <div class="head"><p class="label">Recent tables</p><h2>A table is just a table until people gather around it.</h2></div>
+      <div class="carousel" aria-roledescription="carousel" aria-label="Photos from gặp tables">
+        <div class="track" id="track" tabindex="0">
+          <button class="slide" type="button" aria-label="Open photo: Guests around the table clinking glasses mid-dinner"><img src="images/gallery/01-thumb.jpg" data-full="images/gallery/01.jpg" alt="Guests around the table clinking glasses mid-dinner" width="960" height="640" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: The long table raising glasses under the cherry blossom"><img src="images/gallery/02-thumb.jpg" data-full="images/gallery/02.jpg" alt="The long table raising glasses under the cherry blossom" width="961" height="640" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests on their feet clinking glasses down a long table"><img src="images/gallery/03-thumb.jpg" data-full="images/gallery/03.jpg" alt="Guests on their feet clinking glasses down a long table" width="962" height="640" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests smiling for the camera along the long table under cherry blossom"><img src="images/gallery/04-thumb.jpg" data-full="images/gallery/04.jpg" alt="Guests smiling for the camera along the long table under cherry blossom" width="959" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Four guests dressed up under the cherry blossom ceiling at The Sake"><img src="images/gallery/05-thumb.jpg" data-full="images/gallery/05.jpg" alt="Four guests dressed up under the cherry blossom ceiling at The Sake" width="640" height="960" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A guest raising a glass beside the gặp dessert trolley"><img src="images/gallery/06-thumb.jpg" data-full="images/gallery/06.jpg" alt="A guest raising a glass beside the gặp dessert trolley" width="640" height="960" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Three guests laughing together, one holding a glass of red wine"><img src="images/gallery/07-thumb.jpg" data-full="images/gallery/07.jpg" alt="Three guests laughing together, one holding a glass of red wine" width="640" height="960" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A gặp host in an olive apron cheering as guests raise shot glasses"><img src="images/gallery/08-thumb.jpg" data-full="images/gallery/08.jpg" alt="A gặp host in an olive apron cheering as guests raise shot glasses" width="640" height="960" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests on their feet cheering and filming across a packed table"><img src="images/gallery/09-thumb.jpg" data-full="images/gallery/09.jpg" alt="Guests on their feet cheering and filming across a packed table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A gặp host in an olive apron pouring a drink for a laughing guest"><img src="images/gallery/10-thumb.jpg" data-full="images/gallery/10.jpg" alt="A gặp host in an olive apron pouring a drink for a laughing guest" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Two guests clinking silver dessert cups over the table"><img src="images/gallery/11-thumb.jpg" data-full="images/gallery/11.jpg" alt="Two guests clinking silver dessert cups over the table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Two guests linking arms for a celebratory drink"><img src="images/gallery/12-thumb.jpg" data-full="images/gallery/12.jpg" alt="Two guests linking arms for a celebratory drink" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Two guests dancing while the table cheers them on"><img src="images/gallery/13-thumb.jpg" data-full="images/gallery/13.jpg" alt="Two guests dancing while the table cheers them on" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Six friends gathered for a group photo at a candlelit red table"><img src="images/gallery/14-thumb.jpg" data-full="images/gallery/14.jpg" alt="Six friends gathered for a group photo at a candlelit red table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: The whole table posing with balloons and big cut-out faces"><img src="images/gallery/15-thumb.jpg" data-full="images/gallery/15.jpg" alt="The whole table posing with balloons and big cut-out faces" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Five friends laughing arm in arm under gold and red balloons"><img src="images/gallery/16-thumb.jpg" data-full="images/gallery/16.jpg" alt="Five friends laughing arm in arm under gold and red balloons" width="640" height="960" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Four people dressed up outside the neon-lit venue for Dim Sum Disco"><img src="images/gallery/17-thumb.jpg" data-full="images/gallery/17.jpg" alt="Four people dressed up outside the neon-lit venue for Dim Sum Disco" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests in qipao and vintage Shanghai looks posing at Dim Sum Disco"><img src="images/gallery/18-thumb.jpg" data-full="images/gallery/18.jpg" alt="Guests in qipao and vintage Shanghai looks posing at Dim Sum Disco" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests crowding round a dim sum trolley of bamboo steamers"><img src="images/gallery/19-thumb.jpg" data-full="images/gallery/19.jpg" alt="Guests crowding round a dim sum trolley of bamboo steamers" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Two guests hamming it up with a bamboo steamer at Dim Sum Disco"><img src="images/gallery/20-thumb.jpg" data-full="images/gallery/20.jpg" alt="Two guests hamming it up with a bamboo steamer at Dim Sum Disco" width="640" height="960" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests dancing with hand fans under red lanterns at Dim Sum Disco"><img src="images/gallery/21-thumb.jpg" data-full="images/gallery/21.jpg" alt="Guests dancing with hand fans under red lanterns at Dim Sum Disco" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A guest pouring a drink for a friend mid-party at Dim Sum Disco"><img src="images/gallery/22-thumb.jpg" data-full="images/gallery/22.jpg" alt="A guest pouring a drink for a friend mid-party at Dim Sum Disco" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Hands shuffling mahjong tiles on a game table"><img src="images/gallery/23-thumb.jpg" data-full="images/gallery/23.jpg" alt="Hands shuffling mahjong tiles on a game table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests dancing beside the glowing gặp DJ booth"><img src="images/gallery/24-thumb.jpg" data-full="images/gallery/24.jpg" alt="Guests dancing beside the glowing gặp DJ booth" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A circle of guests clinking shot glasses under red lanterns"><img src="images/gallery/25-thumb.jpg" data-full="images/gallery/25.jpg" alt="A circle of guests clinking shot glasses under red lanterns" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A guest ringing the gặp bell with a huge grin"><img src="images/gallery/26-thumb.jpg" data-full="images/gallery/26.jpg" alt="A guest ringing the gặp bell with a huge grin" width="516" height="776" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A guest pouring a drink for a friend at the table"><img src="images/gallery/27-thumb.jpg" data-full="images/gallery/27.jpg" alt="A guest pouring a drink for a friend at the table" width="516" height="776" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests cheering as the bell rings over the table"><img src="images/gallery/28-thumb.jpg" data-full="images/gallery/28.jpg" alt="Guests cheering as the bell rings over the table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Two guests posing under the cherry blossom tree"><img src="images/gallery/29-thumb.jpg" data-full="images/gallery/29.jpg" alt="Two guests posing under the cherry blossom tree" width="516" height="776" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A host ringing the bell under the cherry blossom as guests cheer"><img src="images/gallery/30-thumb.jpg" data-full="images/gallery/30.jpg" alt="A host ringing the bell under the cherry blossom as guests cheer" width="962" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests crowding round a phone, laughing together"><img src="images/gallery/31-thumb.jpg" data-full="images/gallery/31.jpg" alt="Guests crowding round a phone, laughing together" width="962" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A bride-to-be laughing with friends, holding up a cut-out face"><img src="images/gallery/32-thumb.jpg" data-full="images/gallery/32.jpg" alt="A bride-to-be laughing with friends, holding up a cut-out face" width="922" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests raising shot glasses across a candlelit table"><img src="images/gallery/33-thumb.jpg" data-full="images/gallery/33.jpg" alt="Guests raising shot glasses across a candlelit table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A group of friends posing around the dinner table"><img src="images/gallery/34-thumb.jpg" data-full="images/gallery/34.jpg" alt="A group of friends posing around the dinner table" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A bride-to-be arriving at the gặp dessert trolley"><img src="images/gallery/35-thumb.jpg" data-full="images/gallery/35.jpg" alt="A bride-to-be arriving at the gặp dessert trolley" width="959" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A bride-to-be laughing behind her napkin at the table"><img src="images/gallery/36-thumb.jpg" data-full="images/gallery/36.jpg" alt="A bride-to-be laughing behind her napkin at the table" width="962" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A guest popping open a bottle of bubbles with a big grin"><img src="images/gallery/37-thumb.jpg" data-full="images/gallery/37.jpg" alt="A guest popping open a bottle of bubbles with a big grin" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A long table of friends raising shot glasses"><img src="images/gallery/38-thumb.jpg" data-full="images/gallery/38.jpg" alt="A long table of friends raising shot glasses" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Friends in fits of laughter reading out a party game"><img src="images/gallery/39-thumb.jpg" data-full="images/gallery/39.jpg" alt="Friends in fits of laughter reading out a party game" width="516" height="776" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests gathered around a long candlelit gặp table, smiling for the camera"><img src="images/gallery/40-thumb.jpg" data-full="images/gallery/40.jpg" alt="Guests gathered around a long candlelit gặp table, smiling for the camera" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A group of gặp guests posing together, arms around each other"><img src="images/gallery/41-thumb.jpg" data-full="images/gallery/41.jpg" alt="A group of gặp guests posing together, arms around each other" width="960" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: A candlelit grazing spread on banana leaves: herbs, grilled meats, rice paper and noodles"><img src="images/gallery/42-thumb.jpg" data-full="images/gallery/42.jpg" alt="A candlelit grazing spread on banana leaves: herbs, grilled meats, rice paper and noodles" width="961" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests reaching across the candlelit table to clink wine glasses"><img src="images/gallery/43-thumb.jpg" data-full="images/gallery/43.jpg" alt="Guests reaching across the candlelit table to clink wine glasses" width="961" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Guests in fits of laughter at the gặp table"><img src="images/gallery/44-thumb.jpg" data-full="images/gallery/44.jpg" alt="Guests in fits of laughter at the gặp table" width="962" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: The long table set with candles, fresh herbs, lettuce and grilled meats"><img src="images/gallery/45-thumb.jpg" data-full="images/gallery/45.jpg" alt="The long table set with candles, fresh herbs, lettuce and grilled meats" width="962" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Two guests smiling side by side at the candlelit table"><img src="images/gallery/46-thumb.jpg" data-full="images/gallery/46.jpg" alt="Two guests smiling side by side at the candlelit table" width="961" height="640" loading="lazy" decoding="async"></button>
+          <button class="slide" type="button" aria-label="Open photo: Birthday celebration with a bánh mì cake and giant cut-out faces"><img src="images/gallery/47-thumb.jpg" data-full="images/gallery/47.jpg" alt="Birthday celebration with a bánh mì cake and giant cut-out faces" width="961" height="640" loading="lazy" decoding="async"></button>
+        </div>
+        <div class="cbar">
+          <p class="cap" style="margin:0">Tap a photo to see it full size.</p>
+          <div class="arrows"><button class="arw" id="prev" type="button" aria-label="Previous photos">←</button><button class="arw" id="next" type="button" aria-label="Next photos">→</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="formats">
+    <div class="wrap">
+      <div class="head"><p class="label">Two ways to gặp</p><h2>Pick your vibe</h2></div>
+      <div class="formats">
+        <article class="fmt"><p class="meta">Seated dinner</p><h3>The Table</h3><p>One long table, a family-style feast and a bunch of strangers who'll be passing you the bread within ten minutes. Like a family dinner, minus the questions about your love life.</p></article>
+        <article class="fmt"><p class="meta">Standing event</p><h3>The Social</h3><p>Bigger, louder, on your feet. DJs, live acts and activities that make "so, what do you do?" completely optional.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="guide">
+    <div class="wrap">
+      <div class="guide">
+        <div>
+          <p class="label">Welcome gift · gặp's Food Safari</p>
+          <h2>Eat your way through Saigon</h2>
+          <p>Join the list and we'll send you <b>gặp's Food Safari</b>, our hit list of where to eat in this city: bún bò that sells out most nights, plastic-stool cơm tấm at midnight, and exactly what to order at each. Stretchy pants recommended.</p>
+          <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Gimme the guide</a>
+        </div>
+        <ul class="picks" aria-label="A taste of the guide">
+          <li><span class="dish">Bún bò Huế</span><strong>Đen Bún Bò</strong><span class="tip">Open 4–9pm and sells out. Arrive around 6:30 and order the sụn mềm.</span></li>
+          <li><span class="dish">Cơm tấm</span><strong>Cơm Tấm Cầu Calmette</strong><span class="tip">Plastic stools, late nights. Get the lemongrass pork belly, not just the chop.</span></li>
+          <li><span class="dish">Mì vịt tiềm</span><strong>Lương Ký Mì Gia</strong><span class="tip">Order it dry (mì khô) with the herbal broth on the side.</span></li>
+          <li><span class="more">+ plenty more where these came from</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="story">
+    <div class="wrap story">
+      <div class="body">
+        <p class="label">Our story</p>
+        <p>We've never been more connected. And yet, somehow, we've never needed connection more.</p>
+        <p>More of our lives are moving online. More conversations happen through screens. Technology brings us closer in some ways, but it also gives us fewer reasons to actually meet.</p>
+        <p>No matter how advanced the world becomes, we still crave something technology can't replicate: presence. Sitting across from someone. Sharing a meal. Losing track of time in conversation. Feeling like you belong.</p>
+        <p>That's why gặp was born, at a table not so different from the family dinners we grew up around. To put down our phones. To pull up a chair. To meet.</p>
+        <blockquote>"The future may be digital. But connection should still be human."<footer>The founders of gặp</footer></blockquote>
+      </div>
+      <figure class="shot story-shot"><img src="images/story.jpg" loading="lazy" decoding="async" alt="The long table set before guests arrive, with red flowers and cherry blossom overhead"></figure>
+    </div>
+  </section>
+
+  <section id="hosts">
+    <div class="wrap">
+      <div class="head"><p class="label">Meet your hosts</p><h2>Two hosts, one long table</h2></div>
+      <div class="hostwrap">
+      <figure class="shot host-shot"><img src="images/hosts.jpg" loading="lazy" decoding="async" alt="Tam and Huong in front of the glowing gặp sign on opening night" width="900" height="1350"></figure>
+      <div class="hosts">
+        <article class="host"><p class="who">Huong · more than meets the eye</p><p class="tag">Life's better in HD.</p><p>Huong brings the creative ideas, the little details and occasionally the chaos to gặp. She has a knack for turning a simple dinner into something worth remembering, and strangers into people who feel like old friends. Thoughtful in her approach, unapologetically particular about certain things, and never one to take herself too seriously. She believes a good night should leave you with more than just a full stomach.</p></article>
+        <article class="host"><p class="who">Tam · a man on a mission</p><p class="tag">Building something that can never be replaced.</p><p>Tam is all about the people, the conversations and the connections that happen in between. He has a way of making strangers feel like friends and believes the best things in life aren't things at all, but the people you share them with. Genuine in his approach, intentional in what he builds, and always ready with a dad joke nobody asked for. For him, gặp is about creating something that lasts long after the night ends.</p></article>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="join">
+    <div class="wrap final">
+      <p class="label vn">Hẹn gặp bạn</p>
+      <h2>Your seat's getting cold.</h2>
+    <figure class="table" aria-label="A long table with twelve seats, one of them empty and waiting for you">
+      <svg viewBox="0 0 1040 200" role="img" aria-hidden="true">
+        <rect x="70" y="72" width="900" height="56" rx="28" fill="var(--tabletop)"/>
+        <g fill="var(--seat)">
+          <circle cx="150" cy="38" r="20"/><circle cx="294" cy="38" r="20"/><circle cx="438" cy="38" r="20"/><circle cx="582" cy="38" r="20"/><circle cx="726" cy="38" r="20"/><circle cx="870" cy="38" r="20"/>
+          <circle cx="150" cy="162" r="20"/><circle cx="294" cy="162" r="20"/><circle cx="438" cy="162" r="20"/><circle cx="726" cy="162" r="20"/><circle cx="870" cy="162" r="20"/>
+          <circle cx="28" cy="100" r="20"/><circle cx="1012" cy="100" r="20"/>
+        </g>
+        <circle class="yours" cx="582" cy="162" r="20" fill="var(--terracotta)"/>
+        <g fill="var(--bg)" opacity=".7">
+          <circle cx="222" cy="100" r="9"/><circle cx="366" cy="100" r="13"/><circle cx="510" cy="100" r="9"/><circle cx="654" cy="100" r="13"/><circle cx="798" cy="100" r="9"/>
+        </g>
+      </svg>
+      <figcaption><span>This one's yours</span></figcaption>
+    </figure>
+      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a seat →</a>
+      <p class="say" style="color:var(--fg)"><b>Our only request? Bring a good attitude.</b> Dress code optional. Good vibes mandatory.</p>
+      <p>Missed a seat last time? Join the list and you'll be first to hear about the next one.</p>
+      <p class="small">18+ only. Not a restaurant booking: everyone shares a set menu, so tell us about allergies in the form, not halfway through the main.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Contact us</p>
+        <h2>Say xin chào.</h2>
+        <p class="say">Planning a private gặp for a birthday, your team or a hen party? Got a venue, a brand or a slightly unhinged idea for a collab? Or just a question the form didn't answer? Get in touch. A real human will get back to you.</p>
+      </div>
+      <div class="contacts">
+        <a class="fmt contact" href="mailto:hello@gapevents.vn">
+          <p class="meta">Email</p>
+          <h3>hello@gapevents.vn</h3>
+          <p>Private events, partnerships, press and anything that needs more than a DM.</p>
+          <span class="go">Write to us →</span>
+        </a>
+        <a class="fmt contact" href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">
+          <p class="meta">Instagram</p>
+          <h3>@gap.vietnam</h3>
+          <p>Quick questions, event updates and photos from the last table. Slide into our DMs.</p>
+          <span class="go">Message us →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="84" height="41">
+    <img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="84" height="41">
+    <div class="links">
+      <a class="mail" href="mailto:hello@gapevents.vn">hello@gapevents.vn</a>
+      <a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram @gap.vietnam</a>
+      <span>gặp — where connection becomes community.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="lb-top"><span id="lbCount"></span><button class="x" id="lbClose" type="button" aria-label="Close">×</button></div>
+  <figure><img id="lbImg" alt=""></figure>
+  <div class="lb-bot"><button class="arw" id="lbPrev" type="button" aria-label="Previous photo">←</button><span id="lbCap"></span><button class="arw" id="lbNext" type="button" aria-label="Next photo">→</button></div>
+</div>
+
+<script>
+(function(){
+  var track=document.getElementById('track'),prev=document.getElementById('prev'),next=document.getElementById('next');
+  var slides=[].slice.call(track.querySelectorAll('.slide'));
+  function step(){var s=slides[0];return s?s.getBoundingClientRect().width+14:300}
+  prev.onclick=function(){track.scrollBy({left:-step()})};
+  next.onclick=function(){track.scrollBy({left:step()})};
+  function upd(){prev.disabled=track.scrollLeft<4;next.disabled=track.scrollLeft+track.clientWidth>=track.scrollWidth-4}
+  track.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+  var lb=document.getElementById('lb'),img=document.getElementById('lbImg'),cap=document.getElementById('lbCap'),cnt=document.getElementById('lbCount'),i=0,last=null;
+  function show(n){i=(n+slides.length)%slides.length;var s=slides[i].querySelector('img');img.src=s.dataset.full||s.src;img.alt=s.alt;cap.textContent=s.alt;cnt.textContent=(i+1)+' / '+slides.length}
+  function open(n){last=document.activeElement;show(n);lb.hidden=false;document.body.style.overflow='hidden';document.getElementById('lbClose').focus()}
+  function close(){lb.hidden=true;document.body.style.overflow='';if(last)last.focus()}
+  slides.forEach(function(s,n){s.onclick=function(){open(n)}});
+  document.getElementById('lbClose').onclick=close;
+  document.getElementById('lbPrev').onclick=function(){show(i-1)};
+  document.getElementById('lbNext').onclick=function(){show(i+1)};
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target.tagName==='FIGURE')close()});
+  document.addEventListener('keydown',function(e){if(lb.hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+})();
+</script>
+</body></html>
