@@ -131,7 +131,10 @@ section{padding-block:72px;border-top:1px solid var(--line)}
 /* story */
 .story{display:grid;gap:36px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:start}
 .story .body{display:grid;gap:16px;color:var(--muted);max-width:60ch}
-.story .body > p:nth-child(2){color:var(--fg);font-size:21px;font-weight:500;line-height:1.45}
+.story .body > p.lead{font-family:var(--display);color:var(--fg);font-size:clamp(26px,3.4vw,36px);font-weight:700;line-height:1.15;letter-spacing:-.015em;margin-bottom:6px}
+em.acc{font-style:italic;color:var(--terracotta);font-family:var(--vn);font-weight:700;letter-spacing:-.02em}
+.story .body > p.lead em{font-style:italic;font-family:var(--vn);color:var(--terracotta)}
+.story blockquote{font-size:clamp(20px,2.6vw,26px)!important;border-left:3px solid var(--terracotta);padding-left:16px;margin-top:6px}
 blockquote{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(24px,3.4vw,34px);line-height:1.2;letter-spacing:-.01em}
 .story blockquote{color:var(--fg)}
 blockquote footer{font-family:var(--vn);font-weight:500;font-size:15px;color:var(--muted);margin-top:14px;letter-spacing:0}
@@ -233,14 +236,13 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
 <main id="top">
   <header class="wrap hero">
     <p class="label">Social experiences · Ho Chi Minh City, Vietnam</p>
-    <h1>Connection begins with a seat at the table.</h1>
-    <p class="dict"><b>gặp</b> <span class="ipa">/gʌp/</span> <i>verb</i> — to meet, to choose connection over convenience, to finally sit next to someone more interesting than your phone.</p>
+    <h1>Connection begins with a <em class="acc">seat at the table</em>.</h1>
+    <p class="dict"><b>gặp</b> <span class="ipa">/gʌp/</span> — to meet, to choose connection over convenience, to finally sit next to someone more interesting than your phone.</p>
     <p class="say">Inspired by the Vietnamese family dinner table, gặp brings expats, travellers and locals together over good food, shared stories and nights worth remembering.</p>
-    <p class="say">From intimate dinners to big nights out, <b>you bring the appetite.</b> We'll take care of the magic.</p>
+    <p class="say">From intimate dinners to big nights out, you bring the appetite. We'll take care of the magic.</p>
     <div class="ctas">
       <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list →</a>
       <a class="btn outline" href="#formats">Two ways to gặp ↓</a>
-      <a class="ghost" href="#guide">Get our free Saigon food guide ↓</a>
     </div>
     <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
   </header>
@@ -329,7 +331,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
 
   <section id="private">
     <div class="wrap duyen">
-      <div class="head" style="margin:0"><p class="label">Private events</p><h2>Your people. Your occasion. Our kind of magic.</h2></div>
+      <div class="head" style="margin:0"><p class="label">Private events</p><h2>Your people. Your occasion. Our kind of <em class="acc">magic</em>.</h2></div>
       <div class="dbody">
         <p class="dclose" style="font-weight:600">Some nights deserve a little more than the usual dinner reservation.</p>
         <p>From birthdays, bachelor/bachelorette parties to team gatherings and celebrations worth making a fuss over, we help bring your ideas to life.</p>
@@ -372,7 +374,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <div class="wrap story">
       <div class="body">
         <p class="label">Our story</p>
-        <p>We've never been more connected. Yet somehow, real connection feels harder to find.</p>
+        <p class="lead">We've never been more connected. Yet somehow, <em>real connection</em> feels harder to find.</p>
         <p>We can reach anyone, anywhere, at any time. Technology has made life more convenient, but somewhere along the way, we've traded a little human connection for that convenience.</p>
         <p>And yet, some of life's best moments still happen around a table. Sharing food, exchanging stories and losing track of time with the people beside us.</p>
         <p>Inspired by the Vietnamese family dinners we grew up with, we created gặp to bring a little more of that into the world.</p>
@@ -410,7 +412,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
   <section id="join">
     <div class="wrap final">
       <p class="label vn">Hẹn gặp bạn</p>
-      <h2>Your next gặp starts here.</h2>
+      <h2>Your next gặp starts <em class="acc">here</em>.</h2>
       <p class="lede">New faces, good food and nights that rarely go exactly as planned. In the best possible way.</p>
       <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a spot →</a>
       <form class="sub subform" id="sub" novalidate data-done="You're on the list. Hẹn gặp bạn soon!">
