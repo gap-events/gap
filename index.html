@@ -1,5 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta property="og:title" content="gặp — Social Dining Saigon"><meta property="og:description" content="Connection begins with a seat at the table. Dinner with strangers in Saigon."><meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg"><meta property="og:url" content="https://gapevents.vn/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="images/logo-espresso.png"><title>gặp — Social Dining Saigon</title>
-<meta name="description" content="gặp is a social dining experience in Ho Chi Minh City. Strangers share a table, a meal and conversation. Join the table.">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta property="og:title" content="gặp — Social Dining, Parties &amp; Private Events in Saigon"><meta property="og:description" content="Connection begins with a seat at the table. Long-table dinners, big nights out and private events in Saigon."><meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg"><meta property="og:url" content="https://gapevents.vn/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="images/logo-espresso.png"><title>gặp — Social Dining, Parties &amp; Private Events in Saigon</title>
+<meta name="description" content="gặp creates social experiences in Saigon: long-table dinners, big nights out and private events that bring expats, travellers and locals together. Join the guest list.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
@@ -36,6 +36,10 @@ p{margin:0}
 .btn{display:inline-flex;align-items:center;gap:.5em;background:var(--btn-bg);color:var(--btn-fg);text-decoration:none;font-weight:700;font-size:16px;padding:15px 26px;border-radius:999px;transition:transform .15s ease}
 .btn:hover{transform:translateY(-2px)}
 .btn:focus-visible,.ghost:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+.btn.outline{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--fg)}
+.btn.outline:hover{background:var(--fg);color:var(--bg)}
+html{scroll-behavior:smooth}
+section{scroll-margin-top:84px}
 .ghost{font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--terracotta);text-decoration-thickness:2px}
 
 /* nav */
@@ -43,6 +47,37 @@ nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--
 nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
 nav .logo{width:120px}
 nav .btn{padding:10px 18px;font-size:14.5px}
+nav .links{display:flex;gap:26px;margin-left:auto;margin-right:8px;font-size:15px;font-weight:600}
+nav .links a{text-decoration:none;color:var(--muted)}
+nav .links a:hover{color:var(--fg)}
+@media (max-width:860px){nav .links{display:none}}
+.fmt .btn{justify-self:start;margin-top:8px;padding:12px 20px;font-size:15px}
+.sub{margin-top:36px;width:100%;max-width:640px;display:grid;gap:10px;background:var(--raise);border:1px solid var(--line);border-radius:20px;padding:24px}
+.sub h3{font-size:clamp(20px,2.6vw,24px);font-weight:700}
+.subrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.subrow input{flex:1 1 220px;min-width:0;font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:13px 20px}
+.subrow input:focus{outline:none;border-color:var(--terracotta)}
+.subrow .btn{border:0;cursor:pointer;font-family:inherit}
+.submsg{font-size:15px;min-height:1.4em;color:var(--fg);font-weight:600}
+.submsg:empty{display:none}
+.submsg.err{color:var(--lacquer)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.guide form.gform{display:grid;gap:10px;margin-top:26px;max-width:480px}
+.gform .subrow{display:flex;flex-wrap:nowrap;gap:6px;margin:0;background:#F8EEE7;border-radius:999px;padding:6px}
+.gform .subrow input{flex:1 1 auto;min-width:0;background:transparent;border:0;color:#3A1F14;padding:10px 14px;font-size:16px}
+.gform .subrow input::placeholder{color:#8a6f62}
+.gform .subrow input:focus{outline:none}
+.gform .subrow:focus-within{box-shadow:0 0 0 3px #E9C27A}
+.guide .gform .subrow .btn{margin:0;background:#3A1F14;color:#F8EEE7;padding:12px 20px;font-size:15px;white-space:nowrap}
+.gform .submsg{color:#F8EEE7}
+.gform .submsg.err{color:#F3C9A8}
+@media (max-width:440px){.gform .subrow{flex-wrap:wrap;border-radius:24px}.gform .subrow input{flex-basis:100%}.guide .gform .subrow .btn{flex:1;justify-content:center}}
+.gform .fineprint{font-size:13.5px;color:#C9D8D1;padding-left:20px}
+.guide .gform > .btn{justify-self:start;margin-top:4px}
+.say-hi{margin-top:40px}
+.say-hi{margin-top:40px;padding-top:32px;border-top:1px solid var(--line);width:100%;display:grid;gap:8px}
+.say-hi h3{font-size:clamp(24px,3vw,30px);font-weight:700}
+.final .lede{font-size:19px;max-width:54ch}
 
 /* hero */
 .hero{padding-block:56px 24px;display:grid;gap:22px}
@@ -114,6 +149,15 @@ blockquote footer{font-family:var(--vn);font-weight:500;font-size:15px;color:var
 .contact h3{font-size:clamp(22px,3vw,28px);overflow-wrap:anywhere}
 .contact .go{font-weight:700;color:var(--terracotta);margin-top:4px}
 
+/* duyen */
+.duyen{display:grid;gap:20px 48px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));align-items:start}
+.duyen h2 em{font-style:italic;color:var(--terracotta);font-family:var(--vn);font-weight:700}
+.duyen .dbody{display:grid;gap:14px;color:var(--muted);max-width:56ch}
+.duyen .dbody b{color:var(--fg)}
+.duyen .fine{font-size:15px}
+.duyen .fine a{color:var(--fg);font-weight:600}
+.duyen .dclose{color:var(--fg);font-weight:600;font-size:19px}
+
 footer.site{border-top:1px solid var(--line);padding-block:32px 40px;font-size:15px;color:var(--muted)}
 footer.site .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
 footer.site .logo{width:84px}
@@ -139,7 +183,8 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
 .host{background:var(--raise);border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:12px;align-content:start}
 .host .tag{font-family:var(--display);font-weight:800;font-size:26px;line-height:1.1;letter-spacing:-.01em}
 .host .who{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
-.host p:last-child{color:var(--muted)}
+.host p:not(.who):not(.tag){color:var(--muted)}
+.host p.sign:not(.who):not(.tag){color:var(--fg)}
 
 /* carousel + lightbox */
 :root{--scrim:rgba(24,12,7,.94)}
@@ -175,18 +220,26 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       <img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="120" height="59">
       <img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="120" height="59">
     </a>
-    <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a seat</a>
+    <div class="links">
+      <a href="#story">About</a>
+      <a href="#formats">Experiences</a>
+      <a href="#tables">Gallery</a>
+      <a href="#private">Private events</a>
+    </div>
+    <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list</a>
   </div>
 </nav>
 
 <main id="top">
   <header class="wrap hero">
-    <p class="label">Social dining · Saigon</p>
+    <p class="label">Social experiences · Saigon</p>
     <h1>Connection begins with a seat at the table.</h1>
-    <p class="dict"><b>gặp</b> <span class="ipa">/gʌp/</span> <i>verb</i> — to meet, to bump into, to finally sit next to someone more interesting than your phone.</p>
-    <p class="say"><b>Dinner with strangers. What could go right?</b> We throw long tables and big nights for expats, travellers and locals. You bring the appetite. We'll handle the awkward first five minutes.</p>
+    <p class="dict"><b>gặp</b> <span class="ipa">/gʌp/</span> <i>verb</i> — to meet, to choose connection over convenience, to finally sit next to someone more interesting than your phone.</p>
+    <p class="say">Inspired by the Vietnamese family dinner table, gặp brings expats, travellers and locals together over good food, shared stories and nights worth remembering.</p>
+    <p class="say">From intimate dinners to big nights out, <b>you bring the appetite.</b> We'll handle the awkward first five minutes.</p>
     <div class="ctas">
-      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a seat →</a>
+      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list →</a>
+      <a class="btn outline" href="#formats">Two ways to gặp ↓</a>
       <a class="ghost" href="#guide">Feed me the food guide</a>
     </div>
     <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
@@ -196,16 +249,26 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <div class="wrap">
       <div class="head"><p class="label">How it works</p><h2>Three steps. Zero homework.</h2></div>
       <ol class="steps">
-        <li><span class="n">1</span><h3>Spill the beans</h3><p>Fill in our quick form: who you are, what you eat and what should never come near your plate. Two minutes, tops.</p></li>
-        <li><span class="n">2</span><h3>We do the seating chart</h3><p>We mix every guest list like a good cocktail, then slide an invite into your inbox.</p></li>
-        <li><span class="n">3</span><h3>Turn up hungry</h3><p>Share the food, clink the glasses, meet the table. What happens after dessert is your business.</p></li>
+        <li><span class="n">01</span><h3>Spill the beans</h3><p>Tell us a little about yourself, what you love to eat and anything that shouldn't end up on your plate. Two minutes, tops. That puts you on the guest list.</p></li>
+        <li><span class="n">02</span><h3>Leave the rest to us</h3><p>We'll keep you in the loop about upcoming dinners, parties and everything in between. When something catches your eye, come join us.</p></li>
+        <li><span class="n">03</span><h3>Show up, be yourself</h3><p>Good food, new faces and conversations that go well beyond small talk. The rest? You'll have to be there.</p></li>
       </ol>
+    </div>
+  </section>
+
+  <section id="formats">
+    <div class="wrap">
+      <div class="head"><p class="label">Two ways to gặp</p><h2>Pick your vibe</h2></div>
+      <div class="formats">
+        <article class="fmt"><p class="meta">Seated dinner</p><h3>The Table</h3><p>One long table. A family-style feast. A room full of people you haven't met yet.</p><p>Come for the food, stay for the conversations, and leave wondering how you ended up making friends with the person across from you.</p><a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Find your seat →</a></article>
+        <article class="fmt"><p class="meta">Party night</p><h3>The Social</h3><p>Less sitting, more mingling. Think DJs, music, drinks and a room full of people who came to have a good time.</p><p>No forced networking. No awkward introductions. Just good energy and whatever the night has in store.</p><a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the next social →</a></article>
+      </div>
     </div>
   </section>
 
   <section id="tables">
     <div class="wrap">
-      <div class="head"><p class="label">Recent tables</p><h2>A table is just a table until people gather around it.</h2></div>
+      <div class="head"><p class="label">Gallery</p><h2>The nights we don't forget.</h2><p class="say">A little glimpse into the people, places and moments that make gặp what it is. Some started around a table. Others ended on the dance floor.</p></div>
       <div class="carousel" aria-roledescription="carousel" aria-label="Photos from gặp tables">
         <div class="track" id="track" tabindex="0">
           <button class="slide" type="button" aria-label="Open photo: Guests around the table clinking glasses mid-dinner"><img src="images/gallery/01-thumb.jpg" data-full="images/gallery/01.jpg" alt="Guests around the table clinking glasses mid-dinner" width="960" height="640" decoding="async"></button>
@@ -264,12 +327,15 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     </div>
   </section>
 
-  <section id="formats">
-    <div class="wrap">
-      <div class="head"><p class="label">Two ways to gặp</p><h2>Pick your vibe</h2></div>
-      <div class="formats">
-        <article class="fmt"><p class="meta">Seated dinner</p><h3>The Table</h3><p>One long table, a family-style feast and a bunch of strangers who'll be passing you the bread within ten minutes. Like a family dinner, minus the questions about your love life.</p></article>
-        <article class="fmt"><p class="meta">Standing event</p><h3>The Social</h3><p>Bigger, louder, on your feet. DJs, live acts and activities that make "so, what do you do?" completely optional.</p></article>
+  <section id="private">
+    <div class="wrap duyen">
+      <div class="head" style="margin:0"><p class="label">Private events</p><h2>Your people. Your occasion. Our kind of magic.</h2></div>
+      <div class="dbody">
+        <p class="dclose" style="font-weight:600">Some nights deserve a little more than the usual dinner reservation.</p>
+        <p>From birthdays, hens and bucks to team gatherings and celebrations worth making a fuss over, we help bring your ideas to life.</p>
+        <p>Got a vision? We'll make it happen. No idea where to start? Leave that to us.</p>
+        <a class="btn" style="justify-self:start;margin-top:6px" href="mailto:hello@gapevents.vn?subject=Private%20event%20enquiry">Let's make something happen →</a>
+        <p class="fine">Or email us directly at <a class="mail" href="mailto:hello@gapevents.vn?subject=Private%20event%20enquiry">hello@gapevents.vn</a></p>
       </div>
     </div>
   </section>
@@ -280,8 +346,17 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
         <div>
           <p class="label">Welcome gift · gặp's Food Safari</p>
           <h2>Eat your way through Saigon</h2>
-          <p>Join the list and we'll send you <b>gặp's Food Safari</b>, our hit list of where to eat in this city: bún bò that sells out most nights, plastic-stool cơm tấm at midnight, and exactly what to order at each. Stretchy pants recommended.</p>
-          <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Gimme the guide</a>
+          <p><b>The good stuff doesn't always come with a fancy sign.</b></p>
+          <p style="margin-top:12px">From late-night plastic stools to bowls worth crossing the city for, <b>gặp's Food Safari</b> is our personal hit list of where to eat, what to order and when to show up. Pop in your email and it's yours: consider it our little welcome gift. Stretchy pants recommended.</p>
+          <form class="subform gform" novalidate data-done="Done! Your guide is ready:" data-guide="1">
+            <div class="subrow">
+              <label class="sr" for="guideEmail">Email address</label>
+              <input id="guideEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+              <button class="btn" type="submit">Gimme the guide</button>
+            </div>
+            <p class="submsg" role="status" aria-live="polite"></p>
+            <p class="fineprint">You'll also get the occasional heads-up about upcoming gặp nights. Unsubscribe any time.</p>
+          </form>
         </div>
         <ul class="picks" aria-label="A taste of the guide">
           <li><span class="dish">Bún bò Huế</span><strong>Đen Bún Bò</strong><span class="tip">Open 4–9pm and sells out. Arrive around 6:30 and order the sụn mềm.</span></li>
@@ -297,24 +372,36 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <div class="wrap story">
       <div class="body">
         <p class="label">Our story</p>
-        <p>We've never been more connected. And yet, somehow, we've never needed connection more.</p>
-        <p>More of our lives are moving online. More conversations happen through screens. Technology brings us closer in some ways, but it also gives us fewer reasons to actually meet.</p>
-        <p>No matter how advanced the world becomes, we still crave something technology can't replicate: presence. Sitting across from someone. Sharing a meal. Losing track of time in conversation. Feeling like you belong.</p>
-        <p>That's why gặp was born, at a table not so different from the family dinners we grew up around. To put down our phones. To pull up a chair. To meet.</p>
+        <p>We've never been more connected. Yet somehow, real connection feels harder to find.</p>
+        <p>We can reach anyone, anywhere, at any time. Technology has made life more convenient, but somewhere along the way, we've traded a little human connection for that convenience.</p>
+        <p>And yet, some of life's best moments still happen around a table. Sharing food, exchanging stories and losing track of time with the people beside us.</p>
+        <p>Inspired by the Vietnamese family dinners we grew up with, we created gặp to bring a little more of that into the world.</p>
+        <p>No algorithms. No endless scrolling. Just real people, real conversations and a reason to put your phone down.</p>
         <blockquote>"The future may be digital. But connection should still be human."<footer>The founders of gặp</footer></blockquote>
       </div>
       <figure class="shot story-shot"><img src="images/story.jpg" loading="lazy" decoding="async" alt="The long table set before guests arrive, with red flowers and cherry blossom overhead"></figure>
     </div>
   </section>
 
+  <section id="duyen">
+    <div class="wrap duyen">
+      <div class="head" style="margin:0"><p class="label">The magic bit</p><h2>A little thing called <em>duyên</em>.</h2></div>
+      <div class="dbody">
+        <p>There's a Vietnamese word, <b>duyên</b>, for the invisible connection that brings people into each other's lives.</p>
+        <p>Call it fate, coincidence or simply being in the right place at the right time. We call it the beginning of something good.</p>
+        <p class="dclose">At gặp, we create the space. The rest is duyên.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="hosts">
     <div class="wrap">
-      <div class="head"><p class="label">Meet your hosts</p><h2>Two hosts, one long table</h2></div>
+      <div class="head"><p class="label">Meet the two people behind gặp</p><h2>Two hosts. One shared vision.</h2><p class="say">Different personalities, same love for bringing people together. You'll usually find us somewhere between planning the next event, rearranging a seating chart and making sure everyone's having a good time.</p></div>
       <div class="hostwrap">
       <figure class="shot host-shot"><img src="images/hosts.jpg" loading="lazy" decoding="async" alt="Tam and Huong in front of the glowing gặp sign on opening night" width="900" height="1350"></figure>
       <div class="hosts">
         <article class="host"><p class="who">Huong · more than meets the eye</p><p class="tag">Life's better in HD.</p><p>Huong brings the creative ideas, the little details and occasionally the chaos to gặp. She has a knack for turning a simple dinner into something worth remembering, and strangers into people who feel like old friends. Thoughtful in her approach, unapologetically particular about certain things, and never one to take herself too seriously. She believes a good night should leave you with more than just a full stomach.</p></article>
-        <article class="host"><p class="who">Tam · a man on a mission</p><p class="tag">Building something that can never be replaced.</p><p>Tam is all about the people, the conversations and the connections that happen in between. He has a way of making strangers feel like friends and believes the best things in life aren't things at all, but the people you share them with. Genuine in his approach, intentional in what he builds, and always ready with a dad joke nobody asked for. For him, gặp is about creating something that lasts long after the night ends.</p></article>
+        <article class="host"><p class="who">Tam · a man on a mission</p><p class="tag">Building something that can never be replaced.</p><p>Tam is the one who notices who hasn't spoken yet and asks the question that turns small talk into a real conversation. Genuinely curious about people, he has a way of making everyone feel like they belong. For him, gặp is about creating moments that matter, the kind you carry with you long after the night ends.</p><p class="sign">Because he believes the best things in life aren't things at all.</p></article>
       </div>
       </div>
     </div>
@@ -323,37 +410,24 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
   <section id="join">
     <div class="wrap final">
       <p class="label vn">Hẹn gặp bạn</p>
-      <h2>Your seat's getting cold.</h2>
-    <figure class="table" aria-label="A long table with twelve seats, one of them empty and waiting for you">
-      <svg viewBox="0 0 1040 200" role="img" aria-hidden="true">
-        <rect x="70" y="72" width="900" height="56" rx="28" fill="var(--tabletop)"/>
-        <g fill="var(--seat)">
-          <circle cx="150" cy="38" r="20"/><circle cx="294" cy="38" r="20"/><circle cx="438" cy="38" r="20"/><circle cx="582" cy="38" r="20"/><circle cx="726" cy="38" r="20"/><circle cx="870" cy="38" r="20"/>
-          <circle cx="150" cy="162" r="20"/><circle cx="294" cy="162" r="20"/><circle cx="438" cy="162" r="20"/><circle cx="726" cy="162" r="20"/><circle cx="870" cy="162" r="20"/>
-          <circle cx="28" cy="100" r="20"/><circle cx="1012" cy="100" r="20"/>
-        </g>
-        <circle class="yours" cx="582" cy="162" r="20" fill="var(--terracotta)"/>
-        <g fill="var(--bg)" opacity=".7">
-          <circle cx="222" cy="100" r="9"/><circle cx="366" cy="100" r="13"/><circle cx="510" cy="100" r="9"/><circle cx="654" cy="100" r="13"/><circle cx="798" cy="100" r="9"/>
-        </g>
-      </svg>
-      <figcaption><span>This one's yours</span></figcaption>
-    </figure>
-      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a seat →</a>
-      <p class="say" style="color:var(--fg)"><b>Our only request? Bring a good attitude.</b> Dress code optional. Good vibes mandatory.</p>
-      <p>Missed a seat last time? Join the list and you'll be first to hear about the next one.</p>
-      <p class="small">18+ only. Not a restaurant booking: everyone shares a set menu, so tell us about allergies in the form, not halfway through the main.</p>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="wrap">
-      <div class="head">
-        <p class="label">Contact us</p>
-        <h2>Say xin chào.</h2>
-        <p class="say">Planning a private gặp for a birthday, your team or a hen party? Got a venue, a brand or a slightly unhinged idea for a collab? Or just a question the form didn't answer? Get in touch. A real human will get back to you.</p>
+      <h2>Your next gặp starts here.</h2>
+      <p class="lede">New faces, good food and nights that rarely go exactly as planned. In the best possible way.</p>
+      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a spot →</a>
+      <form class="sub subform" id="sub" novalidate data-done="You're on the list. Hẹn gặp bạn soon!">
+        <h3>Not ready for a seat? Get the news first.</h3>
+        <p class="say">Just your email. We'll let you know when the next gặp is coming. No spam, promise.</p>
+        <div class="subrow">
+          <label class="sr" for="subEmail">Email address</label>
+          <input id="subEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+          <button class="btn" type="submit">Subscribe</button>
+        </div>
+        <p class="submsg" role="status" aria-live="polite"></p>
+      </form>
+      <div class="say-hi">
+        <h3>Or say xin chào.</h3>
+        <p class="say">Got a question we haven't answered? A real human (one of us!) will get back to you.</p>
       </div>
-      <div class="contacts">
+      <div class="contacts" style="width:100%">
         <a class="fmt contact" href="mailto:hello@gapevents.vn">
           <p class="meta">Email</p>
           <h3>hello@gapevents.vn</h3>
@@ -369,6 +443,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       </div>
     </div>
   </section>
+
 </main>
 
 <footer class="site">
@@ -376,9 +451,9 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="84" height="41">
     <img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="84" height="41">
     <div class="links">
+      <a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram</a>
       <a class="mail" href="mailto:hello@gapevents.vn">hello@gapevents.vn</a>
-      <a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram @gap.vietnam</a>
-      <span>gặp — where connection becomes community.</span>
+      <span>© 2026 gặp</span>
     </div>
   </div>
 </footer>
@@ -408,6 +483,27 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
   document.getElementById('lbNext').onclick=function(){show(i+1)};
   lb.addEventListener('click',function(e){if(e.target===lb||e.target.tagName==='FIGURE')close()});
   document.addEventListener('keydown',function(e){if(lb.hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+})();
+
+(function(){
+  var URL='https://docs.google.com/forms/d/e/1FAIpQLSeZH3VYR566KvxpDkiGPcXnIUWbWvp5UVk_4TMAZZIntS4E1g/formResponse';
+  var GUIDE='';
+  document.querySelectorAll('form.subform').forEach(function(f){
+    var i=f.querySelector('input[type=email]'), m=f.querySelector('.submsg'), b=f.querySelector('button'), label=b.textContent;
+    f.addEventListener('submit',function(e){
+      e.preventDefault(); var v=i.value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){m.className='submsg err';m.textContent='That email looks a little off. Try again?';i.focus();return;}
+      b.disabled=true; b.textContent='Sending…';
+      var d=new URLSearchParams(); d.append('entry.668940103',v);
+      fetch(URL,{method:'POST',mode:'no-cors',body:d}).then(function(){
+        f.querySelector('.subrow').style.display='none'; m.className='submsg'; m.textContent=f.dataset.done;
+        if(f.dataset.guide && !GUIDE){m.textContent="You're in! We'll send gặp's Food Safari to your inbox soon.";}
+        if(f.dataset.guide && GUIDE){var a=document.createElement('a');a.className='btn';a.href=GUIDE;a.target='_blank';a.rel='noopener';a.textContent='Open the Food Safari →';f.insertBefore(a,m.nextSibling);}
+      }).catch(function(){
+        b.disabled=false; b.textContent=label; m.className='submsg err'; m.textContent='Something went wrong. Email us at hello@gapevents.vn and we\'ll sort you out.';
+      });
+    });
+  });
 })();
 </script>
 </body></html>

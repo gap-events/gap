@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Get the gặp news</title>
+<meta name="description" content="Join the gặp list: hear first about upcoming dinners, parties and everything in between in Saigon.">
+<meta property="og:title" content="Get the gặp news"><meta property="og:description" content="Hear first about upcoming gặp dinners, parties and everything in between."><meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="images/logo-espresso.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap">
+<style>
+:root{--espresso:#3A1F14;--cream:#F8EEE7;--terracotta:#C1592F;--lacquer:#8C2A1E;--ochre:#C08A2E;--bg:var(--cream);--fg:var(--espresso);--muted:#6B5045;--line:#E4D3C7;--raise:#FFF8F3;--label:var(--lacquer)}
+@media (prefers-color-scheme:dark){:root{--bg:#2B170F;--fg:var(--cream);--muted:#CDB8AA;--line:#4D3226;--raise:var(--espresso);--label:var(--ochre);color-scheme:dark}.logo-dark{display:none}.logo-light{display:block!important}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:"Be Vietnam Pro",system-ui,sans-serif;font-size:17px;line-height:1.6;min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+a{color:inherit}p{margin:0}h1{font-family:Poppins,"Be Vietnam Pro",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.08;margin:0;font-size:clamp(36px,7vw,60px);text-wrap:balance}
+.wrap{max-width:640px;margin:0 auto;padding-inline:20px;width:100%}
+header .wrap{padding-block:18px;display:flex;justify-content:space-between;align-items:center}
+.logo{width:96px;height:auto;display:block}.logo-light{display:none}
+header a.back{font-weight:600;font-size:15px;color:var(--muted);text-decoration:none}
+main .wrap{padding-block:48px 64px;display:grid;gap:18px;align-content:center}
+.hero{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:22px;display:block}
+.label{font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--label)}
+.say{color:var(--muted);font-size:18px}
+.subrow{display:flex;gap:6px;background:var(--raise);border:1.5px solid var(--line);border-radius:999px;padding:6px;margin-top:6px}
+.subrow:focus-within{border-color:var(--terracotta)}
+.subrow input{flex:1 1 auto;min-width:0;font:inherit;font-size:16px;color:var(--fg);background:transparent;border:0;padding:10px 14px}
+.subrow input:focus{outline:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:15.5px;background:var(--fg);color:var(--bg);border-radius:999px;padding:12px 22px;white-space:nowrap;text-decoration:none}
+@media (max-width:440px){.subrow{flex-wrap:wrap;border-radius:24px}.subrow input{flex-basis:100%}.subrow .btn{flex:1}}
+.submsg{font-weight:600;min-height:1.4em}.submsg:empty{display:none}.submsg.err{color:var(--lacquer)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fine{font-size:14px;color:var(--muted)}
+footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}footer .wrap{padding-block:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style></head><body>
+<header><div class="wrap"><a href="/" aria-label="gặp home"><img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="96" height="47"><img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="96" height="47"></a><a class="back" href="/">Visit gapevents.vn →</a></div></header>
+<main><div class="wrap">
+  <img class="hero" src="images/hero-1000.jpg" alt="A long table of guests raising their glasses" width="1000" height="667">
+  <p class="label">The gặp list</p>
+  <h1>Get the news first.</h1>
+  <p class="say">We'll keep you in the loop about upcoming dinners, parties and everything in between. When something catches your eye, come join us.</p>
+  <form class="subform" novalidate data-done="You're on the list. Hẹn gặp bạn soon!">
+    <div class="subrow"><label class="sr" for="e">Email address</label><input id="e" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button class="btn" type="submit">Subscribe</button></div>
+    <p class="submsg" role="status" aria-live="polite"></p>
+  </form>
+  <p class="fine">Just your email. No spam, promise. Want a seat at the next one? <a href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list</a>.</p>
+</div></main>
+<footer><div class="wrap"><span>© 2026 gặp</span><span><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram</a> · <a href="mailto:hello@gapevents.vn">hello@gapevents.vn</a></span></div></footer>
+<script>(function(){
+  var URL='https://docs.google.com/forms/d/e/1FAIpQLSeZH3VYR566KvxpDkiGPcXnIUWbWvp5UVk_4TMAZZIntS4E1g/formResponse';
+  var GUIDE='';
+  document.querySelectorAll('form.subform').forEach(function(f){
+    var i=f.querySelector('input[type=email]'), m=f.querySelector('.submsg'), b=f.querySelector('button'), label=b.textContent;
+    f.addEventListener('submit',function(e){
+      e.preventDefault(); var v=i.value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){m.className='submsg err';m.textContent='That email looks a little off. Try again?';i.focus();return;}
+      b.disabled=true; b.textContent='Sending…';
+      var d=new URLSearchParams(); d.append('entry.668940103',v);
+      fetch(URL,{method:'POST',mode:'no-cors',body:d}).then(function(){
+        f.querySelector('.subrow').style.display='none'; m.className='submsg'; m.textContent=f.dataset.done;
+        if(f.dataset.guide && !GUIDE){m.textContent="You're in! We'll send gặp's Food Safari to your inbox soon.";}
+        if(f.dataset.guide && GUIDE){var a=document.createElement('a');a.className='btn';a.href=GUIDE;a.target='_blank';a.rel='noopener';a.textContent='Open the Food Safari →';f.insertBefore(a,m.nextSibling);}
+      }).catch(function(){
+        b.disabled=false; b.textContent=label; m.className='submsg err'; m.textContent='Something went wrong. Email us at hello@gapevents.vn and we\'ll sort you out.';
+      });
+    });
+  });
+})();</script>
+</body></html>
