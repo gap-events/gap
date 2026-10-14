@@ -1,0 +1,168 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/png" href="images/logo-espresso.png"><title>gặp's Food Safari — Eat your way through Saigon</title>
+<meta name="description" content="gặp's Food Safari: our personal hit list of where to eat in Saigon, what to order and when to show up.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<style>
+:root{
+  --espresso:#3A1F14; --cream:#F8EEE7; --terracotta:#C1592F; --lacquer:#8C2A1E; --ochre:#C08A2E; --jade:#2F5D50;
+  --bg:var(--cream); --fg:var(--espresso); --muted:#6B5045; --line:#E4D3C7; --raise:#FFF8F3; --label:var(--lacquer);
+  --chip:#EFE1D6; --display:"Poppins","Be Vietnam Pro",system-ui,sans-serif; --vn:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#2B170F; --fg:var(--cream); --muted:#CDB8AA; --line:#4D3226; --raise:var(--espresso); --label:var(--ochre); --chip:#43291E; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#2B170F; --fg:var(--cream); --muted:#CDB8AA; --line:#4D3226; --raise:var(--espresso); --label:var(--ochre); --chip:#43291E; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--vn);font-size:17px;line-height:1.6;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.1;letter-spacing:-.02em;text-wrap:balance;margin:0}
+p{margin:0}
+.label{font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--label)}
+.logo{display:block;height:auto;width:96px}
+.logo-light{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-dark{display:none}:root:not([data-theme="light"]) .logo-light{display:block}}
+nav{border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+nav a.back{font-weight:600;font-size:15px;color:var(--muted);text-decoration:none}
+nav a.back:hover{color:var(--fg)}
+
+.hero{background:var(--jade);color:var(--cream)}
+.hero .wrap{padding-block:56px 48px;display:grid;gap:14px}
+.hero .label{color:#E9C27A}
+.hero h1{font-size:clamp(40px,7vw,76px);font-weight:800;max-width:14ch}
+.hero p:not(.label){font-size:19px;max-width:56ch;color:#E3EAE5}
+.hero p b{color:var(--cream)}
+
+.tools{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.tools .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:14px}
+.chip{all:unset;box-sizing:border-box;cursor:pointer;padding:9px 16px;border-radius:999px;background:var(--chip);font-weight:600;font-size:14.5px;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.chip:focus-visible,.search:focus-visible{outline:3px solid var(--terracotta);outline-offset:2px}
+.search{flex:1 1 200px;min-width:0;font:inherit;font-size:15.5px;color:var(--fg);background:var(--raise);border:1.5px solid var(--line);border-radius:999px;padding:9px 18px;order:-1}
+@media (max-width:759px){.tools .wrap{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.tools .wrap::-webkit-scrollbar{display:none}.search{flex:0 0 220px;order:0}}
+@media (min-width:760px){.search{order:0;margin-left:auto;flex:0 1 260px}}
+
+main .wrap{padding-block:36px 72px;display:grid;gap:44px}
+.group h2{font-size:clamp(26px,3.6vw,36px);font-weight:700;margin-bottom:6px}
+.group > p{color:var(--muted);margin-bottom:20px}
+.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
+.card{background:var(--raise);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:10px;align-content:start}
+.card .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.card .dish{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--label);font-weight:600}
+.card h3{font-size:22px;font-weight:700}
+.card .what{color:var(--muted);font-size:15.5px}
+.card .tip{font-size:15px;border-left:3px solid var(--terracotta);padding-left:12px}
+.card .tip b{font-weight:700}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--chip);color:var(--fg)}
+.tag.hot{background:var(--terracotta);color:#fff}
+.tag.book{background:var(--jade);color:var(--cream)}
+.when{font-size:14.5px;color:var(--muted)}
+.map{justify-self:start;font-weight:700;color:var(--terracotta);text-decoration:none;font-size:15px;margin-top:2px}
+.map:hover{text-decoration:underline}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+.outro{border-top:1px solid var(--line);padding-top:36px;display:grid;gap:12px;justify-items:start}
+.outro h2{font-size:clamp(26px,3.6vw,36px)}
+.outro p{color:var(--muted);max-width:56ch}
+.btn{display:inline-flex;align-items:center;gap:.5em;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px}
+footer{border-top:1px solid var(--line);padding-block:28px 36px;font-size:15px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+</style>
+
+</head><body><nav>
+  <div class="wrap">
+    <a href="/" aria-label="gặp home"><img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="96" height="47"><img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="96" height="47"></a>
+    <a class="back" href="/">← Back to gặp</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="label">Welcome gift · gặp's Food Safari</p>
+    <h1>Eat your way through Saigon.</h1>
+    <p><b>The good stuff doesn't always come with a fancy sign.</b> From late-night plastic stools to bowls worth crossing the city for, here's our personal hit list of where to eat, what to order and when to show up. Stretchy pants recommended.</p>
+  </div>
+</header>
+
+<div class="tools" role="search">
+  <div class="wrap" id="chips">
+    <input class="search" id="q" type="search" placeholder="Search a dish, place or area…" aria-label="Search the guide">
+    <button class="chip" data-f="all" aria-pressed="true">Everything</button>
+    <button class="chip" data-f="street" aria-pressed="false">Street food</button>
+    <button class="chip" data-f="up" aria-pressed="false">Sit-down &amp; upmarket</button>
+    <button class="chip" data-f="soup" aria-pressed="false">Noodle soups &amp; phở</button>
+    <button class="chip" data-f="late" aria-pressed="false">Late night</button>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <section class="group" id="g-street"><h2>Local &amp; street food</h2><p>Plastic stools, cash, and the best things you'll eat all week.</p><div class="cards"></div></section>
+    <section class="group" id="g-up"><h2>Sit-down &amp; upmarket</h2><p>For date nights, birthdays and when you want a tablecloth.</p><div class="cards"></div></section>
+    <p class="empty" id="empty" hidden>Nothing matches that. Try another search?</p>
+    <div class="outro">
+      <p class="label">Hẹn gặp bạn</p>
+      <h2>Eaten your way through the list?</h2>
+      <p>Come and share a table with us. New faces, good food and nights that rarely go exactly as planned.</p>
+      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a spot →</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 gặp</span>
+    <span><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram</a> · <a href="mailto:hello@gapevents.vn">hello@gapevents.vn</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DATA=[{"n": "Đen Bún Bò", "s": "street", "t": "Noodle soup", "d": "Spicy Beef Noodle Soup (Bún Bò Huế)", "a": "Xuan Hoa", "h": "Open 4pm–9pm; sells out most nights — arrive ~6:30pm", "l": "", "r": "", "w": "Our favourite bún bò huế spot in Saigon so far. Rich, deeply savoury broth and a generous selection of perfectly cooked meats.", "tip": "Order the sụn mềm (soft cartilage) if available. Pair with a xí quách (pork bone broth on the side).", "note": "", "m": "https://maps.app.goo.gl/nK9kmRtbxvBtUqZn7"}, {"n": "Lương Ký Mì Gia", "s": "street", "t": "Noodle soup", "d": "Duck Noodle Soup (Mì Vịt Tiềm)", "a": "Thanh My Tay", "h": "Arrive before 8:30pm — duck often sells out", "l": "", "r": "", "w": "Clean, aromatic herbal broth with tender duck that falls off the bone. Rich without being heavy. One of the best duck noodle soups in Saigon.", "tip": "Order the dry version (mì khô) — comes with soup on the side and noodles tossed in a flavourful sauce.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=L%C6%B0%C6%A1ng%20K%C3%BD%20M%C3%AC%20Gia%20Thanh%20My%20Tay%20Ho%20Chi%20Minh%20City"}, {"n": "Cơm Tấm Nguyễn Văn Cừ", "s": "street", "t": "Broken rice", "d": "Broken Rice (Cơm Tấm)", "a": "Cau Ong Lanh", "h": "", "l": "", "r": "", "w": "Thick, juicy charcoal-grilled pork chops. Marinade is less sweet than most, so the pork shines. Slightly pricier by local standards but still very affordable.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=C%C6%A1m%20t%E1%BA%A5m%20Nguy%E1%BB%85n%20V%C4%83n%20C%E1%BB%AB%20Cau%20Ong%20Lanh%20Ho%20Chi%20Minh%20City"}, {"n": "Cơm Tấm Cầu Calmette", "s": "street", "t": "Broken rice", "d": "Broken Rice (Cơm Tấm)", "a": "Khanh Hoi", "h": "Late-night institution", "l": "Late night", "r": "", "w": "Legendary late-night cơm tấm: plastic stools, sidewalk dining, constant stream of locals. Quick turnover, food arrives fast. Authentic Saigon street food.", "tip": "Don't just order the pork chop — the lemongrass pork belly is a must-try: smoky, caramelised, charred edges.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=C%C6%A1m%20T%E1%BA%A5m%20c%E1%BA%A7u%20Calmette%20Khanh%20Hoi%20Ho%20Chi%20Minh%20City"}, {"n": "Cơm Tấm Dì Út", "s": "street", "t": "Broken rice", "d": "Broken Rice (Cơm Tấm)", "a": "", "h": "", "l": "", "r": "", "w": "Famous for giant grilled pork ribs.", "tip": "Ask for all the meats to be cooked fresh and say you're happy to wait — worth the extra minutes.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=C%C6%A1m%20T%E1%BA%A5m%20D%C3%AC%20%C3%9At%20Ho%20Chi%20Minh%20City"}, {"n": "Bánh Bèo Chợ Bến Thành", "s": "street", "t": "Snack", "d": "Steamed Rice Cakes (Bánh Bèo)", "a": "Ben Thanh", "h": "Good mid-afternoon bite", "l": "", "r": "", "w": "Classic snack and a Saigon rite of passage. Delicate steamed rice cakes with savoury toppings and fish sauce. Light and tasty.", "tip": "", "note": "Short walk to Bún Thịt Nướng Chả Giò - Nguyễn Trung Trực", "m": "https://www.google.com/maps/search/?api=1&query=B%C3%A1nh%20B%C3%A8o%20Ch%E1%BB%A3%20B%E1%BA%BFn%20Th%C3%A0nh%20Ho%20Chi%20Minh%20City"}, {"n": "Bún Thịt Nướng Chả Giò - Nguyễn Trung Trực", "s": "street", "t": "Noodles (dry)", "d": "Pork & Spring Roll Vermicelli (Bún Thịt Nướng)", "a": "Ben Thanh", "h": "", "l": "", "r": "", "w": "An institution. Smoky grilled pork, fresh herbs, crunchy spring rolls and vermicelli with a punchy fish sauce dressing. Simple, fresh, satisfying.", "tip": "", "note": "Short walk from Bánh Bèo Chợ Bến Thành", "m": "https://www.google.com/maps/search/?api=1&query=B%C3%BAn%20Th%E1%BB%8Bt%20N%C6%B0%E1%BB%9Bng%20Ch%E1%BA%A3%20Gi%C3%B2%20Nguy%E1%BB%85n%20Trung%20Tr%E1%BB%B1c%20Ho%20Chi%20Minh%20City"}, {"n": "Ghiền Bánh Canh", "s": "street", "t": "Noodle soup", "d": "Crab Noodle Soup (Bánh Canh Cua)", "a": "Binh Trung", "h": "Often closed 2pm–4pm despite what Google says", "l": "", "r": "", "w": "Rich, silky crab broth loaded with fresh, pre-picked crab meat — no shell cracking. Abalone available as an add-on.", "tip": "Order extra crab.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Ghi%E1%BB%81n%20B%C3%A1nh%20Canh%20Binh%20Trung%20Ho%20Chi%20Minh%20City"}, {"n": "Phở Gà Bảo Khánh", "s": "street", "t": "Phở", "d": "Northern-Style Chicken Phở", "a": "Hoa Hung", "h": "", "l": "", "r": "", "w": "Excellent chicken phở: deeply flavoured broth, tender chicken. The chicken meatballs are surprisingly good.", "tip": "Order the jammy unfertilised egg.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Ph%E1%BB%9F%20G%C3%A0%20B%E1%BA%A3o%20Kh%C3%A1nh%20Hoa%20Hung%20Ho%20Chi%20Minh%20City"}, {"n": "Phở Sol", "s": "street", "t": "Phở", "d": "Northern-Style Beef Phở", "a": "Sai Gon", "h": "", "l": "", "r": "", "w": "Top pick for beef phở. Wider variety of beef cuts than most; traditional bowls or hot stone bowls. Multiple locations across the city.", "tip": "The classic bowl is the pick over the hot stone bowl.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Ph%E1%BB%9F%20SOL%20H%E1%BA%A3i%20Tri%E1%BB%81u%20Ho%20Chi%20Minh%20City"}, {"n": "Phở Phượng", "s": "street", "t": "Phở", "d": "Southern-Style Beef Phở (Phở Bò)", "a": "", "h": "", "l": "", "r": "", "w": "One of the better Southern-style bowls. Clean yet beefy broth with natural sweetness from bones. A solid local pick rather than a cross-town destination.", "tip": "Garlic lovers: go heavy on the pickled garlic and chilli on the table.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Ph%E1%BB%9F%20Ph%C6%B0%E1%BB%A3ng%20Ho%20Chi%20Minh%20City"}, {"n": "Phở Phú Vương", "s": "street", "t": "Phở", "d": "Southern-Style Beef Phở (Phở Bò)", "a": "", "h": "", "l": "", "r": "", "w": "Underrated. Clean, fragrant, beefy broth that isn't overly sweet; great noodle texture and generous portions.", "tip": "Don't skip the herbs, chilli and lime to customise the broth.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Ph%E1%BB%9F%20Ph%C3%BA%20V%C6%B0%C6%A1ng%20Ho%20Chi%20Minh%20City"}, {"n": "Phở Hà", "s": "street", "t": "Phở", "d": "Phở (traditional & dry)", "a": "Sai Gon", "h": "Open 24 hours", "l": "24 hours", "r": "", "w": "Known for both traditional phở and a popular dry-style version.", "tip": "Swap phở noodles for glass noodles (miến) for something lighter.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=PH%E1%BB%9E%20H%C3%80%20Sai%20Gon%20Ho%20Chi%20Minh%20City"}, {"n": "Bánh Ướt Ban Mê Giang Vương", "s": "street", "t": "Rice sheets / wraps", "d": "Steamed Rice Sheets (Bánh Ướt)", "a": "Vũ Huy Tấn branch", "h": "", "l": "", "r": "", "w": "Unique take on bánh cuốn using soft phở sheets. Pick your meats and wrap with herbs, pickles and condiments — a DIY wrap experience. Multiple locations.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=B%C3%A1nh%20%C6%AF%E1%BB%9Bt%20Ban%20M%C3%AA%20Giang%20V%C6%B0%C6%A1ng%20V%C5%A9%20Huy%20T%E1%BA%A5n%20Ho%20Chi%20Minh%20City"}, {"n": "Hủ Tiếu Thành Đạt", "s": "street", "t": "Noodle soup", "d": "Pork & Prawn Noodle Soup (Hủ Tiếu)", "a": "Cau Ong Lanh", "h": "Open 24 hours", "l": "24 hours", "r": "", "w": "Comforting pork and prawn noodle soup around the clock. Ideal for late-night cravings or breakfast after a big night.", "tip": "Cash only.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=H%E1%BB%A7%20Ti%E1%BA%BFu%20Th%C3%A0nh%20%C4%90%E1%BA%A1t%20Ho%20Chi%20Minh%20City"}, {"n": "Hủ Tiếu Gà Cá Hà Ký", "s": "street", "t": "Noodle soup", "d": "Fish / Chicken Rice Noodle Soup", "a": "Ben Thanh", "h": "", "l": "", "r": "", "w": "Chicken or fish with dry egg noodles or soup noodles. Clean, slightly sweet, comforting broth. Add a generous squeeze of lime.", "tip": "Order their pâté chaud (pate choux).", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=H%E1%BB%A7%20ti%E1%BA%BFu%20g%C3%A0%20c%C3%A1%20H%C3%A0%20K%C3%BD%20Ben%20Thanh%20Ho%20Chi%20Minh%20City"}, {"n": "Bún Mắm 444", "s": "street", "t": "Noodle soup", "d": "Fermented Fish Noodle Soup (Bún Mắm)", "a": "Binh Loi Trung", "h": "", "l": "", "r": "", "w": "A personal favourite. Bold fermented fish broth with crispy pork belly, seafood, fish and eggplant. Acquired taste — a must for lovers of strong flavours.", "tip": "Order extra eggplant.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=B%C3%9AN%20M%E1%BA%AEM%20444%20Binh%20Loi%20Trung%20Ho%20Chi%20Minh%20City"}, {"n": "Ốc Q", "s": "street", "t": "Seafood & snails", "d": "Seafood & Snails (Ốc)", "a": "An Khanh", "h": "", "l": "", "r": "", "w": "Classic Saigon-style seafood spot specialising in snails and shellfish cooked countless ways. Best with friends, napkins and a cold drink.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=%E1%BB%90c%20Q%20An%20Khanh%20Ho%20Chi%20Minh%20City"}, {"n": "Mợ Mê Ốc - ốc ngon, ốc lạ", "s": "street", "t": "Seafood & snails", "d": "Seafood & Snails (Ốc)", "a": "", "h": "", "l": "", "r": "", "w": "Popular local ốc spot: buttery garlic, spicy tamarind and lemongrass stir-fries. Great for flavours you won't find back home.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=M%E1%BB%A2%20M%C3%8A%20%E1%BB%90C%20%E1%BB%91c%20ngon%20%E1%BB%91c%20l%E1%BA%A1%20Ho%20Chi%20Minh%20City"}, {"n": "Bánh Mì Hồng Hoa", "s": "street", "t": "Bánh mì", "d": "Bánh Mì", "a": "Ben Thanh", "h": "", "l": "", "r": "", "w": "Preferred bánh mì in Saigon — more balanced than the famous Huỳnh Hoa while still full of flavour. A fantastic all-rounder.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=B%C3%A1nh%20M%C3%AC%20H%E1%BB%93ng%20Hoa%20Ben%20Thanh%20Ho%20Chi%20Minh%20City"}, {"n": "Bánh Xèo 46A", "s": "street", "t": "Pancakes", "d": "Sizzling Vietnamese Pancakes (Bánh Xèo)", "a": "Tan Dinh", "h": "", "l": "", "r": "", "w": "One of Saigon's most famous bánh xèo spots. Crispy pancakes with pork, shrimp and bean sprouts, wrapped in herbs and lettuce.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=B%C3%A1nh%20X%C3%A8o%2046A%20Tan%20Dinh%20Ho%20Chi%20Minh%20City"}, {"n": "Monito's Taqueria", "s": "street", "t": "Mexican", "d": "Quesabirria Tacos", "a": "Ben Thanh — 26 Đỗ Quang Đẩu", "h": "", "l": "", "r": "", "w": "Birria tacos are the standout: authentic, slightly crispy tortillas, flavoursome beef and a rich consommé for dipping. Three mild salsas (chipotle has some heat).", "tip": "Get the Quesabirria tacos (dipped in birria fat, grilled with Oaxaca cheese). Don't skip the consommé; try all three salsas.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Monito%27s%20Taqueria%2026%20%C4%90%E1%BB%97%20Quang%20%C4%90%E1%BA%A9u%20Ho%20Chi%20Minh%20City"}, {"n": "Margherí Pizza", "s": "up", "t": "Pizza", "d": "Neapolitan-Style Pizza", "a": "Phu My Hung (District 7)", "h": "", "l": "", "r": "", "w": "Authentic wood-fired pizza — worth the trip to District 7 for something different from 4P's.", "tip": "Tiramisu is really good (but not as good as gặp's).", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Margher%C3%AD%20pizza%20Phu%20My%20Hung%20Ho%20Chi%20Minh%20City"}, {"n": "Lupin", "s": "up", "t": "French", "d": "French Bistro", "a": "An Khanh", "h": "", "l": "", "r": "Highly recommended", "w": "Classic French bistro fare done well, no gimmicks. A good break from Vietnamese food.", "tip": "The roast chicken is the standout.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Lupin%20Bistrot%20et%20Vins%20An%20Khanh%20Ho%20Chi%20Minh%20City"}, {"n": "Hoàng Tâm", "s": "up", "t": "Vietnamese", "d": "Vietnamese", "a": "Cau Ong Lanh", "h": "", "l": "", "r": "", "w": "Rice paper rolls with lots of fillings plus home-style Vietnamese dishes. Great for groups wanting to sample everything.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Hoang%20Tam%20Cau%20Ong%20Lanh%20Ho%20Chi%20Minh%20City"}, {"n": "Quán Bụi", "s": "up", "t": "Vietnamese", "d": "Vietnamese", "a": "Sai Gon", "h": "", "l": "", "r": "", "w": "One of Saigon's most popular spots for traditional home cooking in a polished setting. Ideal introduction to local cuisine for visitors.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Quan%20Bui%20Original%20Ho%20Chi%20Minh%20City"}, {"n": "Sol Kitchen & Bar", "s": "up", "t": "Latin American", "d": "Modern Latin American", "a": "Ben Thanh", "h": "", "l": "", "r": "Recommended", "w": "Contemporary Latin American classics with vibrant flavours and creative cocktails. Great for a lively night out with friends.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Sol%20Kitchen%20%26%20Bar%20Ben%20Thanh%20Ho%20Chi%20Minh%20City"}, {"n": "Pickles Eatery", "s": "up", "t": "Spanish", "d": "Modern Spanish", "a": "Thanh My Tay", "h": "", "l": "", "r": "", "w": "Beautifully executed sharing small plates, bold flavours, excellent produce; pairs well with wine and cocktails.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Pickles%20Eatery%20Thanh%20My%20Tay%20Ho%20Chi%20Minh%20City"}, {"n": "Gánh", "s": "up", "t": "Vietnamese", "d": "Traditional Vietnamese", "a": "Sai Gon", "h": "", "l": "", "r": "", "w": "Traditional Vietnamese cuisine in an elegant setting. Rice paper rolls and salads are particularly good.", "tip": "Don't leave without the fish ceviche and turmeric grilled fish.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=G%C3%A1nh%20Truly%20Vietnamese%20Cuisine%20Ho%20Chi%20Minh%20City"}, {"n": "Mặn Mòi", "s": "up", "t": "Vietnamese", "d": "Refined Vietnamese", "a": "Tao Đàn", "h": "", "l": "", "r": "Recommended", "w": "Traditional sharing dishes with a refined approach — more attention to detail while keeping home-cooked warmth.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=M%E1%BA%B7n%20M%C3%B2i%20Tao%20%C4%90%C3%A0n%20Ho%20Chi%20Minh%20City"}, {"n": "Nam Mê", "s": "up", "t": "Vietnamese", "d": "Vietnamese Fusion", "a": "", "h": "", "l": "", "r": "", "w": "Modern Vietnamese blending traditional flavours with contemporary technique. Creative without being pretentious.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Nam%20M%C3%AA%20Saigon%20Ho%20Chi%20Minh%20City"}, {"n": "Roll Sushi Tiger", "s": "up", "t": "Japanese", "d": "Japanese (Sushi & Yakitori)", "a": "", "h": "", "l": "", "r": "", "w": "Two restaurants stacked one above the other — nigiri/sushi and yakitori — and you can order from both menus at the same table.", "tip": "", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Roll%20Sushi%20Tiger%20Ho%20Chi%20Minh%20City"}, {"n": "Mangetsu Shochu Bar - Thái Văn Lung", "s": "up", "t": "Japanese", "d": "Japanese Izakaya", "a": "Japan Town — Thái Văn Lung", "h": "Late night", "l": "Late night", "r": "Required", "w": "Cosy, lively izakaya hidden in Japan Town: extensive shochu and sake, yakitori and classic drinking dishes. Consistently good food, warm service.", "tip": "Pair with Sushi Tiger — sushi there first, finish the night here.", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Mangetsu%20Shochu%20Bar%20Th%C3%A1i%20V%C4%83n%20Lung%20Ho%20Chi%20Minh%20City"}, {"n": "Sushi Tiger", "s": "up", "t": "Japanese", "d": "Japanese (Sushi, Nigiri & Yakitori)", "a": "", "h": "", "l": "", "r": "", "w": "Go-to Japanese 'cheap eats' sushi fix. Good fish quality; two restaurants in one building (sushi/nigiri and yakitori), order from both at standing tables (no seats).", "tip": "Snack on sushi here before Mangetsu. Don't miss the flame-seared flounder belly (lườn cá bơn khè lửa).", "note": "", "m": "https://www.google.com/maps/search/?api=1&query=Sushi%20Tiger%20Ho%20Chi%20Minh%20City"}];
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function card(x){
+    var tags='';
+    if(x.l) tags+='<span class="tag hot">'+esc(x.l)+'</span>';
+    if(x.r) tags+='<span class="tag book">Booking: '+esc(x.r.toLowerCase())+'</span>';
+    if(x.a) tags+='<span class="tag">'+esc(x.a)+'</span>';
+    if(x.t) tags+='<span class="tag">'+esc(x.t)+'</span>';
+    return '<article class="card">'+
+      '<p class="dish">'+esc(x.d)+'</p><h3>'+esc(x.n)+'</h3>'+
+      (tags?'<div class="meta">'+tags+'</div>':'')+
+      (x.w?'<p class="what">'+esc(x.w)+'</p>':'')+
+      (x.tip?'<p class="tip"><b>Order this:</b> '+esc(x.tip)+'</p>':'')+
+      (x.h?'<p class="when">🕒 '+esc(x.h)+'</p>':'')+
+      (x.note?'<p class="when">📍 '+esc(x.note)+'</p>':'')+
+      (x.m?'<a class="map" href="'+esc(x.m)+'" target="_blank" rel="noopener">Open in Maps →</a>':'')+
+    '</article>';
+  }
+  var f='all', q=document.getElementById('q');
+  function render(){
+    var term=q.value.trim().toLowerCase(), shown=0;
+    ['street','up'].forEach(function(s){
+      var g=document.getElementById('g-'+s), list=DATA.filter(function(x){
+        if(x.s!==s) return false;
+        if(f==='street'||f==='up'){ if(x.s!==f) return false; }
+        if(f==='late' && !x.l) return false;
+        if(f==='soup' && !/noodle soup|phở/i.test(x.t)) return false;
+        if(term && (x.n+' '+x.d+' '+x.a+' '+x.t+' '+x.w+' '+x.tip).toLowerCase().indexOf(term)<0) return false;
+        return true;
+      });
+      g.hidden=!list.length; shown+=list.length;
+      g.querySelector('.cards').innerHTML=list.map(card).join('');
+    });
+    document.getElementById('empty').hidden=shown>0;
+  }
+  document.getElementById('chips').addEventListener('click',function(e){
+    var b=e.target.closest('.chip'); if(!b) return; f=b.dataset.f;
+    document.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',c===b?'true':'false')});
+    render();
+  });
+  q.addEventListener('input',render);
+  render();
+})();
+</script>
+</body></html>
