@@ -73,6 +73,8 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
     e.preventDefault();
     msg.textContent = '';
     var f = form.elements;
+    // Optional fields can be left off any event page.
+    function val(n) { return f[n] ? String(f[n].value).trim() : ''; }
     var name = f.name.value.trim(), email = f.email.value.trim(), phone = f.phone.value.trim();
     if (!name) return fail("What should we call you?", f.name);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('That email looks a little off. Try again?', f.email);
@@ -82,10 +84,10 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
     btn.disabled = true; btn.textContent = 'Saving your spot…';
     var data = {
       event: EVENT, name: name, email: email, phone: phone,
-      instagram: f.instagram.value.trim(),
+      instagram: val('instagram'),
       party: partyWrap.hidden ? 1 : party.value,
-      heard: f.heard.value, notes: f.notes.value.trim(),
-      list: f.list.checked, website: f.website.value
+      heard: val('heard'), notes: val('notes'),
+      list: !!(f.list && f.list.checked), website: val('website')
     };
 
     fetch(GAP_ENDPOINT, { method: 'POST', body: JSON.stringify(data) })
