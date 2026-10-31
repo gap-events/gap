@@ -4,3 +4,10 @@ One-page website for gặp, social dining in Saigon. Plain HTML + images, hosted
 
 - `index.html` — the page
 - `images/` — logos, hero, story/host photos, and the carousel (`gallery/NN-thumb.jpg` thumbnails, `gallery/NN.jpg` full size for the lightbox)
+
+## Event pages (free events with sign-up)
+
+- `events/_template.html` — copy to `events/<event-id>.html` for each event (served at `gapevents.vn/events/<event-id>`). Every editable bit is marked `EDIT`.
+- `events/event.css`, `events/register.js` — shared by all event pages. `GAP_ENDPOINT` at the top of `register.js` is the Apps Script web app URL.
+- `apps-script/Code.gs` — the sign-up backend. It lives in the "gặp — Event registrations" Google Sheet (Extensions → Apps Script). It saves sign-ups to the Registrations tab, applies capacity from the Events tab, puts overflow on a waitlist and emails confirmations from hello@gapevents.vn.
+- Capacity is set only in the Sheet. The page never shows numbers, just: spots are limited → half the spots are gone → almost fully booked → fully booked · join the waitlist.
