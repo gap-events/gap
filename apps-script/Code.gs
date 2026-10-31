@@ -73,13 +73,13 @@ function doPost(e) {
     var row = [];
     row[C.ts-1] = new Date();
     row[C.event-1] = id;
-    row[C.name-1] = name;
+    row[C.name-1] = text_(name);
     row[C.email-1] = email;
-    row[C.phone-1] = phone;
-    row[C.ig-1] = clean_(d.instagram, 60);
+    row[C.phone-1] = text_(phone);
+    row[C.ig-1] = text_(clean_(d.instagram, 60));
     row[C.party-1] = party;
-    row[C.heard-1] = clean_(d.heard, 60);
-    row[C.notes-1] = clean_(d.notes, 500);
+    row[C.heard-1] = text_(clean_(d.heard, 60));
+    row[C.notes-1] = text_(clean_(d.notes, 500));
     row[C.list-1] = d.list ? 'Yes' : 'No';
     row[C.status-1] = status;
     row[C.checkin-1] = false;
@@ -181,6 +181,9 @@ function stateFor_(ev) {
 }
 
 function clean_(v, max) { return String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, max); }
+
+// Sheets treats text starting with = + - @ as a formula (e.g. +84 phone numbers), so store it as plain text.
+function text_(v) { v = String(v == null ? '' : v); return /^[=+\-@]/.test(v) ? "'" + v : v; }
 
 function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
