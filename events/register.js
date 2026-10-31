@@ -1,6 +1,6 @@
 /* gặp event registration — shared by every page in /events.
    Paste the Apps Script web app URL below once (it stays the same for every event). */
-var GAP_ENDPOINT = '';
+var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1nihXIx8jFQvJoYLYxQ3UGIAina9lzN4ldoZTScmR-u5UY1p/exec';
 
 (function () {
   var form = document.querySelector('form[data-event]');
