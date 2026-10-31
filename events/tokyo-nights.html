@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tokyo Nights · gặp × Kiwami | Fri 20 Nov, Thảo Điền</title>
-<meta name="description" content="Ka-EN is back as Kiwami. On Friday 20 November it becomes a Tokyo side street after dark: neon, DJs, the new menu, a ramen eating competition and a photo booth. Save your spot.">
+<meta name="description" content="Ka-EN is back as Kiwami. On Friday 20 November it becomes a Tokyo side street after dark: neon, DJs, the new menu, a ramen eating competition and a photo booth. Register and follow to win a year of ramen.">
 <meta property="og:title" content="Tokyo Nights · gặp × Kiwami">
 <meta property="og:description" content="Fri 20 November, 6pm till late at Kiwami, Thảo Điền. Neon, DJs, the new menu and a ramen eating competition. Dress for Tokyo after dark.">
 <meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg">
@@ -58,6 +58,12 @@
 .dress li{border:1.5px solid var(--line);border-radius:999px;padding:6px 14px;font-size:15px;background:var(--raise)}
 .swatches{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px}
 .swatches i{width:22px;height:22px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.15)}
+.prize{position:relative;margin-block:22px 4px;padding:24px 22px;border-radius:20px;border:1.5px solid var(--lantern);
+  background:radial-gradient(80% 120% at 100% 0%,rgba(224,48,58,.28),transparent 60%),var(--raise);box-shadow:0 0 30px rgba(224,48,58,.18);display:grid;gap:10px}
+.prize h2{font-size:clamp(26px,5vw,36px)}
+.prize ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.prize a{color:var(--sakura);font-weight:600}
+.done .row{display:flex;flex-wrap:wrap;gap:10px}
 h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
 </style>
 </head><body>
@@ -85,6 +91,16 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
     <div><dt>Dress code</dt><dd>Japanese-inspired, your way</dd></div>
   </dl>
 
+  <section class="prize" aria-labelledby="prize-h">
+    <p class="label">Giveaway</p>
+    <h2 id="prize-h">Win a year's worth of ramen.</h2>
+    <ol>
+      <li><b>Register</b> for Tokyo Nights below.</li>
+      <li><b>Follow</b> <a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">@gap.vietnam</a> and <a href="https://www.instagram.com/kaenvietnam/" target="_blank" rel="noopener">@kaenvietnam</a> on Instagram.</li>
+    </ol>
+    <p class="fine">Add your Instagram handle when you register so we can find you. Winner announced on our Instagram.</p>
+  </section>
+
   <section class="body">
     <p>Be among the first to try the new Kiwami. Come early for bites from the new menu, stay for the Tokyo Nights bar, the DJs and a ramen eating competition you'll be talking about for weeks.</p>
     <p>Tokyo Nights is our thank-you to the community that's been with us from the very beginning. Spots are limited, so save yours early.</p>
@@ -109,14 +125,14 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
 
   <section class="card" id="register">
     <div class="card-head"><p class="label">Save your spot</p><h2>See you in Tokyo.</h2></div>
-    <p class="lede">One spot per person, so each friend signs up with their own details. We'll email your confirmation straight away.</p>
+    <p class="lede">One spot per person, so each friend signs up with their own details. Registering also enters you into the ramen giveaway, once you follow both accounts.</p>
 
     <form data-event="tokyo-nights" data-max-party="1" novalidate>
       <div class="fields">
         <div class="f"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required></div>
         <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required></div>
         <div class="f"><label for="phone">Phone <small>(Zalo or WhatsApp)</small></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+84" required></div>
-        <div class="f"><label for="instagram">Instagram <small>(optional)</small></label><input id="instagram" name="instagram" autocomplete="off" placeholder="@"></div>
+        <div class="f"><label for="instagram">Instagram <small>(to enter the ramen giveaway)</small></label><input id="instagram" name="instagram" autocomplete="off" placeholder="@"></div>
         <div class="f party" hidden><label for="party">How many seats?</label><select id="party" name="party"></select></div>
         <div class="f full"><label for="heard">How did you hear about us?</label>
           <select id="heard" name="heard"><option value="">Choose one</option><option>Instagram</option><option>A friend</option><option>Been to gặp before</option><option>Kiwami / Ka-EN</option><option>Facebook group</option><option>Other</option></select></div>
@@ -128,7 +144,7 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
       <button class="btn" type="submit">Save my spot</button>
     </form>
 
-    <div class="done" id="done" hidden><h2></h2><p class="say"></p><a class="btn jump" href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Follow @gap.vietnam →</a></div>
+    <div class="done" id="done" hidden><h2></h2><p class="say"></p><p><b>One more step for the ramen giveaway:</b> follow both accounts.</p><div class="row"><a class="btn" href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Follow @gap.vietnam →</a><a class="btn" href="https://www.instagram.com/kaenvietnam/" target="_blank" rel="noopener">Follow @kaenvietnam →</a></div></div>
     <div class="done" id="closed" hidden><h2>This one's wrapped.</h2><p class="say">Registrations for Tokyo Nights have closed. Join the gặp list to hear first about the next one.</p><a class="btn jump" href="/subscribe">Get the gặp news →</a></div>
   </section>
 </div></main>
