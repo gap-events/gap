@@ -53,6 +53,18 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
   }
 
   setParty(form.dataset.maxParty);
+
+  var heardSel = form.querySelector('select[name=heard]'), heardOther = null;
+  if (heardSel) {
+    heardOther = document.createElement('input');
+    heardOther.name = 'heard_other'; heardOther.id = 'heard_other'; heardOther.maxLength = 50;
+    heardOther.placeholder = 'Tell us where'; heardOther.setAttribute('aria-label', 'Where did you hear about us?');
+    heardOther.hidden = true; heardOther.style.marginTop = '8px';
+    heardSel.parentNode.appendChild(heardOther);
+    heardSel.addEventListener('change', function () {
+      var on = heardSel.value === 'Other'; heardOther.hidden = !on; if (on) heardOther.focus();
+    });
+  }
   if (pill) { pill.dataset.state = 'open'; pill.textContent = STATES.open; }
 
   if (GAP_ENDPOINT) {
@@ -86,7 +98,7 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
       event: EVENT, name: name, email: email, phone: phone,
       instagram: val('instagram'),
       party: partyWrap.hidden ? 1 : party.value,
-      heard: val('heard'), notes: val('notes'),
+      heard: (val('heard') === 'Other' && val('heard_other')) ? 'Other: ' + val('heard_other') : val('heard'), notes: val('notes'),
       list: !!(f.list && f.list.checked), website: val('website')
     };
 
