@@ -65,12 +65,21 @@
 .prize a{color:var(--sakura);font-weight:600}
 .done .row{display:flex;flex-wrap:wrap;gap:10px}
 h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
-.mood{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:4px 0 0}
-@media (min-width:640px){.mood{grid-template-columns:repeat(3,1fr)}}
-.mood figure{margin:0}
+.gallery{position:relative;margin-top:4px;min-width:0}
+.mood{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.mood::-webkit-scrollbar{display:none}
+.mood figure{margin:0;flex:0 0 72%;scroll-snap-align:start}
+@media (min-width:640px){.mood figure{flex-basis:calc((100% - 28px)/3)}}
 .mood img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:14px;display:block;background:var(--raise);border:1px solid var(--line)}
 .mood figcaption{margin-top:8px;font-size:14px;line-height:1.45;color:var(--muted)}
 .mood figcaption b{display:block;color:var(--fg);font-size:15px}
+.gnav{position:absolute;top:calc(50% - 44px);width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(20,16,22,.82);color:var(--fg);font-size:20px;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px)}
+.gnav:disabled{opacity:0;pointer-events:none}
+.gnav.prev{left:-12px}.gnav.next{right:-12px}
+@media (max-width:640px){.gnav{display:none}}
+.gdots{display:flex;justify-content:center;gap:7px;margin-top:12px}
+.gdots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
+.gdots button[aria-current=true]{background:var(--sakura);width:22px;border-radius:999px}
 </style>
 </head><body>
 <header><div class="wrap"><a href="/" aria-label="gặp home"><img class="logo logo-dark" src="/images/logo-espresso.png" alt="gặp" width="96" height="47"><img class="logo logo-light" src="/images/logo-white.png" alt="gặp" width="96" height="47"></a><a class="back" href="/">Visit gapevents.vn →</a></div></header>
@@ -129,13 +138,17 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
       <li>Harajuku streetwear</li><li>Anime tees or full cosplay</li><li>Kimono, yukata or haori</li><li>Silk and satin</li><li>Cherry blossom prints and hair pins</li>
     </ul>
     <p class="swatches"><i style="background:#F4A6C4"></i><i style="background:#E0303A"></i><i style="background:#3D4C9A"></i><i style="background:#D4AE5A"></i><i style="background:#141016"></i> Sakura pink, lantern red, indigo, gold and ink black.</p>
-    <div class="mood" aria-label="Dress code inspiration">
+    <div class="gallery">
+    <div class="mood" aria-label="Dress code inspiration" tabindex="0">
       <figure><img src="/images/tokyo-nights/anime.jpg" alt="Pink-haired guest in a red bomber jacket at a neon izakaya bar" width="480" height="640" loading="lazy"><figcaption><b>Anime dress-up</b>Anime-inspired outfits and creative costumes.</figcaption></figure>
       <figure><img src="/images/tokyo-nights/mix.jpg" alt="Friends in silk robes and anime tees toasting at a bar under cherry blossoms" width="480" height="640" loading="lazy"><figcaption><b>Mix and match</b>Silk robes, embroidered jackets and anime tees at one bar.</figcaption></figure>
       <figure><img src="/images/tokyo-nights/sakura.jpg" alt="Pink satin kimono with cherry blossoms, a red obi and a blossom hair pin" width="480" height="640" loading="lazy"><figcaption><b>Silk and sakura</b>Pink satin, cherry blossoms, a red obi and a blossom hair pin.</figcaption></figure>
       <figure><img src="/images/tokyo-nights/harajuku.jpg" alt="Two friends in pastel hoodies, plaid skirts and platform shoes on a Harajuku street" width="480" height="640" loading="lazy"><figcaption><b>Harajuku</b>Pastel hoodies, plaid skirts, bucket hats and platform shoes.</figcaption></figure>
       <figure><img src="/images/tokyo-nights/haori.jpg" alt="Man in an indigo haori over a black tee beside red lanterns" width="480" height="640" loading="lazy"><figcaption><b>Haori layering</b>An indigo robe over a black tee and wide trousers.</figcaption></figure>
       <figure><img src="/images/tokyo-nights/robe.jpg" alt="Woman in a red silk robe belted like a kimono, with wide pants and sneakers" width="480" height="640" loading="lazy"><figcaption><b>Robe as kimono</b>A silk robe belted like a kimono, with wide pants and sneakers.</figcaption></figure>
+    </div>
+    <button class="gnav prev" type="button" aria-label="Previous look">‹</button><button class="gnav next" type="button" aria-label="Next look">›</button>
+    <div class="gdots" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -166,4 +179,17 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
 
 <footer><div class="wrap"><span>© 2026 gặp</span><span><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram</a> · <a href="mailto:hello@gapevents.vn">hello@gapevents.vn</a></span></div></footer>
 <script src="/events/register.js" defer></script>
+<script>(function(){
+  var t=document.querySelector('.mood'); if(!t) return;
+  var f=[].slice.call(t.children), g=t.parentNode, prev=g.querySelector('.prev'), next=g.querySelector('.next'), dots=g.querySelector('.gdots');
+  f.forEach(function(x,i){var b=document.createElement('button');b.type='button';b.tabIndex=-1;b.onclick=function(){go(i)};dots.appendChild(b);});
+  function step(){return f[1].offsetLeft-f[0].offsetLeft;}
+  function idx(){return Math.round(t.scrollLeft/step());}
+  function go(i){t.scrollTo({left:Math.max(0,Math.min(i,f.length-1))*step()});}
+  function upd(){var i=idx(),end=t.scrollLeft+t.clientWidth>=t.scrollWidth-4;
+    [].forEach.call(dots.children,function(d,n){d.setAttribute('aria-current',n===i?'true':'false')});
+    prev.disabled=t.scrollLeft<4; next.disabled=end;}
+  prev.onclick=function(){go(idx()-1)}; next.onclick=function(){go(idx()+1)};
+  t.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
+})();</script>
 </body></html>
