@@ -65,6 +65,12 @@
 .prize a{color:var(--sakura);font-weight:600}
 .done .row{display:flex;flex-wrap:wrap;gap:10px}
 h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
+.mood{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:4px 0 0}
+@media (min-width:640px){.mood{grid-template-columns:repeat(3,1fr)}}
+.mood figure{margin:0}
+.mood img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:14px;display:block;background:var(--raise);border:1px solid var(--line)}
+.mood figcaption{margin-top:8px;font-size:14px;line-height:1.45;color:var(--muted)}
+.mood figcaption b{display:block;color:var(--fg);font-size:15px}
 </style>
 </head><body>
 <header><div class="wrap"><a href="/" aria-label="gặp home"><img class="logo logo-dark" src="/images/logo-espresso.png" alt="gặp" width="96" height="47"><img class="logo logo-light" src="/images/logo-white.png" alt="gặp" width="96" height="47"></a><a class="back" href="/">Visit gapevents.vn →</a></div></header>
@@ -123,6 +129,14 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
       <li>Harajuku streetwear</li><li>Anime tees or full cosplay</li><li>Kimono, yukata or haori</li><li>Silk and satin</li><li>Cherry blossom prints and hair pins</li>
     </ul>
     <p class="swatches"><i style="background:#F4A6C4"></i><i style="background:#E0303A"></i><i style="background:#3D4C9A"></i><i style="background:#D4AE5A"></i><i style="background:#141016"></i> Sakura pink, lantern red, indigo, gold and ink black.</p>
+    <div class="mood" aria-label="Dress code inspiration">
+      <figure><img src="/images/tokyo-nights/anime.jpg" alt="Pink-haired guest in a red bomber jacket at a neon izakaya bar" width="480" height="640" loading="lazy"><figcaption><b>Anime dress-up</b>Anime-inspired outfits and creative costumes.</figcaption></figure>
+      <figure><img src="/images/tokyo-nights/mix.jpg" alt="Friends in silk robes and anime tees toasting at a bar under cherry blossoms" width="480" height="640" loading="lazy"><figcaption><b>Mix and match</b>Silk robes, embroidered jackets and anime tees at one bar.</figcaption></figure>
+      <figure><img src="/images/tokyo-nights/sakura.jpg" alt="Pink satin kimono with cherry blossoms, a red obi and a blossom hair pin" width="480" height="640" loading="lazy"><figcaption><b>Silk and sakura</b>Pink satin, cherry blossoms, a red obi and a blossom hair pin.</figcaption></figure>
+      <figure><img src="/images/tokyo-nights/harajuku.jpg" alt="Two friends in pastel hoodies, plaid skirts and platform shoes on a Harajuku street" width="480" height="640" loading="lazy"><figcaption><b>Harajuku</b>Pastel hoodies, plaid skirts, bucket hats and platform shoes.</figcaption></figure>
+      <figure><img src="/images/tokyo-nights/haori.jpg" alt="Man in an indigo haori over a black tee beside red lanterns" width="480" height="640" loading="lazy"><figcaption><b>Haori layering</b>An indigo robe over a black tee and wide trousers.</figcaption></figure>
+      <figure><img src="/images/tokyo-nights/robe.jpg" alt="Woman in a red silk robe belted like a kimono, with wide pants and sneakers" width="480" height="640" loading="lazy"><figcaption><b>Robe as kimono</b>A silk robe belted like a kimono, with wide pants and sneakers.</figcaption></figure>
+    </div>
   </section>
 
   <section class="card" id="register">
