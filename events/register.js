@@ -113,10 +113,10 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
         var first = name.split(' ')[0];
         done.querySelector('h2').textContent = d.result === 'duplicate' ? "You're already on the list, " + first + '.' : wait ? "You're on the waitlist, " + first + '.' : "You're in, " + first + '!';
         done.querySelector('p').textContent = d.result === 'duplicate'
-          ? "Looks like you're already signed up for this one. Check your inbox for the details, or email hello@gapevents.vn if anything's changed."
+          ? "Looks like you're already signed up for this one. Your ticket is in your inbox (check your spam folder if you can't see it), or email hello@gapevents.vn if anything's changed."
           : wait
-            ? "We'll email you at " + email + " as soon as a spot opens up."
-            : "Your spot is saved. We've sent the details to " + email + ' (check your promotions folder if it hides). Hẹn gặp bạn!';
+            ? "We'll email you at " + email + " as soon as a spot opens up. Keep an eye on your spam folder too, just in case."
+            : "Your spot is saved. We've emailed your ticket to " + email + ". Can't see it in a few minutes? Check your spam or promotions folder, and mark it \"Not spam\" so you don't miss event-day updates.";
         form.hidden = true; if (lede) lede.hidden = true; if (head) head.hidden = true; done.hidden = false;
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
         if (d.state) setState(d.state);
