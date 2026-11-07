@@ -344,7 +344,7 @@ var COMMUNITY_COLS = {
   ts: 'Timestamp', name: 'Full Name', email: 'Email', phone: 'Phone Number (inc country code)',
   gender: 'Gender', age: 'Age', passport: 'What passport(s) do you travel on?', drink: 'Will you be joining us for a drink?',
   diet: 'Anything we should know about before planning the menu?', celebrate: 'Is there anything worth raising a glass to?',
-  handle: 'Social Media Handle', loop: 'Stay in the loop?', outreached: 'Outreached'
+  handle: 'Social Media Handle', loop: 'Stay in the loop?', outreached: 'Outreached', heard: 'Heard about us'
 };
 var COMMUNITY_CHOICES = {
   gender: ['Male', 'Female', 'Prefer not to say'],
@@ -358,7 +358,8 @@ function joinCommunity_(d) {
   var v = {
     name: clean_(d.name, 80), email: clean_(d.email, 120).toLowerCase(), phone: clean_(d.phone, 40),
     handle: clean_(d.handle, 60), gender: clean_(d.gender, 40), age: clean_(d.age, 20), passport: clean_(d.passport, 120),
-    drink: clean_(d.drink, 80), diet: clean_(d.diet, 500), celebrate: clean_(d.celebrate, 500), loop: clean_(d.loop, 60)
+    drink: clean_(d.drink, 80), diet: clean_(d.diet, 500), celebrate: clean_(d.celebrate, 500), loop: clean_(d.loop, 60),
+    heard: clean_(d.heard, 80)
   };
   if (!v.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email) || v.phone.replace(/\D/g, '').length < 8 || !v.handle ||
       !v.passport) return { ok:false, error:'missing_fields' };
@@ -384,7 +385,7 @@ function joinCommunity_(d) {
     put('ts', new Date());
     put('name', text_(v.name)); put('email', v.email); put('phone', text_(v.phone)); put('handle', text_(v.handle));
     put('gender', v.gender); put('age', v.age); put('passport', text_(v.passport)); put('drink', v.drink);
-    put('diet', text_(v.diet)); put('celebrate', text_(v.celebrate)); put('loop', v.loop);
+    put('diet', text_(v.diet)); put('celebrate', text_(v.celebrate)); put('loop', v.loop); put('heard', text_(v.heard));
     put('outreached', false);
     sheet.appendRow(row);
     // The tab is a Sheets table whose "Outreached" column is already a tickbox column, so no

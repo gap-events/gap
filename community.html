@@ -60,6 +60,10 @@ footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}foot
 
         <div class="f full"><label for="passport">What passport(s) do you travel on? <span class="req">*</span></label><input id="passport" name="passport" autocomplete="off"><p class="help">We're curious where everyone comes from. It's all part of bringing different backgrounds together around one table.</p></div>
 
+        <div class="f full"><label for="heard">How did you hear about us? <span class="req">*</span></label>
+          <select id="heard" name="heard"><option value="">Choose one</option><option>Instagram</option><option>A friend</option><option>Been to a gặp event</option><option>Facebook group</option><option>Google</option><option>Other</option></select>
+          <input id="heard_other" name="heard_other" maxlength="60" placeholder="Tell us where" aria-label="Where did you hear about us?" hidden style="margin-top:8px"></div>
+
         <fieldset class="f full" data-name="loop"><legend>Stay in the loop? <span class="req">*</span></legend><p class="help">We promise no annoying emails. Just the good stuff: upcoming gặp dinners, parties and experiences.</p>
           <div class="chips"><label><input type="radio" name="loop" value="Yes, keep me in the loop!"><span>Yes, keep me in the loop!</span></label><label><input type="radio" name="loop" value="No thanks, not right now."><span>No thanks, not right now</span></label></div></fieldset>
 
@@ -96,6 +100,7 @@ footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}foot
     if (el) { el.setAttribute('aria-invalid', 'true'); (el.querySelector ? (el.querySelector('input') || el) : el).focus(); }
   }
   form.addEventListener('input', function (e) { e.target.removeAttribute('aria-invalid'); var fs = e.target.closest('fieldset'); if (fs) fs.removeAttribute('aria-invalid'); });
+  f.heard.addEventListener('change', function () { var on = f.heard.value === 'Other'; f.heard_other.hidden = !on; if (on) f.heard_other.focus(); });
   function group(n) { return form.querySelector('fieldset[data-name="' + n + '"]'); }
 
   form.addEventListener('submit', function (e) {
@@ -107,12 +112,15 @@ footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}foot
     if (!pick('gender')) return fail('Pick an option for gender.', group('gender'));
     if (!pick('age')) return fail('Pick your age range.', group('age'));
     if (!val('passport')) return fail('Which passport(s) do you travel on?', f.passport);
+    if (!val('heard')) return fail('Let us know how you heard about us.', f.heard);
+    if (val('heard') === 'Other' && !val('heard_other')) return fail('Tell us where you heard about us.', f.heard_other);
     if (!pick('loop')) return fail('Let us know if you\'d like to stay in the loop.', group('loop'));
 
     btn.disabled = true; btn.textContent = 'Joining…';
     var data = {
       action: 'join', name: val('name'), email: val('email'), handle: val('handle'), phone: val('phone'),
       gender: pick('gender'), age: pick('age'), passport: val('passport'),
+      heard: val('heard') === 'Other' ? 'Other: ' + val('heard_other') : val('heard'),
       loop: pick('loop'), website: val('website')
     };
     fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(data) })
