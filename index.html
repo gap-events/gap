@@ -115,6 +115,30 @@ section{padding-block:72px;border-top:1px solid var(--line)}
 .fmt .meta{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
 .fmt p{color:var(--muted)}
 
+/* upcoming events */
+.events{display:grid;gap:20px}
+.ev{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);background:var(--raise);border:1px solid var(--line);border-radius:22px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .15s ease,border-color .15s ease}
+.ev:hover{transform:translateY(-2px);border-color:var(--terracotta)}
+.ev:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
+.ev .pic{position:relative;min-height:260px;background:var(--line)}
+.ev .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ev .date{position:absolute;top:14px;left:14px;background:var(--cream);color:var(--espresso);border-radius:14px;padding:8px 12px;text-align:center;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.ev .date b{display:block;font-family:var(--display);font-size:26px;font-weight:800}
+.ev .date span{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.ev .txt{padding:28px;display:grid;gap:12px;align-content:center}
+.ev h3{font-size:clamp(26px,3.4vw,34px);font-weight:700}
+.ev .meta{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
+.ev .facts{display:flex;flex-wrap:wrap;gap:6px 18px;font-weight:600;font-size:15.5px}
+.ev p{color:var(--muted)}
+.ev .row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:4px}
+.ev .go{display:inline-flex;align-items:center;background:var(--btn-bg);color:var(--btn-fg);font-weight:700;font-size:15px;padding:12px 20px;border-radius:999px}
+.ev .spots{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted)}
+.ev .spots::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--jade)}
+.ev .spots[data-state=filling]::before,.ev .spots[data-state=almost]::before{background:var(--terracotta)}
+.ev .spots[data-state=waitlist]::before{background:var(--muted)}
+.ev .spots:empty{display:none}
+@media (max-width:720px){.ev{grid-template-columns:1fr}.ev .pic{min-height:0;aspect-ratio:4/3}.ev .txt{padding:22px}}
+
 /* guide */
 .guide{background:var(--jade);color:var(--cream);border-radius:28px;padding:clamp(28px,5vw,56px);display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:start}
 .guide .label{color:#E9C27A}
@@ -224,6 +248,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       <img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="120" height="59">
     </a>
     <div class="links">
+      <a href="#events">Events</a>
       <a href="#story">About</a>
       <a href="#formats">Experiences</a>
       <a href="#tables">Gallery</a>
@@ -246,6 +271,29 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     </div>
     <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
   </header>
+
+  <section id="events">
+    <div class="wrap">
+      <div class="head"><p class="label">Upcoming events</p><h2>Coming up at <em class="acc">gặp</em>.</h2><p class="say">Spots are limited, so grab yours before they're gone.</p></div>
+      <div class="events">
+        <!-- One <a class="ev"> per event. data-ends = when it finishes (Saigon time); the card hides itself after that.
+             data-event = the Event ID in the Sheet, used to show "Half the spots are gone" etc. -->
+        <a class="ev" href="/events/tokyo-nights" data-event="tokyo-nights" data-ends="2026-11-21T03:00:00+07:00">
+          <div class="pic">
+            <img src="images/tokyo-nights/mix.jpg" alt="Friends in silk robes and anime tees toasting at a bar under cherry blossoms" loading="lazy" width="704" height="938" style="object-position:50% 35%">
+            <div class="date"><b>20</b><span>Nov</span></div>
+          </div>
+          <div class="txt">
+            <p class="meta">The Social · gặp × Kiwami</p>
+            <h3>Tokyo Nights</h3>
+            <div class="facts"><span>Fri 20 Nov · 6pm till late</span><span>Kiwami, Thảo Điền</span></div>
+            <p>Our biggest party yet. Neon, DJs, Kiwami's new menu, a ramen eating competition and a chance to win a year of ramen. Dress Japanese-inspired, your way.</p>
+            <div class="row"><span class="go">Save my spot →</span><span class="spots"></span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <section id="how">
     <div class="wrap">
@@ -506,6 +554,29 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       });
     });
   });
+})();
+</script>
+<script>
+/* Upcoming events: hide finished events, show live spot status, hide the section when nothing is coming up. */
+(function () {
+  var sec = document.getElementById('events'); if (!sec) return;
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1nihXIx8jFQvJoYLYxQ3UGIAina9lzN4ldoZTScmR-u5UY1p/exec';
+  var LABEL = { open: 'Spots are limited', filling: 'Half the spots are gone', almost: 'Almost fully booked', waitlist: 'Fully booked · join the waitlist', closed: 'Registrations closed' };
+  var now = Date.now(), live = 0;
+  sec.querySelectorAll('.ev').forEach(function (ev) {
+    var end = Date.parse(ev.dataset.ends || '');
+    if (end && end < now) { ev.remove(); return; }
+    live++;
+    var id = ev.dataset.event, pill = ev.querySelector('.spots');
+    if (!id || !pill) return;
+    fetch(ENDPOINT + '?event=' + encodeURIComponent(id)).then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok || !LABEL[d.state]) return;
+      pill.dataset.state = d.state; pill.textContent = LABEL[d.state];
+      if (d.state === 'waitlist') ev.querySelector('.go').textContent = 'Join the waitlist →';
+      if (d.state === 'closed') ev.querySelector('.go').textContent = 'See the details →';
+    }).catch(function () {});
+  });
+  if (!live) { sec.remove(); var l = document.querySelector('nav a[href="#events"]'); if (l) l.remove(); }
 })();
 </script>
 </body></html>
