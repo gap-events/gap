@@ -130,6 +130,8 @@ function onOpen() {
   SpreadsheetApp.getUi().createMenu('gặp')
     .addItem('Confirm selected guests + email them', 'confirmSelected')
     .addItem('Resend confirmation to selected guests', 'resendSelected')
+    .addSeparator()
+    .addItem('Publish gallery', 'publishGallery')
     .addToUi();
 }
 
@@ -535,4 +537,212 @@ function authorizeCommunity() {
   var id = PropertiesService.getScriptProperties().getProperty('COMMUNITY_SHEET_ID');
   var sheet = SpreadsheetApp.openById(id).getSheetByName(COMMUNITY_TAB);
   console.log('Community tab found: ' + !!sheet + ', rows: ' + (sheet ? sheet.getLastRow() : 0));
+}
+
+
+/* ---------- photo gallery (gapevents.vn/gallery) ----------
+   The "Gallery" tab lists albums: Album | Date (shown) | Sort date | Venue | Drive folder | Show.
+   Rows with the same Album name are merged. For each folder the photos come from a "Website"
+   subfolder if there is one, else "Final Photos", else the folder itself (raw folders are skipped).
+   Up to 40 per album, spread evenly. Each photo is resized to 1600px by Drive and committed to
+   GitHub (images/events/<album>/<file id>.jpg) with images/events/albums.json, which Netlify then
+   publishes. Needs a GitHub token in Script properties → GITHUB_TOKEN (contents read & write on the
+   gap repo). Big runs carry on by themselves a minute later until everything is published. */
+
+var GALLERY_TAB = 'Gallery';
+var GALLERY_MAX = 40;
+var GALLERY_PX = 1600;
+var GITHUB_REPO = 'gap-events/gap';
+var GITHUB_BRANCH = 'main';
+var GALLERY_DIR = 'images/events';
+var GALLERY_JSON = 'images/events/albums.json';
+var GALLERY_BUDGET_MS = 4.5 * 60 * 1000;
+
+function publishGallery() { publishGallery_(true); }
+function continueGallery() { publishGallery_(false); }
+
+function publishGallery_(fromMenu) {
+  var ui = fromMenu ? SpreadsheetApp.getUi() : null;
+  var say = function (m) { if (ui) ui.alert(m); else console.log(m); };
+  var token = PropertiesService.getScriptProperties().getProperty('GITHUB_TOKEN');
+  if (!token) return say('Add a GitHub token first: Extensions → Apps Script → Project Settings → Script properties → GITHUB_TOKEN.');
+
+  var cache = CacheService.getScriptCache();
+  if (cache.get('gallery_running')) return say('The gallery is already publishing. Give it a few minutes.');
+  cache.put('gallery_running', '1', 360);
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'continueGallery') ScriptApp.deleteTrigger(t); });
+
+  try {
+    var start = Date.now();
+    var sheet = ss_().getSheetByName(GALLERY_TAB);
+    var albums = galleryAlbums_(sheet);
+    var gh = github_(token);
+    var headSha = gh('get', '/git/ref/heads/' + GITHUB_BRANCH).object.sha;
+    var baseTree = gh('get', '/git/commits/' + headSha).tree.sha;
+
+    var existing = {}, old = gh('raw', '/contents/' + GALLERY_JSON + '?ref=' + GITHUB_BRANCH);
+    if (old && old.albums) old.albums.forEach(function (a) { a.photos.forEach(function (p) { existing[p.id] = p; }); });
+
+    var tree = [], used = {}, pending = 0, added = 0, failed = 0;
+    albums.forEach(function (a) {
+      a.photos = [];
+      a.pick.forEach(function (f) {
+        var path = GALLERY_DIR + '/' + a.slug + '/' + f.id + '.jpg';
+        var ex = existing[f.id];
+        if (ex && ex.src === '/' + path) { used[path] = 1; a.photos.push(ex); return; }
+        if (Date.now() - start > GALLERY_BUDGET_MS) { pending++; return; }
+        var img = galleryImage_(f.id);
+        if (!img) { failed++; return; }
+        var blob = gh('post', '/git/blobs', { content: Utilities.base64Encode(img.bytes), encoding: 'base64' });
+        tree.push({ path: path, mode: '100644', type: 'blob', sha: blob.sha });
+        used[path] = 1; added++;
+        a.photos.push({ id: f.id, src: '/' + path, w: img.w, h: img.h });
+      });
+    });
+
+    // Remove photos that are no longer picked (only once everything new is in).
+    var removed = 0;
+    if (!pending) Object.keys(existing).forEach(function (id) {
+      var path = existing[id].src.replace(/^\//, '');
+      if (!used[path]) { tree.push({ path: path, mode: '100644', type: 'blob', sha: null }); removed++; }
+    });
+
+    var manifest = {
+      updated: new Date().toISOString(),
+      albums: albums.filter(function (a) { return a.photos.length; }).map(function (a) {
+        return { slug: a.slug, title: a.title, date: a.date, sort: a.sort, venue: a.venue, cover: a.photos[0].src, photos: a.photos };
+      })
+    };
+    var changed = added || removed || !old || JSON.stringify(old.albums) !== JSON.stringify(manifest.albums);
+    if (changed) {
+      tree.push({ path: GALLERY_JSON, mode: '100644', type: 'blob', content: JSON.stringify(manifest) });
+      var newTree = gh('post', '/git/trees', { base_tree: baseTree, tree: tree });
+      var commit = gh('post', '/git/commits', { message: 'Gallery: ' + added + ' added, ' + removed + ' removed' + (pending ? ' (more to come)' : ''), tree: newTree.sha, parents: [headSha] });
+      gh('patch', '/git/refs/heads/' + GITHUB_BRANCH, { sha: commit.sha });
+    }
+
+    // Report back on the Gallery tab (column G) and in a message.
+    var counts = {};
+    albums.forEach(function (a) { counts[a.title] = a.photos.length + ' photos' + (a.source ? ' from ' + a.source : ''); });
+    var rows = sheet.getLastRow() - 1;
+    if (rows > 0) {
+      sheet.getRange(1, 7).setValue('Published');
+      var vals = sheet.getRange(2, 1, rows, 6).getValues().map(function (r) {
+        return [String(r[5]).trim().toLowerCase() === 'yes' && counts[String(r[0]).trim()] ? counts[String(r[0]).trim()] : ''];
+      });
+      sheet.getRange(2, 7, rows, 1).setValues(vals);
+    }
+
+    var msg = added + ' photos added, ' + removed + ' removed across ' + manifest.albums.length + ' albums.' +
+      (failed ? ' ' + failed + " couldn't be read from Drive and were skipped." : '');
+    if (pending) {
+      ScriptApp.newTrigger('continueGallery').timeBased().after(60 * 1000).create();
+      msg += ' ' + pending + ' photos still to go: carrying on automatically in a minute. The site updates as each batch finishes.';
+    } else {
+      msg += changed ? ' The website updates in about a minute.' : ' Nothing new to publish.';
+    }
+    sheet.getRange(1, 8).setValue('Last run: ' + Utilities.formatDate(new Date(), TZ, 'd MMM, h:mm a') + '. ' + msg);
+    say(msg);
+  } catch (err) {
+    console.error(err);
+    say('Publishing stopped: ' + (err && err.message || err));
+  } finally {
+    cache.remove('gallery_running');
+  }
+}
+
+function galleryAlbums_(sheet) {
+  if (!sheet) throw new Error('There is no "' + GALLERY_TAB + '" tab.');
+  var vals = sheet.getDataRange().getValues(), by = {}, order = [];
+  for (var i = 1; i < vals.length; i++) {
+    var r = vals[i], title = String(r[0]).trim(), link = String(r[4]).trim();
+    if (!title || !link || String(r[5]).trim().toLowerCase() !== 'yes') continue;
+    var m = /folders\/([\w-]+)/.exec(link) || /id=([\w-]+)/.exec(link) || /^([\w-]{20,})$/.exec(link);
+    if (!m) continue;
+    if (!by[title]) {
+      var sort = r[2] instanceof Date ? Utilities.formatDate(r[2], TZ, 'yyyy-MM-dd') : String(r[2]).trim();
+      by[title] = { title: title, date: String(r[1]).trim(), sort: sort, venue: String(r[3]).trim(), folders: [] };
+      order.push(title);
+    }
+    by[title].folders.push(m[1]);
+  }
+  return order.map(function (t) {
+    var a = by[t];
+    a.slug = slug_(t + (a.sort ? '-' + a.sort.slice(0, 7) : ''));
+    var files = [], sources = [];
+    a.folders.forEach(function (id) { var got = galleryFolderPhotos_(id); files = files.concat(got.files); if (got.source) sources.push(got.source); });
+    a.source = sources.filter(function (s, i) { return sources.indexOf(s) === i; }).join(', ');
+    a.pick = spread_(files, GALLERY_MAX);
+    return a;
+  }).sort(function (x, y) { return String(y.sort).localeCompare(String(x.sort)); });
+}
+
+// Website → Final Photos → the folder itself → an edited-looking subfolder → any subfolder (never raw).
+function galleryFolderPhotos_(id) {
+  var folder = DriveApp.getFolderById(id), subs = [], it = folder.getFolders();
+  while (it.hasNext()) subs.push(it.next());
+  var named = function (re) { return subs.filter(function (f) { return re.test(f.getName()); })[0]; };
+  var tries = [named(/^website$/i), named(/^final/i), folder, named(/final|edit|colou?r|graded|select|photos?/i)]
+    .concat(subs.filter(function (f) { return !/raw/i.test(f.getName()); }));
+  for (var i = 0; i < tries.length; i++) {
+    var f = tries[i]; if (!f) continue;
+    var files = [], fi = f.getFiles();
+    while (fi.hasNext()) { var x = fi.next(); if (/^image\//.test(x.getMimeType())) files.push({ id: x.getId(), name: x.getName() }); }
+    if (files.length) {
+      files.sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { numeric: true }); });
+      return { files: files, source: f.getId() === id ? '' : f.getName() };
+    }
+  }
+  return { files: [], source: '' };
+}
+
+function spread_(list, max) {
+  if (list.length <= max) return list;
+  var out = [];
+  for (var i = 0; i < max; i++) out.push(list[Math.round(i * (list.length - 1) / (max - 1))]);
+  return out;
+}
+
+// Drive makes the resized copy (longest side GALLERY_PX); we keep its size for the page layout.
+function galleryImage_(id) {
+  var auth = { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() };
+  try {
+    var meta = JSON.parse(UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + id +
+      '?fields=thumbnailLink,imageMediaMetadata(width,height,rotation)&supportsAllDrives=true', { headers: auth }).getContentText());
+    var m = meta.imageMediaMetadata || {}, w = m.width || 0, h = m.height || 0;
+    if (m.rotation === 1 || m.rotation === 3) { var t = w; w = h; h = t; }
+    var urls = [];
+    if (meta.thumbnailLink) urls.push(meta.thumbnailLink.replace(/=s\d+(-[^&?]*)?$/, '') + '=s' + GALLERY_PX);
+    urls.push('https://drive.google.com/thumbnail?id=' + id + '&sz=s' + GALLERY_PX);
+    for (var i = 0; i < urls.length; i++) {
+      var r = UrlFetchApp.fetch(urls[i], { headers: auth, muteHttpExceptions: true });
+      if (r.getResponseCode() !== 200 || !/^image\//.test(r.getHeaders()['Content-Type'] || 'image/')) continue;
+      var bytes = r.getBlob().getBytes();
+      if (bytes.length < 2000) continue;
+      var scale = w && h ? Math.min(1, GALLERY_PX / Math.max(w, h)) : 1;
+      return { bytes: bytes, w: Math.round((w || 4) * scale), h: Math.round((h || 3) * scale) };
+    }
+  } catch (err) { console.error('gallery image ' + id + ': ' + err); }
+  return null;
+}
+
+function github_(token) {
+  var base = 'https://api.github.com/repos/' + GITHUB_REPO;
+  return function (method, path, body) {
+    var raw = method === 'raw';
+    var r = UrlFetchApp.fetch(base + path, {
+      method: raw ? 'get' : method, muteHttpExceptions: true, contentType: 'application/json',
+      headers: { Authorization: 'Bearer ' + token, Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
+      payload: body ? JSON.stringify(body) : undefined
+    });
+    var code = r.getResponseCode();
+    if (raw && code === 404) return null;
+    if (code >= 300) throw new Error('GitHub ' + code + ' on ' + path + ': ' + r.getContentText().slice(0, 200));
+    return JSON.parse(r.getContentText());
+  };
+}
+
+function slug_(s) {
+  return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[đĐ]/g, 'd')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
 }
