@@ -1,0 +1,141 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Join the gặp community</title>
+<meta name="description" content="Dinner with strangers, a night out with new faces, or your kind of people in Saigon. Join the gặp community and be the first to hear about upcoming dinners, parties and everything in between.">
+<meta property="og:title" content="Join the gặp community">
+<meta property="og:description" content="Be the first to hear about upcoming gặp dinners, parties and everything in between in Saigon.">
+<meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg">
+<meta property="og:url" content="https://gapevents.vn/community">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/images/logo-espresso.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap">
+<link rel="stylesheet" href="/events/event.css">
+<style>
+#community .fields{align-items:start}
+#community{display:grid;gap:18px}
+.help{font-size:14px;color:var(--muted);margin-top:-2px}
+.req{color:var(--lacquer)}
+fieldset.f{border:0;margin:0;padding:0;min-width:0}
+fieldset.f legend{font-weight:600;font-size:14.5px;padding:0;margin-bottom:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chips label{position:relative;cursor:pointer}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-block;border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:9px 16px;font-size:15px;line-height:1.3;transition:border-color .15s,background .15s}
+.chips input:checked + span{border-color:var(--terracotta);background:var(--terracotta);color:#fff;font-weight:600}
+.chips input:focus-visible + span{outline:3px solid var(--terracotta);outline-offset:2px}
+fieldset[aria-invalid=true] .chips span{border-color:var(--lacquer)}
+.note{font-size:15px;color:var(--muted);border-left:3px solid var(--terracotta);padding-left:14px}
+.note a{color:var(--terracotta);font-weight:600}
+.done .row{display:flex;flex-wrap:wrap;gap:10px}
+.btn.outline{background:transparent;color:var(--fg);border:1.5px solid var(--fg)}
+footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}footer .wrap{padding-block:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head><body>
+<header><div class="wrap"><a href="/" aria-label="gặp home"><img class="logo logo-dark" src="/images/logo-espresso.png" alt="gặp" width="96" height="47"><img class="logo logo-light" src="/images/logo-white.png" alt="gặp" width="96" height="47"></a><a class="back" href="/">Visit gapevents.vn →</a></div></header>
+
+<main><div class="wrap">
+  <img class="hero" src="/images/hero-1000.jpg" alt="A long table of guests raising their glasses over orange flowers and candles" width="1000" height="667">
+
+  <section class="intro">
+    <p class="label">The gặp community</p>
+    <h1>Good things happen when people meet.</h1>
+    <p class="say">Dinner with strangers? A night out with new faces? Or simply looking for your kind of people in Saigon? You're in the right place.</p>
+    <p class="say">Join the gặp community and be the first to hear about upcoming dinners, parties and everything in between. You bring the good energy. We'll take care of the rest.</p>
+    <p class="note">Joining the community doesn't book you into an event. To come to one, register on its page: <a href="/#events">see upcoming events</a>.</p>
+  </section>
+
+  <section class="card" id="join">
+    <form id="community" novalidate>
+      <div class="fields">
+        <div class="f"><label for="name">Full name <span class="req">*</span></label><input id="name" name="name" autocomplete="name" required></div>
+        <div class="f"><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required><p class="help">So we can keep you in the loop about upcoming gặp experiences.</p></div>
+        <div class="f"><label for="handle">Social media handle <span class="req">*</span></label><input id="handle" name="handle" autocomplete="off" placeholder="@" required><p class="help">So we know who we're welcoming.</p></div>
+        <div class="f"><label for="phone">Phone number <small>(with country code)</small> <span class="req">*</span></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+84" required><p class="help">Just in case we need to get in touch.</p></div>
+
+        <fieldset class="f full" data-name="gender"><legend>Gender <span class="req">*</span></legend><p class="help">To help us curate a balanced guest mix for each event.</p>
+          <div class="chips"><label><input type="radio" name="gender" value="Male"><span>Male</span></label><label><input type="radio" name="gender" value="Female"><span>Female</span></label><label><input type="radio" name="gender" value="Prefer not to say"><span>Prefer not to say</span></label></div></fieldset>
+
+        <fieldset class="f full" data-name="age"><legend>Age <span class="req">*</span></legend><p class="help">Age is just a number. We simply use it to curate a balanced table and spark diverse conversations.</p>
+          <div class="chips"><label><input type="radio" name="age" value="18 - 29"><span>18 – 29</span></label><label><input type="radio" name="age" value="30 - 45"><span>30 – 45</span></label><label><input type="radio" name="age" value="46+"><span>46+</span></label></div></fieldset>
+
+        <div class="f full"><label for="passport">What passport(s) do you travel on? <span class="req">*</span></label><input id="passport" name="passport" autocomplete="off"><p class="help">We're curious where everyone comes from. It's all part of bringing different backgrounds together around one table.</p></div>
+
+        <fieldset class="f full" data-name="drink"><legend>Will you be joining us for a drink? <span class="req">*</span></legend>
+          <div class="chips"><label><input type="radio" name="drink" value="Yes, I'll be drinking"><span>Yes, I'll be drinking</span></label><label><input type="radio" name="drink" value="No thanks, I'll stick to non-alcoholic options"><span>No thanks, I'll stick to non-alcoholic</span></label><label><input type="radio" name="drink" value="Maybe, I'll decide on the night"><span>Maybe, I'll decide on the night</span></label></div></fieldset>
+
+        <div class="f full"><label for="diet">Anything we should know about before planning the menu? <span class="req">*</span></label><textarea id="diet" name="diet" placeholder="Nothing for me, or tell us here"></textarea><p class="help">Dietary requirements, allergies, food intolerances, strong dislikes, or foods you simply refuse to be in the same room as.</p></div>
+
+        <div class="f full"><label for="celebrate">Is there anything worth raising a glass to? <small>(optional)</small></label><textarea id="celebrate" name="celebrate"></textarea><p class="help">Birthday, anniversary, promotion, new beginnings, surviving adulthood, or just making it through the week. We'd love to know.</p></div>
+
+        <fieldset class="f full" data-name="loop"><legend>Stay in the loop? <span class="req">*</span></legend><p class="help">We promise no annoying emails. Just the good stuff: upcoming gặp dinners, parties and experiences.</p>
+          <div class="chips"><label><input type="radio" name="loop" value="Yes, keep me in the loop!"><span>Yes, keep me in the loop!</span></label><label><input type="radio" name="loop" value="No thanks, not right now."><span>No thanks, not right now</span></label></div></fieldset>
+
+        <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      </div>
+      <p class="msg" role="status" aria-live="polite"></p>
+      <button class="btn" type="submit">Join the community</button>
+    </form>
+
+    <div class="done" id="done" hidden>
+      <h2></h2>
+      <p class="say">You'll be the first to hear about our upcoming dinners, parties and everything in between.</p>
+      <p class="note">Heads up: this doesn't book you into an event. To come to one, register on the event's page. Every event has its own sign-up.</p>
+      <div class="row"><a class="btn" href="/#events">See upcoming events →</a><a class="btn outline" href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Follow @gap.vietnam</a></div>
+    </div>
+  </section>
+</div></main>
+
+<footer><div class="wrap"><span>© 2026 gặp</span><span><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram</a> · <a href="mailto:hello@gapevents.vn">hello@gapevents.vn</a></span></div></footer>
+
+<script>
+(function () {
+  // Same Apps Script web app as event sign-ups (events/register.js).
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1nihXIx8jFQvJoYLYxQ3UGIAina9lzN4ldoZTScmR-u5UY1p/exec';
+  var form = document.getElementById('community'), msg = form.querySelector('.msg'), btn = form.querySelector('button[type=submit]');
+  var label = btn.textContent, f = form.elements;
+
+  function val(n) { var el = f[n]; return el ? String(el.value || '').trim() : ''; }
+  function pick(n) { var c = form.querySelector('input[name="' + n + '"]:checked'); return c ? c.value : ''; }
+  function fail(text, el) {
+    msg.className = 'msg err'; msg.textContent = text;
+    if (el) { el.setAttribute('aria-invalid', 'true'); (el.querySelector ? (el.querySelector('input') || el) : el).focus(); }
+  }
+  form.addEventListener('input', function (e) { e.target.removeAttribute('aria-invalid'); var fs = e.target.closest('fieldset'); if (fs) fs.removeAttribute('aria-invalid'); });
+  function group(n) { return form.querySelector('fieldset[data-name="' + n + '"]'); }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); msg.textContent = '';
+    if (!val('name')) return fail('What should we call you?', f.name);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))) return fail('That email looks a little off. Try again?', f.email);
+    if (!val('handle').replace(/^@+/, '')) return fail('Add your social media handle so we know who we\'re welcoming.', f.handle);
+    if (val('phone').replace(/\D/g, '').length < 8) return fail('We\'ll need a phone number, with country code.', f.phone);
+    if (!pick('gender')) return fail('Pick an option for gender.', group('gender'));
+    if (!pick('age')) return fail('Pick your age range.', group('age'));
+    if (!val('passport')) return fail('Which passport(s) do you travel on?', f.passport);
+    if (!pick('drink')) return fail('Let us know if you\'ll be joining us for a drink.', group('drink'));
+    if (!val('diet')) return fail('Anything for the menu? If not, just write "none".', f.diet);
+    if (!pick('loop')) return fail('Let us know if you\'d like to stay in the loop.', group('loop'));
+
+    btn.disabled = true; btn.textContent = 'Joining…';
+    var data = {
+      action: 'join', name: val('name'), email: val('email'), handle: val('handle'), phone: val('phone'),
+      gender: pick('gender'), age: pick('age'), passport: val('passport'), drink: pick('drink'),
+      diet: val('diet'), celebrate: val('celebrate'), loop: pick('loop'), website: val('website')
+    };
+    fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d.ok) throw new Error(d.error);
+        var done = document.getElementById('done');
+        done.querySelector('h2').textContent = 'Welcome to the gặp community, ' + data.name.split(' ')[0] + '!';
+        form.hidden = true; done.hidden = false;
+        document.getElementById('join').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = label;
+        fail('Something went wrong on our end. Try again, or email hello@gapevents.vn and we\'ll sort you out.');
+      });
+  });
+})();
+</script>
+</body></html>

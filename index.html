@@ -258,7 +258,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       <a href="#tables">Gallery</a>
       <a href="#private">Private events</a>
     </div>
-    <a class="btn" id="navCta" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener" aria-label="Join the gặp community"><span class="cta-long">Join the gặp community</span><span class="cta-short">Join gặp</span></a>
+    <a class="btn" id="navCta" href="/community" aria-label="Join the gặp community"><span class="cta-long">Join the gặp community</span><span class="cta-short">Join gặp</span></a>
   </div>
 </nav>
 
@@ -271,7 +271,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <p class="say">From intimate dinners to big nights out, you bring the appetite. We'll take care of the magic.</p>
     <div class="ctas">
       <a class="btn" href="#events" data-events-link>Upcoming events ↓</a>
-      <a class="btn outline" id="heroCommunity" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the gặp community →</a>
+      <a class="btn outline" id="heroCommunity" href="/community">Join the gặp community →</a>
       <a class="btn outline" href="#formats">Two ways to gặp ↓</a>
     </div>
     <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
@@ -279,7 +279,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
 
   <section id="events">
     <div class="wrap">
-      <div class="head"><p class="label">Upcoming events</p><h2>Coming up at <em class="acc">gặp</em>.</h2><p class="say">Spots are limited, so grab yours before they're gone. Every event has its own sign-up: register on the event's page to save your spot. Joining the <a href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">gặp community</a> keeps you in the loop, but doesn't book you in.</p></div>
+      <div class="head"><p class="label">Upcoming events</p><h2>Coming up at <em class="acc">gặp</em>.</h2><p class="say">Spots are limited, so grab yours before they're gone. Every event has its own sign-up: register on the event's page to save your spot. Joining the <a href="/community">gặp community</a> keeps you in the loop, but doesn't book you in.</p></div>
       <div class="events">
         <!-- One <a class="ev"> per event. data-ends = when it finishes (Saigon time); the card hides itself after that.
              data-event = the Event ID in the Sheet, used to show "Half the spots are gone" etc. -->
@@ -588,7 +588,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     sec.remove();
     document.querySelectorAll('nav a[href="#events"], [data-events-link]').forEach(function (l) { l.remove(); });
     document.querySelectorAll('[data-events-or-community]').forEach(function (a) {
-      a.href = COMMUNITY; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Join the gặp community →';
+      a.href = COMMUNITY; a.textContent = 'Join the gặp community →';
     });
     if (hc) hc.classList.remove('outline');
     return;
@@ -596,8 +596,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
   // Events are open: the main button is registration. One event → straight to its page; several → the list.
   if (nav) {
     var cards = sec.querySelectorAll('.ev');
-    nav.removeAttribute('target'); nav.removeAttribute('rel');
-    var long = cards.length === 1 ? 'Register for ' + cards[0].querySelector('h3').textContent + ' →' : 'Register for an event →';
+        var long = cards.length === 1 ? 'Register for ' + cards[0].querySelector('h3').textContent + ' →' : 'Register for an event →';
     nav.href = cards.length === 1 ? cards[0].getAttribute('href') : '#events';
     nav.innerHTML = '<span class="cta-long"></span><span class="cta-short">Register now →</span>';
     nav.querySelector('.cta-long').textContent = long; nav.setAttribute('aria-label', long.replace(' →', ''));

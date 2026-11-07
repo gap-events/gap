@@ -49,6 +49,9 @@ function doPost(e) {
   var d;
   try { d = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok:false, error:'bad_request' }); }
 
+  // "Join the gặp community" page (gapevents.vn/community).
+  if (d.action === 'join') return json_(joinCommunity_(d));
+
   // Staff check-in calls (from gapevents.vn/checkin) carry an action and the staff PIN.
   if (d.action) return json_(staff_(d));
 
@@ -323,6 +326,63 @@ function qrBlob_(text) {
 function ensureHeaders_(sheet) {
   var h = sheet.getRange(1, C.ticket, 1, 2).getValues()[0];
   if (h[0] !== HEADERS.ticket || h[1] !== HEADERS.checkedAt) sheet.getRange(1, C.ticket, 1, 2).setValues([[HEADERS.ticket, HEADERS.checkedAt]]);
+}
+
+/* ---------- the gặp community (gapevents.vn/community) ---------- */
+
+// Sign-ups go into the same tab the old Google Form filled ("EOI Form Responses" in the main gặp
+// planning spreadsheet), so existing lists keep working. Its ID lives in Script properties as
+// COMMUNITY_SHEET_ID. Columns are matched by the first line of each header, so their order can change.
+var COMMUNITY_TAB = 'EOI Form Responses';
+var COMMUNITY_COLS = {
+  ts: 'Timestamp', name: 'Full Name', email: 'Email', phone: 'Phone Number (inc country code)',
+  gender: 'Gender', age: 'Age', passport: 'What passport(s) do you travel on?', drink: 'Will you be joining us for a drink?',
+  diet: 'Anything we should know about before planning the menu?', celebrate: 'Is there anything worth raising a glass to?',
+  handle: 'Social Media Handle', loop: 'Stay in the loop?', outreached: 'Outreached'
+};
+var COMMUNITY_CHOICES = {
+  gender: ['Male', 'Female', 'Prefer not to say'],
+  age: ['18 - 29', '30 - 45', '46+'],
+  drink: ["Yes, I'll be drinking", "No thanks, I'll stick to non-alcoholic options", "Maybe, I'll decide on the night"],
+  loop: ['Yes, keep me in the loop!', 'No thanks, not right now.']
+};
+
+function joinCommunity_(d) {
+  if (d.website) return { ok:true };   // honeypot
+  var v = {
+    name: clean_(d.name, 80), email: clean_(d.email, 120).toLowerCase(), phone: clean_(d.phone, 40),
+    handle: clean_(d.handle, 60), gender: clean_(d.gender, 40), age: clean_(d.age, 20), passport: clean_(d.passport, 120),
+    drink: clean_(d.drink, 80), diet: clean_(d.diet, 500), celebrate: clean_(d.celebrate, 500), loop: clean_(d.loop, 60)
+  };
+  if (!v.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email) || v.phone.replace(/\D/g, '').length < 8 || !v.handle ||
+      !v.passport || !v.diet) return { ok:false, error:'missing_fields' };
+  for (var k in COMMUNITY_CHOICES) if (COMMUNITY_CHOICES[k].indexOf(v[k]) < 0) return { ok:false, error:'missing_fields' };
+
+  var id = PropertiesService.getScriptProperties().getProperty('COMMUNITY_SHEET_ID');
+  if (!id) return { ok:false, error:'not_configured' };
+  var sheet = SpreadsheetApp.openById(id).getSheetByName(COMMUNITY_TAB);
+  if (!sheet) return { ok:false, error:'not_configured' };
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    var heads = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(function (h) {
+      return String(h).split('\n')[0].trim().toLowerCase();
+    });
+    var row = heads.map(function () { return ''; });
+    var put = function (key, val) { var i = heads.indexOf(COMMUNITY_COLS[key].toLowerCase()); if (i > -1) row[i] = val; };
+    put('ts', new Date());
+    put('name', text_(v.name)); put('email', v.email); put('phone', text_(v.phone)); put('handle', text_(v.handle));
+    put('gender', v.gender); put('age', v.age); put('passport', text_(v.passport)); put('drink', v.drink);
+    put('diet', text_(v.diet)); put('celebrate', text_(v.celebrate)); put('loop', v.loop);
+    put('outreached', false);
+    sheet.appendRow(row);
+    var oc = heads.indexOf(COMMUNITY_COLS.outreached.toLowerCase());
+    if (oc > -1) sheet.getRange(sheet.getLastRow(), oc + 1).insertCheckboxes();
+  } finally {
+    lock.releaseLock();
+  }
+  return { ok:true };
 }
 
 /* ---------- staff check-in (gapevents.vn/checkin) ---------- */
