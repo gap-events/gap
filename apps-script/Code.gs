@@ -131,6 +131,7 @@ function onOpen() {
     .addItem('Confirm selected guests + email them', 'confirmSelected')
     .addItem('Resend confirmation to selected guests', 'resendSelected')
     .addSeparator()
+    .addItem('Preview gallery (in Drive)', 'previewGallery')
     .addItem('Publish gallery', 'publishGallery')
     .addToUi();
 }
@@ -547,7 +548,11 @@ function authorizeCommunity() {
    Up to 40 per album, spread evenly. Each photo is resized to 1600px by Drive and committed to
    GitHub (images/events/<album>/<file id>.jpg) with images/events/albums.json, which Netlify then
    publishes. Needs a GitHub token in Script properties → GITHUB_TOKEN (contents read & write on the
-   gap repo). Big runs carry on by themselves a minute later until everything is published. */
+   gap repo). Big runs carry on by themselves a minute later until everything is published.
+
+   Review first: "Preview gallery" fills the Drive folder "gặp — Website gallery" with one subfolder per
+   album, holding shortcuts to the photos that would go up. Delete or add shortcuts there to change an
+   album; once an album's preview folder has photos in it, publishing uses exactly those. */
 
 var GALLERY_TAB = 'Gallery';
 var GALLERY_MAX = 40;
@@ -557,6 +562,7 @@ var GITHUB_BRANCH = 'main';
 var GALLERY_DIR = 'images/events';
 var GALLERY_JSON = 'images/events/albums.json';
 var GALLERY_BUDGET_MS = 4.5 * 60 * 1000;
+var GALLERY_ROOT_NAME = 'gặp — Website gallery';
 
 function publishGallery() { publishGallery_(true); }
 function continueGallery() { publishGallery_(false); }
@@ -673,6 +679,8 @@ function galleryAlbums_(sheet) {
     a.folders.forEach(function (id) { var got = galleryFolderPhotos_(id); files = files.concat(got.files); if (got.source) sources.push(got.source); });
     a.source = sources.filter(function (s, i) { return sources.indexOf(s) === i; }).join(', ');
     a.pick = spread_(files, GALLERY_MAX);
+    var curated = curatedPhotos_(t);
+    if (curated && curated.length) { a.pick = curated; a.source = 'your Website gallery folder'; a.curated = true; }
     return a;
   }).sort(function (x, y) { return String(y.sort).localeCompare(String(x.sort)); });
 }
@@ -745,4 +753,61 @@ function github_(token) {
 function slug_(s) {
   return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[đĐ]/g, 'd')
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+}
+
+
+/* ---------- gallery preview in Drive ---------- */
+
+function previewGallery() {
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var root = galleryRoot_(true), sheet = ss_().getSheetByName(GALLERY_TAB);
+    var albums = galleryAlbums_(sheet), made = [], kept = [];
+    albums.forEach(function (a) {
+      if (a.curated) { kept.push(a.title + ' (' + a.pick.length + ')'); return; }
+      var folder = subfolder_(root, a.title, true);
+      a.pick.forEach(function (f) { folder.createShortcut(f.id); });
+      made.push(a.title + ' (' + a.pick.length + ')');
+    });
+    ui.alert('Gallery preview ready in Google Drive → "' + GALLERY_ROOT_NAME + '".\n\n' +
+      (made.length ? 'New: ' + made.join(', ') + '.\n' : '') +
+      (kept.length ? 'Already reviewed, left as they are: ' + kept.join(', ') + '.\n' : '') +
+      '\nOpen each album folder to check the photos. Delete a shortcut to drop a photo, or add one ' +
+      '(right-click a photo → Organise → Add shortcut). When you are happy, use gặp → Publish gallery.\n\n' +
+      'To start an album again, delete its folder there and run Preview gallery again.');
+  } catch (err) {
+    console.error(err);
+    ui.alert('Preview stopped: ' + (err && err.message || err));
+  }
+}
+
+function galleryRoot_(create) {
+  var props = PropertiesService.getScriptProperties(), id = props.getProperty('GALLERY_FOLDER_ID');
+  if (id) { try { var f = DriveApp.getFolderById(id); if (!f.isTrashed()) return f; } catch (e) {} }
+  var it = DriveApp.getRootFolder().getFoldersByName(GALLERY_ROOT_NAME);
+  var root = it.hasNext() ? it.next() : (create ? DriveApp.getRootFolder().createFolder(GALLERY_ROOT_NAME) : null);
+  if (root) props.setProperty('GALLERY_FOLDER_ID', root.getId());
+  return root;
+}
+
+function subfolder_(parent, name, create) {
+  var it = parent.getFoldersByName(name);
+  if (it.hasNext()) return it.next();
+  return create ? parent.createFolder(name) : null;
+}
+
+// Photos in an album's preview folder (shortcuts or real images), in name order; null if none yet.
+function curatedPhotos_(title) {
+  var root = galleryRoot_(false); if (!root) return null;
+  var folder = subfolder_(root, title, false); if (!folder) return null;
+  var out = [], seen = {}, it = folder.getFiles();
+  while (it.hasNext()) {
+    var f = it.next(), id = null;
+    if (f.getMimeType() === 'application/vnd.google-apps.shortcut') {
+      try { if (/^image\//.test(f.getTargetMimeType())) id = f.getTargetId(); } catch (e) {}
+    } else if (/^image\//.test(f.getMimeType())) id = f.getId();
+    if (id && !seen[id] && !f.isTrashed()) { seen[id] = 1; out.push({ id: id, name: f.getName() }); }
+  }
+  out.sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { numeric: true }); });
+  return out.length ? out : null;
 }
