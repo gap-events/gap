@@ -32,9 +32,10 @@ var REPLY_TO = 'hello@gapevents.vn';
 var TZ = 'Asia/Ho_Chi_Minh';
 
 // Registrations columns (1-based)
-var C = { ts:1, event:2, name:3, email:4, phone:5, ig:6, party:7, heard:8, notes:9, list:10, status:11, checkin:12, ticket:13, checkedAt:14 };
-var LAST = 14;
-var HEADERS = { ticket: 'Ticket', checkedAt: 'Checked in at' };
+var C = { ts:1, event:2, name:3, email:4, phone:5, ig:6, party:7, heard:8, notes:9, list:10, status:11, checkin:12, ticket:13, checkedAt:14, diet:15, celebrate:16 };
+var LAST = 16;
+// Columns M onwards, added by the script when missing
+var EXTRA_HEADERS = ['Ticket', 'Checked in at', 'Dietary', 'Raising a glass to'];
 
 /* ---------- web endpoints ---------- */
 
@@ -105,6 +106,8 @@ function doPost(e) {
     var ticket = newTicket_();
     row[C.ticket-1] = ticket;
     row[C.checkedAt-1] = '';
+    row[C.diet-1] = text_(clean_(d.diet, 500));
+    row[C.celebrate-1] = text_(clean_(d.celebrate, 500));
     ensureHeaders_(sheet);
     sheet.appendRow(row);
     sheet.getRange(sheet.getLastRow(), C.checkin).insertCheckboxes();
@@ -327,8 +330,8 @@ function qrBlob_(text) {
 }
 
 function ensureHeaders_(sheet) {
-  var h = sheet.getRange(1, C.ticket, 1, 2).getValues()[0];
-  if (h[0] !== HEADERS.ticket || h[1] !== HEADERS.checkedAt) sheet.getRange(1, C.ticket, 1, 2).setValues([[HEADERS.ticket, HEADERS.checkedAt]]);
+  var n = EXTRA_HEADERS.length, h = sheet.getRange(1, C.ticket, 1, n).getValues()[0];
+  if (h.join('|') !== EXTRA_HEADERS.join('|')) sheet.getRange(1, C.ticket, 1, n).setValues([EXTRA_HEADERS]);
 }
 
 /* ---------- the gặp community (gapevents.vn/community) ---------- */
@@ -358,8 +361,12 @@ function joinCommunity_(d) {
     drink: clean_(d.drink, 80), diet: clean_(d.diet, 500), celebrate: clean_(d.celebrate, 500), loop: clean_(d.loop, 60)
   };
   if (!v.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email) || v.phone.replace(/\D/g, '').length < 8 || !v.handle ||
-      !v.passport || !v.diet) return { ok:false, error:'missing_fields' };
-  for (var k in COMMUNITY_CHOICES) if (COMMUNITY_CHOICES[k].indexOf(v[k]) < 0) return { ok:false, error:'missing_fields' };
+      !v.passport) return { ok:false, error:'missing_fields' };
+  // Drinks, dietary and celebrations are asked per event now, so they're optional here.
+  for (var k in COMMUNITY_CHOICES) {
+    if (k === 'drink' && !v.drink) continue;
+    if (COMMUNITY_CHOICES[k].indexOf(v[k]) < 0) return { ok:false, error:'missing_fields' };
+  }
 
   var id = PropertiesService.getScriptProperties().getProperty('COMMUNITY_SHEET_ID');
   if (!id) return { ok:false, error:'not_configured' };

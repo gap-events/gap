@@ -156,7 +156,7 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
     <div class="card-head"><p class="label">Save your spot</p><h2>See you in Tokyo.</h2></div>
     <p class="lede">One registration per person. Registering also enters you into the ramen giveaway, once you follow both accounts. The winner is announced at the event, so you need to be there to win.</p>
 
-    <form data-event="tokyo-nights" data-max-party="1" novalidate>
+    <form data-event="tokyo-nights" data-max-party="1" novalidate data-remember>
       <div class="fields">
         <div class="f"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required></div>
         <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required></div>
@@ -165,7 +165,10 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
         <div class="f party" hidden><label for="party">How many seats?</label><select id="party" name="party"></select></div>
         <div class="f full"><label for="heard">How did you hear about us?</label>
           <select id="heard" name="heard" required><option value="">Choose one</option><option>Instagram</option><option>A friend</option><option>Been to gặp before</option><option>Kiwami</option><option>Facebook group</option><option>Other</option></select></div>
+        <div class="f full"><label for="diet">Any dietary requirements or allergies? <small>(optional)</small></label><textarea id="diet" name="diet" placeholder="Vegetarian, nut allergy, no seafood…"></textarea></div>
+        <div class="f full"><label for="celebrate">Anything worth raising a glass to? <small>(optional)</small></label><textarea id="celebrate" name="celebrate" placeholder="Birthday, new job, new beginnings, surviving the week…"></textarea></div>
         <label class="check full"><input type="checkbox" name="list" value="yes"> Keep me posted about future gặp dinners and parties.</label>
+        <label class="check full"><input type="checkbox" name="remember" checked> Remember my details on this device for next time.</label>
         <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
       </div>
       <p class="msg" role="status" aria-live="polite"></p>
@@ -178,6 +181,7 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
 </div></main>
 
 <footer><div class="wrap"><span>© 2026 gặp</span><span class="social"><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener" aria-label="gặp on Instagram" title="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a><a href="mailto:hello@gapevents.vn" aria-label="Email hello@gapevents.vn" title="hello@gapevents.vn"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></span></div></footer>
+<script src="/remember.js" defer></script>
 <script src="/events/register.js" defer></script>
 <script>(function(){
   var t=document.querySelector('.mood'); if(!t) return;

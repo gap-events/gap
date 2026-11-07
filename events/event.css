@@ -33,7 +33,7 @@ header a.back{font-weight:600;font-size:15px;color:var(--muted);text-decoration:
 .card{background:var(--raise);border:1.5px solid var(--line);border-radius:22px;padding:28px 22px;display:grid;gap:18px;margin-block:16px 56px;scroll-margin-top:16px}
 @media (min-width:640px){.card{padding:36px 34px}}
 .card .lede{color:var(--muted)}
-.fields{display:grid;gap:14px;grid-template-columns:1fr}
+.fields{display:grid;gap:14px;grid-template-columns:1fr;align-items:end}
 @media (min-width:560px){.fields{grid-template-columns:1fr 1fr}.full{grid-column:1/-1}}
 .f{display:grid;gap:6px}
 .f label{font-weight:600;font-size:14.5px}
@@ -64,3 +64,6 @@ footer .wrap{padding-block:20px;display:flex;justify-content:space-between;align
 footer .social{display:flex;gap:6px}
 footer .social a{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--fg);transition:background .15s}
 footer .social a:hover{background:var(--raise)}
+/* remember-me (remember.js) */
+.remembered{font-size:15px;color:var(--muted);background:var(--bg);border:1.5px dashed var(--line);border-radius:12px;padding:10px 14px;margin-bottom:6px}
+.linkish{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--terracotta);text-decoration:underline;cursor:pointer}

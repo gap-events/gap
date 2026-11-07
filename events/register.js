@@ -124,6 +124,7 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
     if (f.instagram && f.instagram.required && !val('instagram').replace(/^@+/, '')) return fail("Add your social media handle so we can enter you into the giveaway.", f.instagram);
     if (f.heard && f.heard.required && !val('heard')) return fail('Let us know how you heard about us.', f.heard);
     if (f.heard && val('heard') === 'Other' && heardOther && !heardOther.value.trim()) return fail('Tell us where you heard about us.', heardOther);
+    if (f.diet && f.diet.required && !val('diet')) return fail('Anything for the menu? If not, just write "none".', f.diet);
     if (!GAP_ENDPOINT) return fail("Sign-ups aren't switched on yet. Email us at hello@gapevents.vn and we'll save you a spot.");
 
     btn.disabled = true; btn.textContent = 'Saving your spot…';
@@ -132,6 +133,7 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
       instagram: val('instagram'),
       party: partyWrap.hidden ? 1 : party.value,
       heard: (val('heard') === 'Other' && val('heard_other')) ? 'Other: ' + val('heard_other') : val('heard'), notes: val('notes'),
+      diet: val('diet'), celebrate: val('celebrate'),
       list: !!(f.list && f.list.checked), website: val('website')
     };
 
@@ -142,6 +144,7 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
           if (d.error === 'closed') { setState('closed'); return; }
           throw new Error(d.error);
         }
+        if (d.result !== 'duplicate') form.dispatchEvent(new Event('gap:saved'));
         var wait = d.result === 'waitlist' || (d.result === 'duplicate' && d.status === 'waitlist');
         var first = name.split(' ')[0];
         done.querySelector('h2').textContent = d.result === 'duplicate' ? "You're already on the list, " + first + '.' : wait ? "You're on the waitlist, " + first + '.' : "You're in, " + first + '!';
