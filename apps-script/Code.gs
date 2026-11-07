@@ -50,7 +50,10 @@ function doPost(e) {
   try { d = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok:false, error:'bad_request' }); }
 
   // "Join the gặp community" page (gapevents.vn/community).
-  if (d.action === 'join') return json_(joinCommunity_(d));
+  if (d.action === 'join') {
+    try { return json_(joinCommunity_(d)); }
+    catch (err) { console.error(err); return json_({ ok:false, error:'server', detail: String(err && err.message || err) }); }
+  }
 
   // Staff check-in calls (from gapevents.vn/checkin) carry an action and the staff PIN.
   if (d.action) return json_(staff_(d));
