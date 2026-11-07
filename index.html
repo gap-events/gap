@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta property="og:title" content="gặp — Social Dining, Parties &amp; Private Events in Saigon"><meta property="og:description" content="Connection begins with a seat at the table. Long-table dinners, big nights out and private events in Saigon."><meta property="og:image" content="https://gapevents.vn/images/hero-1000.jpg"><meta property="og:url" content="https://gapevents.vn/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="images/logo-espresso.png"><title>gặp — Social Dining, Parties &amp; Private Events in Saigon</title>
-<meta name="description" content="gặp creates social experiences in Saigon: long-table dinners, big nights out and private events that bring expats, travellers and locals together. Join the guest list.">
+<meta name="description" content="gặp creates social experiences in Saigon: long-table dinners, big nights out and private events that bring expats, travellers and locals together. Join the gặp community.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
@@ -137,6 +137,10 @@ section{padding-block:72px;border-top:1px solid var(--line)}
 .ev .spots[data-state=filling]::before,.ev .spots[data-state=almost]::before{background:var(--terracotta)}
 .ev .spots[data-state=waitlist]::before{background:var(--muted)}
 .ev .spots:empty{display:none}
+nav .cta-short{display:none}
+@media (max-width:560px){nav .cta-long{display:none}nav .cta-short{display:inline}}
+.ev .req{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--label);border:1.5px solid var(--line);border-radius:999px;padding:4px 10px}
+#events .say a{color:var(--terracotta);font-weight:600}
 @media (max-width:720px){.ev{grid-template-columns:1fr}.ev .pic{min-height:0;aspect-ratio:4/3}.ev .txt{padding:22px}}
 
 /* guide */
@@ -254,7 +258,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       <a href="#tables">Gallery</a>
       <a href="#private">Private events</a>
     </div>
-    <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list</a>
+    <a class="btn" id="navCta" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener" aria-label="Join the gặp community"><span class="cta-long">Join the gặp community</span><span class="cta-short">Join gặp</span></a>
   </div>
 </nav>
 
@@ -266,8 +270,8 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <p class="say">Inspired by the Vietnamese family dinner table, gặp brings expats, travellers and locals together over good food, shared stories and nights worth remembering.</p>
     <p class="say">From intimate dinners to big nights out, you bring the appetite. We'll take care of the magic.</p>
     <div class="ctas">
-      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list →</a>
-      <a class="btn outline" href="#events" data-events-link>Upcoming events ↓</a>
+      <a class="btn" href="#events" data-events-link>Upcoming events ↓</a>
+      <a class="btn outline" id="heroCommunity" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the gặp community →</a>
       <a class="btn outline" href="#formats">Two ways to gặp ↓</a>
     </div>
     <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
@@ -275,7 +279,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
 
   <section id="events">
     <div class="wrap">
-      <div class="head"><p class="label">Upcoming events</p><h2>Coming up at <em class="acc">gặp</em>.</h2><p class="say">Spots are limited, so grab yours before they're gone.</p></div>
+      <div class="head"><p class="label">Upcoming events</p><h2>Coming up at <em class="acc">gặp</em>.</h2><p class="say">Spots are limited, so grab yours before they're gone. Every event has its own sign-up: register on the event's page to save your spot. Joining the <a href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">gặp community</a> keeps you in the loop, but doesn't book you in.</p></div>
       <div class="events">
         <!-- One <a class="ev"> per event. data-ends = when it finishes (Saigon time); the card hides itself after that.
              data-event = the Event ID in the Sheet, used to show "Half the spots are gone" etc. -->
@@ -289,7 +293,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
             <h3>Tokyo Nights</h3>
             <div class="facts"><span>Fri 20 Nov · 6pm till late</span><span>Kiwami, Thảo Điền</span></div>
             <p>Our biggest party yet. Complimentary bites from Kiwami's new menu, DJs till close, a photo booth, a ramen eating competition and drinking games all night. Plus a chance to win a year of ramen.</p>
-            <div class="row"><span class="go">Save my spot →</span><span class="spots"></span></div>
+            <div class="row"><span class="go">Register now →</span><span class="req">Registration required</span><span class="spots"></span></div>
           </div>
         </a>
       </div>
@@ -300,8 +304,8 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <div class="wrap">
       <div class="head"><p class="label">How it works</p><h2>Three steps. Zero homework.</h2></div>
       <ol class="steps">
-        <li><span class="n">01</span><h3>Spill the beans</h3><p>Tell us a little about yourself, what you love to eat and anything that shouldn't end up on your plate. Two minutes, tops. That puts you on the guest list.</p></li>
-        <li><span class="n">02</span><h3>Leave the rest to us</h3><p>We'll keep you in the loop about upcoming dinners, parties and everything in between. When something catches your eye, come join us.</p></li>
+        <li><span class="n">01</span><h3>Spill the beans</h3><p>Tell us a little about yourself, what you love to eat and anything that shouldn't end up on your plate. Two minutes, tops. That makes you part of the gặp community, so you'll hear about every event first.</p></li>
+        <li><span class="n">02</span><h3>Leave the rest to us</h3><p>We'll keep you in the loop about upcoming dinners, parties and everything in between. When something catches your eye, register on its event page to save your spot. Every event has its own sign-up.</p></li>
         <li><span class="n">03</span><h3>Show up, be yourself</h3><p>Good food, new faces and conversations that go well beyond small talk. The rest? You'll have to be there.</p></li>
       </ol>
     </div>
@@ -311,8 +315,8 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <div class="wrap">
       <div class="head"><p class="label">Two ways to gặp</p><h2>Pick your vibe</h2></div>
       <div class="formats">
-        <article class="fmt"><p class="meta">Seated dinner</p><h3>The Table</h3><p>One long table. A family-style feast. A room full of people you haven't met yet.</p><p>Come for the food, stay for the conversations, and leave wondering how you ended up making friends with the person across from you.</p><a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Find your seat →</a></article>
-        <article class="fmt"><p class="meta">Party night</p><h3>The Social</h3><p>Less sitting, more mingling. Think DJs, music, drinks and a room full of people who came to have a good time.</p><p>No forced networking. No awkward introductions. Just good energy and whatever the night has in store.</p><a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the next social →</a></article>
+        <article class="fmt"><p class="meta">Seated dinner</p><h3>The Table</h3><p>One long table. A family-style feast. A room full of people you haven't met yet.</p><p>Come for the food, stay for the conversations, and leave wondering how you ended up making friends with the person across from you.</p><a class="btn" href="#events" data-events-or-community>See upcoming events ↓</a></article>
+        <article class="fmt"><p class="meta">Party night</p><h3>The Social</h3><p>Less sitting, more mingling. Think DJs, music, drinks and a room full of people who came to have a good time.</p><p>No forced networking. No awkward introductions. Just good energy and whatever the night has in store.</p><a class="btn" href="#events" data-events-or-community>See upcoming events ↓</a></article>
       </div>
     </div>
   </section>
@@ -463,7 +467,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       <p class="label vn">Hẹn gặp bạn</p>
       <h2>Your next gặp starts <em class="acc">here</em>.</h2>
       <p class="lede">New faces, good food and nights that rarely go exactly as planned. In the best possible way.</p>
-      <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Save me a spot →</a>
+      <a class="btn" href="#events" data-events-or-community>See upcoming events ↓</a>
       <form class="sub subform" id="sub" novalidate data-done="You're on the list. Hẹn gặp bạn soon!">
         <h3>Not ready for a seat? Get the news first.</h3>
         <p class="say">Just your email. We'll let you know when the next gặp is coming. No spam, promise.</p>
@@ -577,7 +581,27 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       if (d.state === 'closed') ev.querySelector('.go').textContent = 'See the details →';
     }).catch(function () {});
   });
-  if (!live) { sec.remove(); document.querySelectorAll('nav a[href="#events"], [data-events-link]').forEach(function (l) { l.remove(); }); }
+  var nav = document.getElementById('navCta'), hc = document.getElementById('heroCommunity');
+  var COMMUNITY = (nav && nav.getAttribute('href')) || '#join';
+  if (!live) {
+    // Nothing coming up: drop the events links and point the event buttons at the community form instead.
+    sec.remove();
+    document.querySelectorAll('nav a[href="#events"], [data-events-link]').forEach(function (l) { l.remove(); });
+    document.querySelectorAll('[data-events-or-community]').forEach(function (a) {
+      a.href = COMMUNITY; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Join the gặp community →';
+    });
+    if (hc) hc.classList.remove('outline');
+    return;
+  }
+  // Events are open: the main button is registration. One event → straight to its page; several → the list.
+  if (nav) {
+    var cards = sec.querySelectorAll('.ev');
+    nav.removeAttribute('target'); nav.removeAttribute('rel');
+    var long = cards.length === 1 ? 'Register for ' + cards[0].querySelector('h3').textContent + ' →' : 'Register for an event →';
+    nav.href = cards.length === 1 ? cards[0].getAttribute('href') : '#events';
+    nav.innerHTML = '<span class="cta-long"></span><span class="cta-short">Register now →</span>';
+    nav.querySelector('.cta-long').textContent = long; nav.setAttribute('aria-label', long.replace(' →', ''));
+  }
 })();
 </script>
 </body></html>
