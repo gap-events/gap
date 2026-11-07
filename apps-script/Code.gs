@@ -268,7 +268,7 @@ function sendEmail_(ev, g, status, promoted) {
     '<div style="background:#F8EEE7;padding:32px 16px;font-family:Helvetica,Arial,sans-serif;color:#3A1F14">' +
     '<div style="max-width:520px;margin:0 auto;background:#FFF8F3;border-radius:18px;padding:32px 28px">' +
       '<p style="margin:0 0 6px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8C2A1E;font-weight:bold">' + esc_(ev.name) + '</p>' +
-      '<h1 style="margin:0 0 16px;font-size:28px;line-height:1.15">' + (waitlist ? "You're on the waitlist." : 'Hẹn gặp bạn, ' + esc_(first) + '!') + '</h1>' +
+      '<h1 style="margin:0 0 16px;font-size:28px;line-height:1.15">' + (waitlist ? "You're on the waitlist." : 'Hi ' + esc_(first)) + '</h1>' +
       '<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#6B5045">' + lead + '</p>' +
       ticketHtml +
       (rows ? '<table style="width:100%;border-collapse:collapse;margin:0 0 20px;font-size:15px">' + rows + '</table>' : '') +
