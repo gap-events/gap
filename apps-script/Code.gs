@@ -108,7 +108,11 @@ function doPost(e) {
 
   try { sendEmail_(ev, { name:name, email:email, party:party, ticket:ticket }, status); } catch (err) { console.error(err); }
 
-  return json_({ ok:true, result: status === 'Waitlist' ? 'waitlist' : 'confirmed', state: stateFor_(getEvent_(id)) });
+  // The ticket goes back only on a brand-new confirmed sign-up (never on 'duplicate'), so nobody can
+  // fetch someone else's ticket by typing their email.
+  var out = { ok:true, result: status === 'Waitlist' ? 'waitlist' : 'confirmed', state: stateFor_(getEvent_(id)) };
+  if (status === 'Confirmed') out.ticket = ticket;
+  return json_(out);
 }
 
 /* ---------- Sheet menu: move people off the waitlist ---------- */

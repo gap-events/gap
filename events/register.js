@@ -81,6 +81,35 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
 
   form.addEventListener('input', function (e) { e.target.removeAttribute('aria-invalid'); });
 
+  // QR ticket on the confirmation screen, drawn in the browser (the code never leaves the page).
+  var QR_LIB = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+  function loadQr(cb) {
+    if (window.qrcode) return cb();
+    var s = document.createElement('script'); s.src = QR_LIB; s.onload = cb; s.onerror = cb; document.head.appendChild(s);
+  }
+  function showTicket(code, guest) {
+    var box = document.createElement('div');
+    box.className = 'ticket';
+    box.innerHTML = '<p class="ticket-label">Your ticket</p><div class="ticket-qr"></div><p class="ticket-code"></p><p class="ticket-name"></p>' +
+      '<p class="ticket-hint">Screenshot this, or <a class="ticket-save" download="gap-ticket.png">save it to your phone</a>. One code per person.</p>';
+    box.querySelector('.ticket-code').textContent = code;
+    box.querySelector('.ticket-name').textContent = guest;
+    var p = done.querySelector('p.say') || done.querySelector('p');
+    p.parentNode.insertBefore(box, p.nextSibling);
+    loadQr(function () {
+      var save = box.querySelector('.ticket-save');
+      if (!window.qrcode) { save.parentNode.textContent = "Screenshot this and show it at the door. Your QR is also in your email."; return; }
+      var qr = window.qrcode(0, 'M'); qr.addData(code); qr.make();
+      var n = qr.getModuleCount(), quiet = 4, px = Math.max(4, Math.floor(480 / (n + quiet * 2)));
+      var c = document.createElement('canvas'); c.width = c.height = (n + quiet * 2) * px;
+      var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.fillStyle = '#000';
+      for (var r = 0; r < n; r++) for (var k = 0; k < n; k++) if (qr.isDark(r, k)) g.fillRect((k + quiet) * px, (r + quiet) * px, px, px);
+      var img = new Image(); img.alt = 'QR ticket ' + code; img.src = c.toDataURL('image/png');
+      box.querySelector('.ticket-qr').appendChild(img);
+      save.href = img.src;
+    });
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     msg.textContent = '';
@@ -116,7 +145,10 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
           ? "Looks like you're already signed up for this one. Your ticket is in your inbox (check your spam folder if you can't see it), or email hello@gapevents.vn if anything's changed."
           : wait
             ? "We'll email you at " + email + " as soon as a spot opens up. Keep an eye on your spam folder too, just in case."
-            : "Your spot is saved. We've emailed your ticket to " + email + ". Can't see it in a few minutes? Check your spam or promotions folder, and mark it \"Not spam\" so you don't miss event-day updates.";
+            : d.ticket
+              ? "Your spot is saved. Screenshot your ticket below and show it at the door. We've also emailed it to " + email + " (check your spam folder if it's not in your inbox)."
+              : "Your spot is saved. We've emailed your ticket to " + email + ". Can't see it in a few minutes? Check your spam or promotions folder, and mark it \"Not spam\" so you don't miss event-day updates.";
+        if (d.ticket && !wait) showTicket(d.ticket, name);
         form.hidden = true; if (lede) lede.hidden = true; if (head) head.hidden = true; done.hidden = false;
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
         if (d.state) setState(d.state);

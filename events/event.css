@@ -48,6 +48,15 @@ header a.back{font-weight:600;font-size:15px;color:var(--muted);text-decoration:
 .msg{font-weight:600;min-height:1.4em}.msg:empty{display:none}.msg.err{color:var(--lacquer)}
 .done{display:grid;gap:12px}
 .done h2{font-size:clamp(28px,5vw,38px)}
+/* QR ticket on the confirmation screen: always white, so it scans in any theme */
+.ticket{justify-self:center;width:100%;max-width:320px;background:#fff;color:#141016;border-radius:18px;padding:18px 18px 16px;text-align:center;display:grid;gap:4px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.ticket-label{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8C2A1E}
+.ticket-qr img{display:block;width:100%;max-width:240px;height:auto;margin:6px auto;image-rendering:pixelated}
+.ticket-qr:empty{aspect-ratio:1/1;max-width:240px;width:100%;margin:6px auto;background:#f2ece8;border-radius:8px}
+.ticket-code{font-family:Menlo,Consolas,monospace;font-size:20px;font-weight:700;letter-spacing:.12em}
+.ticket-name{font-weight:600;color:#3A1F14}
+.ticket-hint{font-size:14px;line-height:1.45;color:#6B5045;margin-top:4px}
+.ticket-hint a{color:#C1592F}
 .fine{font-size:14px;color:var(--muted)}
 [hidden]{display:none!important}
 footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}
