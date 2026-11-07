@@ -28,6 +28,8 @@ main .wrap{padding-block:48px 64px;display:grid;gap:18px;align-content:center}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .fine{font-size:14px;color:var(--muted)}
 footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}footer .wrap{padding-block:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+footer .wrap{align-items:center}.social{display:flex;gap:6px;align-items:center}.social a{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--fg);transition:background .15s}.social a:hover{background:var(--raise)}.social a:focus-visible{outline:3px solid var(--terracotta);outline-offset:2px}
 </style></head><body>
 <header><div class="wrap"><a href="/" aria-label="gặp home"><img class="logo logo-dark" src="images/logo-espresso.png" alt="gặp" width="96" height="47"><img class="logo logo-light" src="images/logo-white.png" alt="gặp" width="96" height="47"></a><a class="back" href="/">Visit gapevents.vn →</a></div></header>
 <main><div class="wrap">
@@ -41,7 +43,7 @@ footer{border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}foot
   </form>
   <p class="fine">Just your email. No spam, promise. Want to come to the next one? <a href="/#events">See upcoming events</a> and register on the event's page, or <a href="/community">join the gặp community</a> to hear about every event first.</p>
 </div></main>
-<footer><div class="wrap"><span>© 2026 gặp</span><span><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener">Instagram</a> · <a href="mailto:hello@gapevents.vn">hello@gapevents.vn</a></span></div></footer>
+<footer><div class="wrap"><span>© 2026 gặp</span><span class="social"><a href="https://www.instagram.com/gap.vietnam/" target="_blank" rel="noopener" aria-label="gặp on Instagram" title="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a><a href="mailto:hello@gapevents.vn" aria-label="Email hello@gapevents.vn" title="hello@gapevents.vn"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></span></div></footer>
 <script>(function(){
   var URL='https://docs.google.com/forms/d/e/1FAIpQLSeZH3VYR566KvxpDkiGPcXnIUWbWvp5UVk_4TMAZZIntS4E1g/formResponse';
   var GUIDE='';
