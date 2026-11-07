@@ -267,6 +267,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
     <p class="say">From intimate dinners to big nights out, you bring the appetite. We'll take care of the magic.</p>
     <div class="ctas">
       <a class="btn" href="https://forms.gle/22mmdiNjv5jmLzfY7" target="_blank" rel="noopener">Join the guest list →</a>
+      <a class="btn outline" href="#events" data-events-link>Upcoming events ↓</a>
       <a class="btn outline" href="#formats">Two ways to gặp ↓</a>
     </div>
     <figure class="shot hero-shot"><img src="images/hero.jpg" srcset="images/hero-1000.jpg 1000w, images/hero.jpg 1800w" sizes="(max-width: 760px) 100vw, 55vw" fetchpriority="high" alt="A long table of guests raising their glasses over orange flowers and candles" style="object-position:50% 45%" width="1800" height="1200"></figure>
@@ -576,7 +577,7 @@ footer.site .mail{user-select:all;color:var(--fg);font-weight:600}
       if (d.state === 'closed') ev.querySelector('.go').textContent = 'See the details →';
     }).catch(function () {});
   });
-  if (!live) { sec.remove(); var l = document.querySelector('nav a[href="#events"]'); if (l) l.remove(); }
+  if (!live) { sec.remove(); document.querySelectorAll('nav a[href="#events"], [data-events-link]').forEach(function (l) { l.remove(); }); }
 })();
 </script>
 </body></html>
