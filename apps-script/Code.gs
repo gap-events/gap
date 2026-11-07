@@ -203,8 +203,9 @@ function stateFor_(ev) {
 
 function clean_(v, max) { return String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, max); }
 
-// Sheets treats text starting with = + - @ as a formula (e.g. +84 phone numbers), so store it as plain text.
-function text_(v) { v = String(v == null ? '' : v); return /^[=+\-@]/.test(v) ? "'" + v : v; }
+// Sheets treats text starting with = + - @ as a formula (e.g. +84 phone numbers), and turns digits into a
+// number (dropping the leading 0 of Vietnamese phone numbers), so store both as plain text.
+function text_(v) { v = String(v == null ? '' : v); return /^[=+\-@0-9]/.test(v) ? "'" + v : v; }
 
 function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
