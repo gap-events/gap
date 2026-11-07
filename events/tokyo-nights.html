@@ -161,10 +161,10 @@ h2.sub{font-size:clamp(24px,4vw,30px);margin-top:12px}
         <div class="f"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required></div>
         <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required></div>
         <div class="f"><label for="phone">Phone <small>(Zalo or WhatsApp)</small></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+84" required></div>
-        <div class="f"><label for="instagram">Social media handle <small>(to enter the ramen giveaway)</small></label><input id="instagram" name="instagram" autocomplete="off" placeholder="@"></div>
+        <div class="f"><label for="instagram">Social media handle <small>(to enter the ramen giveaway)</small></label><input id="instagram" name="instagram" autocomplete="off" placeholder="@" required></div>
         <div class="f party" hidden><label for="party">How many seats?</label><select id="party" name="party"></select></div>
         <div class="f full"><label for="heard">How did you hear about us?</label>
-          <select id="heard" name="heard"><option value="">Choose one</option><option>Instagram</option><option>A friend</option><option>Been to gặp before</option><option>Kiwami</option><option>Facebook group</option><option>Other</option></select></div>
+          <select id="heard" name="heard" required><option value="">Choose one</option><option>Instagram</option><option>A friend</option><option>Been to gặp before</option><option>Kiwami</option><option>Facebook group</option><option>Other</option></select></div>
         <label class="check full"><input type="checkbox" name="list" value="yes"> Keep me posted about future gặp dinners and parties.</label>
         <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
       </div>

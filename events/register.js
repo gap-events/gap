@@ -120,6 +120,10 @@ var GAP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1
     if (!name) return fail("What should we call you?", f.name);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('That email looks a little off. Try again?', f.email);
     if (phone.replace(/\D/g, '').length < 8) return fail("We'll need a phone number (Zalo or WhatsApp) for event-day updates.", f.phone);
+    // Fields marked "required" on the event page (optional elsewhere).
+    if (f.instagram && f.instagram.required && !val('instagram').replace(/^@+/, '')) return fail("Add your social media handle so we can enter you into the giveaway.", f.instagram);
+    if (f.heard && f.heard.required && !val('heard')) return fail('Let us know how you heard about us.', f.heard);
+    if (f.heard && val('heard') === 'Other' && heardOther && !heardOther.value.trim()) return fail('Tell us where you heard about us.', heardOther);
     if (!GAP_ENDPOINT) return fail("Sign-ups aren't switched on yet. Email us at hello@gapevents.vn and we'll save you a spot.");
 
     btn.disabled = true; btn.textContent = 'Saving your spot…';
