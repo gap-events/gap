@@ -380,8 +380,8 @@ function joinCommunity_(d) {
     put('diet', text_(v.diet)); put('celebrate', text_(v.celebrate)); put('loop', v.loop);
     put('outreached', false);
     sheet.appendRow(row);
-    var oc = heads.indexOf(COMMUNITY_COLS.outreached.toLowerCase());
-    if (oc > -1) sheet.getRange(sheet.getLastRow(), oc + 1).insertCheckboxes();
+    // The tab is a Sheets table whose "Outreached" column is already a tickbox column, so no
+    // checkbox needs adding here (and adding one is refused on typed columns).
   } finally {
     lock.releaseLock();
   }
