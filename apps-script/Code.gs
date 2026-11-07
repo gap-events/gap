@@ -518,3 +518,10 @@ function testEmail() {
   if (!ev) throw new Error('Add an event on the Events tab first.');
   sendEmail_(ev, { name: 'gặp Test', email: Session.getActiveUser().getEmail(), party: 1, ticket: newTicket_() }, 'Confirmed');
 }
+
+/* Run once from the editor after setting COMMUNITY_SHEET_ID, to approve access to the community spreadsheet. */
+function authorizeCommunity() {
+  var id = PropertiesService.getScriptProperties().getProperty('COMMUNITY_SHEET_ID');
+  var sheet = SpreadsheetApp.openById(id).getSheetByName(COMMUNITY_TAB);
+  console.log('Community tab found: ' + !!sheet + ', rows: ' + (sheet ? sheet.getLastRow() : 0));
+}
