@@ -1,0 +1,326 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Door check-in · gặp</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1A0F0A">
+<link rel="icon" type="image/png" href="/images/logo-espresso.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap">
+<style>
+:root{--bg:#1A0F0A;--raise:#2B170F;--line:#4D3226;--fg:#F8EEE7;--muted:#CDB8AA;--accent:#C1592F;
+  --go:#3FA45B;--go-bg:#123A1E;--warn:#E0A43A;--warn-bg:#3D2C0C;--stop:#E0483A;--stop-bg:#3E1210;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Be Vietnam Pro",system-ui,sans-serif;font-size:17px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px calc(32px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+header img{width:72px;height:auto;display:block}
+h1{font-family:Poppins,sans-serif;font-weight:800;font-size:24px;letter-spacing:-.02em;margin:0;line-height:1.1}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.card{background:var(--raise);border:1px solid var(--line);border-radius:18px;padding:18px}
+.stack{display:grid;gap:12px}
+label{font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+input,select{width:100%;background:#120A07;border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;font-size:17px;outline:none}
+input:focus,select:focus{border-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:14px 22px;font-weight:700;font-size:17px;cursor:pointer;background:var(--fg);color:var(--bg);width:100%}
+.btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+.btn.small{width:auto;padding:9px 16px;font-size:15px}
+.btn:disabled{opacity:.5}
+.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:14px}
+.err{color:#FF8A80;font-size:15px;min-height:1.2em}
+.hidden{display:none!important}
+
+.count{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.count b{font-family:Poppins,sans-serif;font-size:34px;line-height:1}
+.bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;background:var(--go);transition:width .3s}
+
+.cam{position:relative;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:1/1;border:1px solid var(--line)}
+.cam video{width:100%;height:100%;object-fit:cover;display:block}
+.cam .frame{position:absolute;inset:16%;border:3px solid rgba(255,255,255,.85);border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.28)}
+.cam .hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-weight:600;font-size:15px;text-shadow:0 1px 4px #000}
+.cam .off{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center}
+
+.result{border-radius:18px;padding:22px 20px;display:grid;gap:6px;border:2px solid}
+.result .icon{font-size:44px;line-height:1}
+.result .head{font-family:Poppins,sans-serif;font-weight:800;font-size:26px;line-height:1.15}
+.result .name{font-size:22px;font-weight:700}
+.result.go{background:var(--go-bg);border-color:var(--go)}
+.result.warn{background:var(--warn-bg);border-color:var(--warn)}
+.result.stop{background:var(--stop-bg);border-color:var(--stop)}
+.result .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+.list{display:grid;gap:8px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#120A07}
+.row .who{min-width:0}
+.row .who b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px}
+.tag.in{background:var(--go-bg);color:#9BE0AE}
+.tag.wl{background:var(--warn-bg);color:#F5CF85}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#120A07;border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:12px}
+.tabs button{border:0;background:none;border-radius:999px;padding:10px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tabs button[aria-selected=true]{background:var(--raise);color:var(--fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Door check-in</h1><p class="muted small" id="evName">gặp staff only</p></div>
+    <img src="/images/logo-white.png" alt="gặp">
+  </header>
+
+  <!-- 1. PIN -->
+  <section id="lock" class="card stack">
+    <p>Enter the staff PIN to start checking guests in.</p>
+    <form id="pinForm" class="stack" autocomplete="off">
+      <div class="stack" style="gap:6px"><label for="pin">Staff PIN</label>
+        <input id="pin" type="password" inputmode="numeric" autocomplete="current-password" required></div>
+      <p class="err" id="pinErr" role="alert"></p>
+      <button class="btn" type="submit" id="pinBtn">Unlock</button>
+    </form>
+  </section>
+
+  <!-- 2. Pick event (only shown when there's more than one) -->
+  <section id="pick" class="card stack hidden">
+    <div class="stack" style="gap:6px"><label for="eventSel">Event</label><select id="eventSel"></select></div>
+    <button class="btn" type="button" id="pickBtn">Start check-in</button>
+  </section>
+
+  <!-- 3. Check-in -->
+  <section id="app" class="hidden">
+    <div class="card" style="margin-bottom:12px">
+      <div class="count">
+        <div><b id="inCount">0</b> <span class="muted">/ <span id="totalCount">0</span> checked in</span></div>
+        <button class="link" id="refreshBtn" type="button">Refresh</button>
+      </div>
+      <div class="bar"><i id="bar"></i></div>
+      <p class="muted small" id="seatNote" style="margin-top:8px"></p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tabScan" aria-selected="true">Scan QR</button>
+      <button type="button" role="tab" id="tabFind" aria-selected="false">Find a guest</button>
+    </div>
+
+    <div id="paneScan" class="stack">
+      <div class="cam">
+        <video id="video" playsinline muted></video>
+        <div class="frame" id="frame"></div>
+        <p class="hint" id="camHint">Point at the guest's QR code</p>
+        <div class="off" id="camOff">
+          <div class="stack" style="justify-items:center">
+            <p id="camMsg">Tap below to turn on the camera.</p>
+            <button class="btn small" type="button" id="camBtn">Turn on camera</button>
+          </div>
+        </div>
+      </div>
+      <div id="result" class="hidden" aria-live="assertive"></div>
+    </div>
+
+    <div id="paneFind" class="stack hidden">
+      <input id="q" type="search" placeholder="Name, email, phone, handle or ticket code" autocomplete="off" enterkeyhint="search">
+      <p class="muted small" id="findNote">Type at least 2 letters.</p>
+      <div class="list" id="results"></div>
+    </div>
+
+    <p style="margin-top:22px;text-align:center"><button class="link" id="lockBtn" type="button">Lock this device</button></p>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
+<script>
+(function () {
+  // Same Apps Script web app as the sign-up form (events/register.js).
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1nihXIx8jFQvJoYLYxQ3UGIAina9lzN4ldoZTScmR-u5UY1p/exec';
+  var $ = function (id) { return document.getElementById(id); };
+  var store = {
+    get: function (k) { try { return localStorage.getItem('gap_ci_' + k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem('gap_ci_' + k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem('gap_ci_' + k); } catch (e) {} }
+  };
+  var pin = store.get('pin') || '', eventId = '', eventName = '';
+  var stream = null, scanning = false, busy = false, lastCode = '', lastAt = 0, resumeTimer = null, detector = null;
+  var canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+  function api(body) {
+    body.pin = pin;
+    return fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d.ok && (d.error === 'bad_pin' || d.error === 'locked')) { relock(d.error); throw new Error(d.error); }
+        return d;
+      });
+  }
+
+  function show(id) { ['lock', 'pick', 'app'].forEach(function (s) { $(s).classList.toggle('hidden', s !== id); }); }
+
+  function relock(err) {
+    stopCam(); pin = ''; store.del('pin'); show('lock');
+    $('pinErr').textContent = err === 'locked' ? 'Too many wrong PINs. Wait 10 minutes and try again.' : err === 'bad_pin' ? "That PIN didn't work." : '';
+  }
+
+  // ---------- unlock + pick event ----------
+  function unlock() {
+    $('pinBtn').disabled = true; $('pinErr').textContent = '';
+    api({ action: 'events' }).then(function (d) {
+      $('pinBtn').disabled = false;
+      if (!d.ok) { $('pinErr').textContent = d.error === 'no_pin_set' ? 'No staff PIN has been set up yet.' : 'Something went wrong. Try again.'; return; }
+      store.set('pin', pin);
+      var evs = d.events || [];
+      var want = new URLSearchParams(location.search).get('event') || store.get('event');
+      var match = evs.filter(function (e) { return e.id === want; })[0];
+      if (match || evs.length === 1) return start(match || evs[0]);
+      $('eventSel').innerHTML = '';
+      evs.forEach(function (e) { var o = document.createElement('option'); o.value = e.id; o.textContent = e.name; $('eventSel').appendChild(o); });
+      show('pick');
+      $('pickBtn').onclick = function () { start(evs.filter(function (e) { return e.id === $('eventSel').value; })[0]); };
+    }).catch(function (e) {
+      $('pinBtn').disabled = false;
+      if (e.message !== 'bad_pin' && e.message !== 'locked') $('pinErr').textContent = "Couldn't reach the guest list. Check the internet and try again.";
+    });
+  }
+
+  $('pinForm').addEventListener('submit', function (e) { e.preventDefault(); pin = $('pin').value.trim(); if (pin) unlock(); });
+
+  function start(ev) {
+    eventId = ev.id; eventName = ev.name; store.set('event', eventId);
+    $('evName').textContent = eventName;
+    show('app'); refresh(); startCam();
+  }
+
+  // ---------- counts ----------
+  function setStats(s) {
+    if (!s) return;
+    $('inCount').textContent = s.inGuests; $('totalCount').textContent = s.guests;
+    $('bar').style.width = (s.guests ? Math.min(100, 100 * s.inGuests / s.guests) : 0) + '%';
+    $('seatNote').textContent = s.seats !== s.guests ? s.inSeats + ' of ' + s.seats + ' seats (some sign-ups are for more than one person).' : '';
+  }
+  function refresh() { api({ action: 'stats', event: eventId }).then(function (d) { if (d.ok) setStats(d.stats); }).catch(function () {}); }
+  $('refreshBtn').onclick = refresh;
+  setInterval(function () { if (!document.hidden && eventId && !busy) refresh(); }, 30000);
+
+  // ---------- results ----------
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function party(g) { return g.party > 1 ? ' · party of ' + g.party : ''; }
+  function buzz(p) { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} }
+
+  function render(d) {
+    var g = d.guest || {}, cls, icon, head, sub = '';
+    switch (d.result) {
+      case 'checked_in': cls = 'go'; icon = '✓'; head = 'Welcome in'; sub = g.handle ? esc(g.handle) : ''; buzz(80); break;
+      case 'already': cls = 'warn'; icon = '!'; head = 'Already checked in'; sub = g.at ? 'Scanned at ' + esc(g.at) : 'Ticked off in the Sheet'; buzz([60, 60, 60]); break;
+      case 'not_confirmed': cls = 'warn'; icon = '!'; head = g.status === 'Waitlist' ? 'On the waitlist' : 'Not confirmed (' + esc(g.status || 'no status') + ')'; sub = "This ticket isn't confirmed. Check with the host."; buzz([60, 60, 60]); break;
+      case 'wrong_event': cls = 'warn'; icon = '!'; head = 'Different event'; sub = 'This ticket is for ' + esc(d.otherEvent) + '.'; buzz([60, 60, 60]); break;
+      case 'undone': cls = 'warn'; icon = '↺'; head = 'Check-in undone'; buzz(40); break;
+      default: cls = 'stop'; icon = '✕'; head = 'Ticket not found'; sub = 'Try "Find a guest" and search their name.'; buzz([200, 80, 200]);
+    }
+    var html = '<div class="result ' + cls + '"><div class="icon">' + icon + '</div><div class="head">' + head + '</div>' +
+      (g.name ? '<div class="name">' + esc(g.name) + '<span class="muted" style="font-weight:500;font-size:17px">' + party(g) + '</span></div>' : '') +
+      (sub ? '<div class="muted">' + sub + '</div>' : '') +
+      '<div class="actions"><button class="btn small" type="button" data-next>Next guest</button>' +
+      (d.result === 'checked_in' || d.result === 'already' ? '<button class="btn small ghost" type="button" data-undo="' + esc(g.ref) + '">Undo</button>' : '') +
+      '</div></div>';
+    var box = $('result'); box.innerHTML = html; box.classList.remove('hidden');
+    setStats(d.stats);
+  }
+
+  $('result').addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-next')) return next();
+    var ref = e.target.getAttribute('data-undo');
+    if (ref) { e.target.disabled = true; api({ action: 'undo', event: eventId, ref: ref }).then(render).catch(function () { e.target.disabled = false; }); }
+  });
+
+  function next() { clearTimeout(resumeTimer); $('result').classList.add('hidden'); busy = false; lastCode = ''; if (stream) { $('camHint').textContent = "Point at the guest's QR code"; tick(); } }
+
+  // ---------- camera ----------
+  function startCam() {
+    if (stream) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { $('camMsg').textContent = "This browser can't use the camera. Use \"Find a guest\" instead."; $('camBtn').classList.add('hidden'); return; }
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false })
+      .then(function (s) {
+        stream = s; var v = $('video'); v.srcObject = s; v.setAttribute('playsinline', ''); v.play();
+        $('camOff').classList.add('hidden');
+        if ('BarcodeDetector' in window) { try { detector = new BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { detector = null; } }
+        scanning = true; tick();
+      })
+      .catch(function () { $('camMsg').textContent = 'Camera is blocked. Allow camera access for this site in your browser settings, then tap below.'; $('camOff').classList.remove('hidden'); });
+  }
+  function stopCam() { scanning = false; if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; } $('camOff').classList.remove('hidden'); }
+  $('camBtn').onclick = startCam;
+
+  function tick() {
+    if (!scanning || busy || !stream) return;
+    var v = $('video');
+    if (v.readyState < 2) return requestAnimationFrame(tick);
+    if (detector) {
+      detector.detect(v).then(function (codes) { if (codes.length) found(codes[0].rawValue); else setTimeout(tick, 120); }).catch(function () { detector = null; tick(); });
+      return;
+    }
+    if (!window.jsQR) return setTimeout(tick, 200);
+    var w = v.videoWidth, h = v.videoHeight, side = Math.min(w, h), scale = Math.min(1, 720 / side);
+    canvas.width = canvas.height = Math.round(side * scale);
+    ctx.drawImage(v, (w - side) / 2, (h - side) / 2, side, side, 0, 0, canvas.width, canvas.height);
+    var img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    var code = window.jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
+    if (code && code.data) found(code.data); else setTimeout(tick, 120);
+  }
+
+  function found(raw) {
+    var code = String(raw || '').trim();
+    var now = Date.now();
+    if (code === lastCode && now - lastAt < 4000) return setTimeout(tick, 300);
+    lastCode = code; lastAt = now; busy = true;
+    $('camHint').textContent = 'Checking…';
+    api({ action: 'checkin', event: eventId, ref: code }).then(function (d) {
+      if (!d.ok) throw new Error(d.error);
+      render(d);
+      $('camHint').textContent = 'Paused · tap "Next guest"';
+      if (d.result === 'checked_in') resumeTimer = setTimeout(next, 3500);
+    }).catch(function (e) { if (e.message !== 'bad_pin' && e.message !== 'locked') { render({ result: 'error' }); $('result').querySelector('.head').textContent = 'Couldn\'t reach the guest list'; } });
+  }
+
+  // ---------- tabs ----------
+  function tab(scan) {
+    $('tabScan').setAttribute('aria-selected', scan); $('tabFind').setAttribute('aria-selected', !scan);
+    $('paneScan').classList.toggle('hidden', !scan); $('paneFind').classList.toggle('hidden', scan);
+    if (scan) { startCam(); if (!busy) tick(); } else { stopCam(); $('q').focus(); }
+  }
+  $('tabScan').onclick = function () { tab(true); };
+  $('tabFind').onclick = function () { tab(false); };
+
+  // ---------- search ----------
+  var qTimer = null, qSeq = 0;
+  $('q').addEventListener('input', function () { clearTimeout(qTimer); qTimer = setTimeout(search, 300); });
+  function search() {
+    var q = $('q').value.trim(), seq = ++qSeq;
+    if (q.length < 2) { $('results').innerHTML = ''; $('findNote').textContent = 'Type at least 2 letters.'; return; }
+    $('findNote').textContent = 'Searching…';
+    api({ action: 'search', event: eventId, q: q }).then(function (d) {
+      if (seq !== qSeq || !d.ok) return;
+      setStats(d.stats);
+      var r = d.results || [];
+      $('findNote').textContent = r.length ? '' : 'No one matches "' + q + '".';
+      $('results').innerHTML = r.map(function (g) {
+        var tag = g.checkedIn ? '<span class="tag in">In' + (g.at ? ' ' + esc(g.at) : '') + '</span>' : g.status !== 'Confirmed' ? '<span class="tag wl">' + esc(g.status || '—') + '</span>' : '';
+        var btn = g.checkedIn ? '<button class="btn small ghost" type="button" data-ref="' + esc(g.ref) + '" data-act="undo">Undo</button>'
+          : g.status === 'Confirmed' ? '<button class="btn small" type="button" data-ref="' + esc(g.ref) + '" data-act="checkin">Check in</button>' : '';
+        return '<div class="row"><div class="who"><b>' + esc(g.name) + tag + '</b><span class="muted small">' + esc([g.handle, g.party > 1 ? 'party of ' + g.party : '', g.ticket].filter(Boolean).join(' · ')) + '</span></div>' + btn + '</div>';
+      }).join('');
+    }).catch(function () { if (seq === qSeq) $('findNote').textContent = "Couldn't reach the guest list."; });
+  }
+  $('results').addEventListener('click', function (e) {
+    var ref = e.target.getAttribute('data-ref'); if (!ref) return;
+    e.target.disabled = true;
+    api({ action: e.target.getAttribute('data-act'), event: eventId, ref: ref }).then(function (d) {
+      if (d.ok) { setStats(d.stats); if (d.result === 'checked_in') buzz(80); if (d.result === 'not_confirmed') alert(d.guest.name + ' is not confirmed (' + d.guest.status + ').'); }
+      search();
+    }).catch(function () { e.target.disabled = false; });
+  });
+
+  $('lockBtn').onclick = function () { store.del('event'); relock(''); $('pin').value = ''; };
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stopCam(); else if (eventId && $('tabScan').getAttribute('aria-selected') === 'true' && !$('app').classList.contains('hidden')) startCam(); });
+
+  if (pin) unlock(); else $('pin').focus();
+})();
+</script>
+</body></html>

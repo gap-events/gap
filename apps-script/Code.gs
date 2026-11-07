@@ -10,6 +10,14 @@
  *
  * The public page never sees numbers. It only gets a state:
  *   open → filling → almost → waitlist (full) → closed
+ *
+ * QR check-in
+ *   Every sign-up gets a ticket code (Registrations column M). Confirmed guests get it as a QR
+ *   in their email. Staff scan it at gapevents.vn/checkin, which ticks "Checked in" and stamps
+ *   the time (column N). The check-in page needs the staff PIN, kept in Project Settings →
+ *   Script properties → STAFF_PIN (never in this file, because this file is public on GitHub).
+ *   Emailing the QR fetches the image from quickchart.io, so the first run asks for permission
+ *   to "connect to an external service".
  */
 
 var EVENTS = 'Events';
@@ -24,7 +32,9 @@ var REPLY_TO = 'hello@gapevents.vn';
 var TZ = 'Asia/Ho_Chi_Minh';
 
 // Registrations columns (1-based)
-var C = { ts:1, event:2, name:3, email:4, phone:5, ig:6, party:7, heard:8, notes:9, list:10, status:11, checkin:12 };
+var C = { ts:1, event:2, name:3, email:4, phone:5, ig:6, party:7, heard:8, notes:9, list:10, status:11, checkin:12, ticket:13, checkedAt:14 };
+var LAST = 14;
+var HEADERS = { ticket: 'Ticket', checkedAt: 'Checked in at' };
 
 /* ---------- web endpoints ---------- */
 
@@ -38,6 +48,9 @@ function doGet(e) {
 function doPost(e) {
   var d;
   try { d = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok:false, error:'bad_request' }); }
+
+  // Staff check-in calls (from gapevents.vn/checkin) carry an action and the staff PIN.
+  if (d.action) return json_(staff_(d));
 
   // Honeypot: bots fill the hidden "website" field. Pretend it worked.
   if (d.website) return json_({ ok:true, result:'confirmed' });
@@ -57,7 +70,7 @@ function doPost(e) {
 
     var party = Math.max(1, Math.min(ev.maxParty, parseInt(d.party, 10) || 1));
     var sheet = ss_().getSheetByName(REGS);
-    var rows = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, C.checkin).getValues() : [];
+    var rows = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, C.status).getValues() : [];
 
     var taken = 0;
     for (var i = 0; i < rows.length; i++) {
@@ -83,13 +96,17 @@ function doPost(e) {
     row[C.list-1] = d.list ? 'Yes' : 'No';
     row[C.status-1] = status;
     row[C.checkin-1] = false;
+    var ticket = newTicket_();
+    row[C.ticket-1] = ticket;
+    row[C.checkedAt-1] = '';
+    ensureHeaders_(sheet);
     sheet.appendRow(row);
     sheet.getRange(sheet.getLastRow(), C.checkin).insertCheckboxes();
   } finally {
     lock.releaseLock();
   }
 
-  try { sendEmail_(ev, { name:name, email:email, party:party }, status); } catch (err) { console.error(err); }
+  try { sendEmail_(ev, { name:name, email:email, party:party, ticket:ticket }, status); } catch (err) { console.error(err); }
 
   return json_({ ok:true, result: status === 'Waitlist' ? 'waitlist' : 'confirmed', state: stateFor_(getEvent_(id)) });
 }
@@ -110,17 +127,21 @@ function emailSelected_(promote) {
   var sheet = SpreadsheetApp.getActiveSheet();
   var ui = SpreadsheetApp.getUi();
   if (sheet.getName() !== REGS) { ui.alert('Select rows on the Registrations tab first.'); return; }
+  ensureHeaders_(sheet);
   var range = sheet.getActiveRange();
   var sent = 0;
   for (var r = range.getRow(); r < range.getRow() + range.getNumRows(); r++) {
     if (r < 2) continue;
-    var v = sheet.getRange(r, 1, 1, C.checkin).getValues()[0];
+    var v = sheet.getRange(r, 1, 1, LAST).getValues()[0];
     var ev = getEvent_(String(v[C.event-1]));
     if (!ev || !v[C.email-1]) continue;
     if (promote) sheet.getRange(r, C.status).setValue('Confirmed');
     var status = promote ? 'Confirmed' : v[C.status-1];
     if (status !== 'Confirmed' && status !== 'Waitlist') continue;
-    sendEmail_(ev, { name:v[C.name-1], email:v[C.email-1], party:v[C.party-1] }, status, promote);
+    // Rows added by hand (or before QR tickets existed) get a ticket now.
+    var ticket = String(v[C.ticket-1] || '').trim();
+    if (!ticket) { ticket = newTicket_(); sheet.getRange(r, C.ticket).setValue(ticket); }
+    sendEmail_(ev, { name:v[C.name-1], email:v[C.email-1], party:v[C.party-1], ticket:ticket }, status, promote);
     sent++;
   }
   ui.alert(sent + (sent === 1 ? ' email' : ' emails') + ' sent.');
@@ -226,12 +247,29 @@ function sendEmail_(ev, g, status, promoted) {
   if (Number(g.party) > 1) rows += row_('Party', esc_(g.party) + ' people');
 
   var cal = !waitlist ? calLink_(ev) : '';
+
+  // Confirmed guests get their QR ticket. If the QR image can't be made, the code still goes out as text.
+  var ticketHtml = '', inline = {};
+  if (!waitlist && g.ticket) {
+    var qr = qrBlob_(g.ticket);
+    if (qr) inline.ticketqr = qr;
+    ticketHtml =
+      '<div style="margin:0 0 24px;padding:22px 16px;border:1px solid #E4D3C7;border-radius:14px;background:#FFFFFF;text-align:center">' +
+        '<p style="margin:0 0 12px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8C2A1E;font-weight:bold">Your ticket</p>' +
+        (qr ? '<img src="cid:ticketqr" width="200" height="200" alt="QR ticket ' + esc_(g.ticket) + '" style="display:block;margin:0 auto 12px;width:200px;height:200px">' : '') +
+        '<p style="margin:0 0 6px;font-family:Menlo,Consolas,monospace;font-size:20px;letter-spacing:.12em;font-weight:bold;color:#3A1F14">' + esc_(g.ticket) + '</p>' +
+        '<p style="margin:0;font-size:14px;line-height:1.5;color:#6B5045">Show this at the door and we\'ll scan you in' +
+          (Number(g.party) > 1 ? ' (one code covers your whole party)' : '') + '.</p>' +
+      '</div>';
+  }
+
   var html =
     '<div style="background:#F8EEE7;padding:32px 16px;font-family:Helvetica,Arial,sans-serif;color:#3A1F14">' +
     '<div style="max-width:520px;margin:0 auto;background:#FFF8F3;border-radius:18px;padding:32px 28px">' +
       '<p style="margin:0 0 6px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8C2A1E;font-weight:bold">' + esc_(ev.name) + '</p>' +
       '<h1 style="margin:0 0 16px;font-size:28px;line-height:1.15">' + (waitlist ? "You're on the waitlist." : 'Hẹn gặp bạn, ' + esc_(first) + '!') + '</h1>' +
       '<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#6B5045">' + lead + '</p>' +
+      ticketHtml +
       (rows ? '<table style="width:100%;border-collapse:collapse;margin:0 0 20px;font-size:15px">' + rows + '</table>' : '') +
       (ev.note && !waitlist ? '<p style="margin:0 0 20px;font-size:15px;line-height:1.6">' + esc_(ev.note).replace(/\n/g, '<br>') + '</p>' : '') +
       (cal ? '<p style="margin:0 0 24px"><a href="' + cal + '" style="display:inline-block;background:#3A1F14;color:#F8EEE7;text-decoration:none;font-weight:bold;padding:12px 22px;border-radius:999px">Add to calendar</a></p>' : '') +
@@ -242,7 +280,164 @@ function sendEmail_(ev, g, status, promoted) {
     '<p style="text-align:center;font-size:13px;color:#6B5045;margin:18px 0 0">gặp · Connection begins with a seat at the table.</p>' +
     '</div>';
 
-  MailApp.sendEmail({ to: g.email, subject: subject, htmlBody: html, name: FROM_NAME, replyTo: REPLY_TO });
+  var msg = { to: g.email, subject: subject, htmlBody: html, name: FROM_NAME, replyTo: REPLY_TO };
+  if (inline.ticketqr) msg.inlineImages = inline;
+  MailApp.sendEmail(msg);
+}
+
+/* ---------- tickets ---------- */
+
+// 10 characters from 32 symbols with no look-alikes (no 0/O, 1/I), shown as XXXXX-XXXXX.
+function newTicket_() {
+  var a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, Utilities.getUuid() + Date.now());
+  var s = '';
+  for (var i = 0; i < 10; i++) s += a[(bytes[i] + 256) % 32];
+  return s.slice(0, 5) + '-' + s.slice(5);
+}
+
+function normTicket_(t) {
+  var s = String(t || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  return s.length === 10 ? s.slice(0, 5) + '-' + s.slice(5) : '';
+}
+
+function qrBlob_(text) {
+  var urls = [
+    'https://quickchart.io/qr?size=480&margin=2&ecLevel=M&format=png&text=' + encodeURIComponent(text),
+    'https://api.qrserver.com/v1/create-qr-code/?size=480x480&margin=8&format=png&data=' + encodeURIComponent(text)
+  ];
+  for (var i = 0; i < urls.length; i++) {
+    try {
+      var r = UrlFetchApp.fetch(urls[i], { muteHttpExceptions: true });
+      if (r.getResponseCode() === 200) return r.getBlob().setName('ticket.png').setContentType('image/png');
+    } catch (err) { console.error(err); }
+  }
+  return null;
+}
+
+function ensureHeaders_(sheet) {
+  var h = sheet.getRange(1, C.ticket, 1, 2).getValues()[0];
+  if (h[0] !== HEADERS.ticket || h[1] !== HEADERS.checkedAt) sheet.getRange(1, C.ticket, 1, 2).setValues([[HEADERS.ticket, HEADERS.checkedAt]]);
+}
+
+/* ---------- staff check-in (gapevents.vn/checkin) ---------- */
+
+function staff_(d) {
+  var cache = CacheService.getScriptCache();
+  var fails = Number(cache.get('pin_fails') || 0);
+  if (fails >= 20) return { ok:false, error:'locked' };
+  var pin = PropertiesService.getScriptProperties().getProperty('STAFF_PIN');
+  if (!pin) return { ok:false, error:'no_pin_set' };
+  if (String(d.pin || '') !== String(pin)) {
+    cache.put('pin_fails', String(fails + 1), 600);
+    return { ok:false, error:'bad_pin' };
+  }
+
+  if (d.action === 'events') return { ok:true, events: listEvents_() };
+
+  var id = String(d.event || '').trim();
+  if (!getEvent_(id)) return { ok:false, error:'unknown_event' };
+
+  if (d.action === 'stats') return { ok:true, stats: stats_(id) };
+  if (d.action === 'search') return { ok:true, results: search_(id, d.q), stats: stats_(id) };
+  if (d.action === 'checkin') return checkin_(id, d.ref, true);
+  if (d.action === 'undo') return checkin_(id, d.ref, false);
+  return { ok:false, error:'bad_action' };
+}
+
+function listEvents_() {
+  var vals = ss_().getSheetByName(EVENTS).getDataRange().getValues();
+  var out = [];
+  for (var i = 1; i < vals.length; i++) {
+    if (!String(vals[i][0]).trim()) continue;
+    out.push({ id: String(vals[i][0]).trim(), name: String(vals[i][1] || vals[i][0]) });
+  }
+  return out;
+}
+
+function regRows_() {
+  var sheet = ss_().getSheetByName(REGS);
+  var n = sheet.getLastRow() - 1;
+  return { sheet: sheet, rows: n > 0 ? sheet.getRange(2, 1, n, LAST).getValues() : [] };
+}
+
+function stats_(id) {
+  var rows = regRows_().rows, seats = 0, inSeats = 0, guests = 0, inGuests = 0;
+  rows.forEach(function (r) {
+    if (String(r[C.event-1]) !== id || r[C.status-1] !== 'Confirmed') return;
+    var p = Number(r[C.party-1]) || 1;
+    guests++; seats += p;
+    if (r[C.checkin-1] === true) { inGuests++; inSeats += p; }
+  });
+  return { guests: guests, seats: seats, inGuests: inGuests, inSeats: inSeats };
+}
+
+function guest_(r, rowNum) {
+  var at = r[C.checkedAt-1];
+  return {
+    ref: String(r[C.ticket-1] || '') || ('row:' + rowNum),
+    ticket: String(r[C.ticket-1] || ''),
+    name: String(r[C.name-1] || ''),
+    party: Number(r[C.party-1]) || 1,
+    handle: String(r[C.ig-1] || ''),
+    status: String(r[C.status-1] || ''),
+    checkedIn: r[C.checkin-1] === true,
+    at: at instanceof Date ? Utilities.formatDate(at, TZ, 'h:mm a') : ''
+  };
+}
+
+function search_(id, q) {
+  q = String(q || '').toLowerCase().trim();
+  if (q.length < 2) return [];
+  var digits = q.replace(/\D/g, '');
+  var rows = regRows_().rows, out = [];
+  for (var i = 0; i < rows.length && out.length < 20; i++) {
+    var r = rows[i];
+    if (String(r[C.event-1]) !== id) continue;
+    var hay = [r[C.name-1], r[C.email-1], r[C.ig-1], r[C.ticket-1]].join(' ').toLowerCase();
+    var phone = String(r[C.phone-1]).replace(/\D/g, '');
+    if (hay.indexOf(q) > -1 || (digits.length >= 4 && phone.indexOf(digits) > -1)) out.push(guest_(r, i + 2));
+  }
+  return out;
+}
+
+function checkin_(id, ref, on) {
+  ref = String(ref || '').trim();
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    var data = regRows_(), rows = data.rows, idx = -1;
+    var m = /^row:(\d+)$/.exec(ref);
+    if (m) {
+      idx = Number(m[1]) - 2;
+      if (idx < 0 || idx >= rows.length) idx = -1;
+    } else {
+      var t = normTicket_(ref);
+      if (t) for (var i = 0; i < rows.length; i++) if (normTicket_(rows[i][C.ticket-1]) === t) { idx = i; break; }
+    }
+    if (idx < 0) return { ok:true, result:'not_found', stats: stats_(id) };
+
+    var r = rows[idx], rowNum = idx + 2, g = guest_(r, rowNum);
+    if (String(r[C.event-1]) !== id) {
+      var other = getEvent_(String(r[C.event-1]));
+      return { ok:true, result:'wrong_event', guest:g, otherEvent: other ? String(other.name) : String(r[C.event-1]), stats: stats_(id) };
+    }
+    if (on) {
+      if (g.status !== 'Confirmed') return { ok:true, result:'not_confirmed', guest:g, stats: stats_(id) };
+      if (g.checkedIn) return { ok:true, result:'already', guest:g, stats: stats_(id) };
+      var now = new Date();
+      data.sheet.getRange(rowNum, C.checkin).setValue(true);
+      data.sheet.getRange(rowNum, C.checkedAt).setValue(now);
+      g.checkedIn = true; g.at = Utilities.formatDate(now, TZ, 'h:mm a');
+      return { ok:true, result:'checked_in', guest:g, stats: stats_(id) };
+    }
+    data.sheet.getRange(rowNum, C.checkin).setValue(false);
+    data.sheet.getRange(rowNum, C.checkedAt).setValue('');
+    g.checkedIn = false; g.at = '';
+    return { ok:true, result:'undone', guest:g, stats: stats_(id) };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function row_(k, v) {
@@ -256,5 +451,5 @@ function testEmail() {
   var id = String(sheet.getRange(2, 1).getValue());
   var ev = getEvent_(id);
   if (!ev) throw new Error('Add an event on the Events tab first.');
-  sendEmail_(ev, { name: 'gặp Test', email: Session.getActiveUser().getEmail(), party: 1 }, 'Confirmed');
+  sendEmail_(ev, { name: 'gặp Test', email: Session.getActiveUser().getEmail(), party: 1, ticket: newTicket_() }, 'Confirmed');
 }
