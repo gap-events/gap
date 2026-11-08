@@ -7,3 +7,14 @@
   to = "/404"
   status = 404
   force = true
+
+# Event renamed from Tokyo Nights to Ramen Rave: keep old links working
+[[redirects]]
+  from = "/events/tokyo-nights"
+  to = "/events/ramen-rave"
+  status = 301
+
+[[redirects]]
+  from = "/events/tokyo-nights.html"
+  to = "/events/ramen-rave"
+  status = 301
