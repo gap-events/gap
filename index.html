@@ -565,7 +565,7 @@ footer.site .links{align-items:center}
 /* Upcoming events: hide finished events, show live spot status, hide the section when nothing is coming up. */
 (function () {
   var sec = document.getElementById('events'); if (!sec) return;
-  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzlPGw92vSj4_C283lq1nihXIx8jFQvJoYLYxQ3UGIAina9lzN4ldoZTScmR-u5UY1p/exec';
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxToumw4CzZ4UJaQtzA8_IoGSJ6e_vCcGOzY5cpvYclGGWCqefQbbtDHKPlX1KiF1QT/exec';
   var LABEL = { open: 'Spots are limited', filling: 'Half the spots are gone', almost: 'Almost fully booked', waitlist: 'Fully booked · join the waitlist', closed: 'Registrations closed' };
   var now = Date.now(), live = 0;
   sec.querySelectorAll('.ev').forEach(function (ev) {
