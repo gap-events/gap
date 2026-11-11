@@ -297,9 +297,12 @@ function sendEmail_(ev, g, status, promoted) {
     '<p style="text-align:center;font-size:13px;color:#6B5045;margin:18px 0 0">gặp · Connection begins with a seat at the table.</p>' +
     '</div>';
 
-  var msg = { to: g.email, subject: subject, htmlBody: html, name: FROM_NAME, replyTo: REPLY_TO };
-  if (inline.ticketqr) msg.inlineImages = inline;
-  MailApp.sendEmail(msg);
+  // Sent through Gmail rather than MailApp: Hotmail/Outlook silently drop MailApp tickets from
+  // gapevents.vn, but accept the same email sent from Gmail.
+  var opts = { htmlBody: html, name: FROM_NAME, replyTo: REPLY_TO };
+  if (inline.ticketqr) opts.inlineImages = inline;
+  var text = html.replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|h1|tr|div)>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/\n{3,}/g, '\n\n').trim();
+  GmailApp.sendEmail(g.email, subject, text, opts);
 }
 
 /* ---------- tickets ---------- */
