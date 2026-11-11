@@ -468,18 +468,26 @@ function guest_(r, rowNum) {
   };
 }
 
+// A search shorter than 2 characters returns the whole guest list for the event (so staff can
+// scroll it at the door): not-yet-arrived guests first, then A–Z by name.
 function search_(id, q) {
   q = String(q || '').toLowerCase().trim();
-  if (q.length < 2) return [];
+  var all = q.length < 2;
   var digits = q.replace(/\D/g, '');
   var rows = regRows_().rows, out = [];
-  for (var i = 0; i < rows.length && out.length < 20; i++) {
+  for (var i = 0; i < rows.length && (all || out.length < 20); i++) {
     var r = rows[i];
     if (String(r[C.event-1]) !== id) continue;
-    var hay = [r[C.name-1], r[C.email-1], r[C.ig-1], r[C.ticket-1]].join(' ').toLowerCase();
-    var phone = String(r[C.phone-1]).replace(/\D/g, '');
-    if (hay.indexOf(q) > -1 || (digits.length >= 4 && phone.indexOf(digits) > -1)) out.push(guest_(r, i + 2));
+    if (!all) {
+      var hay = [r[C.name-1], r[C.email-1], r[C.ig-1], r[C.ticket-1]].join(' ').toLowerCase();
+      var phone = String(r[C.phone-1]).replace(/\D/g, '');
+      if (hay.indexOf(q) < 0 && !(digits.length >= 4 && phone.indexOf(digits) > -1)) continue;
+    }
+    out.push(guest_(r, i + 2));
   }
+  if (all) out.sort(function (a, b) {
+    return (a.checkedIn - b.checkedIn) || String(a.name).localeCompare(String(b.name), 'vi', { sensitivity: 'base' });
+  });
   return out;
 }
 

@@ -119,7 +119,7 @@ input:focus,select:focus{border-color:var(--accent)}
 
     <div id="paneFind" class="stack hidden">
       <input id="q" type="search" placeholder="Name, email, phone, handle or ticket code" autocomplete="off" enterkeyhint="search">
-      <p class="muted small" id="findNote">Type at least 2 letters.</p>
+      <p class="muted small" id="findNote">Loading guest list…</p>
       <div class="list" id="results"></div>
     </div>
 
@@ -283,7 +283,7 @@ input:focus,select:focus{border-color:var(--accent)}
   function tab(scan) {
     $('tabScan').setAttribute('aria-selected', scan); $('tabFind').setAttribute('aria-selected', !scan);
     $('paneScan').classList.toggle('hidden', !scan); $('paneFind').classList.toggle('hidden', scan);
-    if (scan) { startCam(); if (!busy) tick(); } else { stopCam(); $('q').focus(); }
+    if (scan) { startCam(); if (!busy) tick(); } else { stopCam(); search(); }
   }
   $('tabScan').onclick = function () { tab(true); };
   $('tabFind').onclick = function () { tab(false); };
@@ -293,13 +293,16 @@ input:focus,select:focus{border-color:var(--accent)}
   $('q').addEventListener('input', function () { clearTimeout(qTimer); qTimer = setTimeout(search, 300); });
   function search() {
     var q = $('q').value.trim(), seq = ++qSeq;
-    if (q.length < 2) { $('results').innerHTML = ''; $('findNote').textContent = 'Type at least 2 letters.'; return; }
-    $('findNote').textContent = 'Searching…';
-    api({ action: 'search', event: eventId, q: q }).then(function (d) {
+    var all = q.length < 2;   // fewer than 2 letters: show the whole guest list to scroll
+    if (!$('results').innerHTML) $('findNote').textContent = all ? 'Loading guest list…' : 'Searching…';
+    api({ action: 'search', event: eventId, q: all ? '' : q }).then(function (d) {
       if (seq !== qSeq || !d.ok) return;
       setStats(d.stats);
       var r = d.results || [];
-      $('findNote').textContent = r.length ? '' : 'No one matches "' + q + '".';
+      if (all) {
+        var waiting = r.filter(function (g) { return !g.checkedIn && g.status === 'Confirmed'; }).length;
+        $('findNote').textContent = r.length ? r.length + ' guests · ' + waiting + ' still to arrive · type to search' : 'No guests yet.';
+      } else $('findNote').textContent = r.length ? '' : 'No one matches "' + q + '".';
       $('results').innerHTML = r.map(function (g) {
         var tag = g.checkedIn ? '<span class="tag in">In' + (g.at ? ' ' + esc(g.at) : '') + '</span>' : g.status !== 'Confirmed' ? '<span class="tag wl">' + esc(g.status || '—') + '</span>' : '';
         var btn = g.checkedIn ? '<button class="btn small ghost" type="button" data-ref="' + esc(g.ref) + '" data-act="undo">Undo</button>'
